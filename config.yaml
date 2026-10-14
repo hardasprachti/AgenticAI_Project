@@ -1,0 +1,63 @@
+# Groww Weekly Review Pulse configuration. See docs/architecture.md section 9.
+# Secrets (ANTHROPIC_API_KEY) are read from the environment, never from this file.
+
+app:
+  play_package: com.nextbillion.groww
+  play_lang: en
+  play_country: in
+
+# Review window in weeks. Must be between 8 and 12.
+window_weeks: 10
+
+# Hard cap on clustering themes. The pulse highlights the top 3.
+max_themes: 5
+
+# Seed taxonomy for theme assignment. The LLM may propose replacements if data does not fit.
+taxonomy:
+  - Onboarding and KYC
+  - Payments and Withdrawals
+  - Trading Experience and App Performance
+  - Statements and Reports
+  - Customer Support
+
+ranking:
+  weights:
+    volume: 0.5
+    recency: 0.2
+    severity: 0.3
+  recency_window_weeks: 2
+
+pulse:
+  max_words: 250
+
+# Model ids per task (architecture section 6).
+models:
+  theme_assign: claude-haiku-5-5
+  theme_consolidate: claude-sonnet-5-5
+  compose: claude-sonnet-5-5
+  judge: claude-haiku-5-5
+
+# MCP servers (architecture section 7). Fill in once servers are chosen (implementation plan Phase 0, task 5).
+# Each server is launched over stdio: command + args (+ optional env var names to pass through).
+# tools maps our logical operations to the real tool names the server exposes.
+mcp:
+  docs:
+    command: null
+    args: []
+    tools:
+      create_document: null
+      update_document: null
+      get_document: null
+  gmail:
+    command: null
+    args: []
+    tools:
+      create_draft: null
+      update_draft: null
+
+# Email draft recipient: your own address or an alias. Left unset until decided.
+draft_to: null
+
+paths:
+  data_dir: data
+  prompts_dir: prompts
