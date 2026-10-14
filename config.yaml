@@ -55,8 +55,8 @@ mcp:
       create_draft: null
       update_draft: null
 
-# Email draft recipient: your own address or an alias. Left unset until decided.
-draft_to: null
+# Email draft recipient (decided in Phase 0).
+draft_to: prachtitest09@gmail.com
 
 paths:
   data_dir: data

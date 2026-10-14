@@ -440,12 +440,17 @@ Groww AI Agent/
 | Duplicate Docs/drafts on re-runs | Per-week idempotency keys in the run record |
 | Small review volume makes themes noisy | Minimum-volume threshold with explicit low-volume notice |
 
-## 13. Open Questions
+## 13. Decisions and Open Questions
 
-1. **Play Store access:** live fetch via a public mechanism vs. a Play Console export file. Which is acceptable under the "public exports only" rule?
-2. **MCP servers:** which Google Docs and Gmail MCP servers will be used (their tool names fix the mapping in 7)?
-3. **Document model:** one doc per week or one rolling doc with a section per week?
-4. **Draft recipient:** the user's own address or a team alias?
+**Decided (Phase 0):**
+
+1. **Play Store access:** public fetch of the public reviews, rate-limited, behind `ReviewSource`. `CsvSource` remains the fallback.
+2. **Document model:** one Google Doc per ISO week, titled `Groww Weekly Pulse - <YYYY-Www>`.
+3. **Draft recipient:** `prachtitest09@gmail.com` (`draft_to` in `config.yaml`).
+
+**Still open:**
+
+4. **MCP servers:** the user has Docs and Gmail MCP servers available, but their names, launch commands, and tool names are not yet recorded. They fix the tool mapping in section 7 and must be filled into `mcp.docs` / `mcp.gmail` in `config.yaml`. No MCP servers are currently configured in this environment, so the Phase 0 smoke test is pending.
 5. **Eval thresholds:** theme-agreement target to be set after the first labeled baseline.
 
 ## 14. Suggested Build Order
