@@ -175,7 +175,8 @@ Weights are config. The ranking is explainable: the run record stores each theme
 @dataclass
 class Pulse:
     week_label: str            # e.g. "2026-W42"
-    window: tuple[date, date]
+    window_start: date
+    window_end: date
     review_count: int
     themes: list[ThemeSummary] # exactly 3: name, one-line summary, review share
     quotes: list[Quote]        # exactly 3: text, theme, rating, review_id

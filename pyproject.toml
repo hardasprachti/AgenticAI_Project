@@ -29,6 +29,7 @@ pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 100
+extend-exclude = ["docs"]
 src = ["src", "tests", "evals"]
 
 [tool.ruff.lint]
