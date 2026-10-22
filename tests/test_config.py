@@ -24,8 +24,8 @@ def test_repo_config_loads():
     assert cfg.max_words == 250
 
 
-def test_unset_integrations_are_reported_not_configured():
-    cfg = load_config(REPO_ROOT / "config.yaml")
+def test_unset_integrations_are_reported_not_configured(tmp_path):
+    cfg = load_config(_write(tmp_path, mcp={"server_dir": None, "document_id": None}))
     assert not cfg.mcp.is_configured
 
 

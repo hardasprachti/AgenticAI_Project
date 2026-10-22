@@ -47,7 +47,7 @@ mcp:
   server_dir: D:/NextLeap Projects/mcp-server-4   # mcp-server-4 checkout, outside this repo
   command: node
   entrypoint: dist/index.js
-  document_id: null         # id of the pre-created rolling Google Doc
+  document_id: 1d6vk8c6UHTCj9J96Al-QXWKu8gyJT95xiBmsRcFYExI         # id of the pre-created rolling Google Doc
   tools:
     append_to_document: google_docs_append_content
     create_draft: gmail_create_draft
