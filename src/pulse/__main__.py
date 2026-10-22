@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
 import sys
 from datetime import date
 
@@ -10,6 +11,7 @@ from dotenv import load_dotenv
 
 from pulse.config import DEFAULT_CONFIG_PATH, Config, ConfigError, load_config
 from pulse.llm import LLMError
+from pulse.mcp.client import McpClient, McpError
 from pulse.models import RunStatus
 from pulse.sources.base import SourceUnavailable
 from pulse.sources.csv_source import CsvSource, CsvSourceError
@@ -70,6 +72,33 @@ def _check_llm(args: argparse.Namespace) -> int:
     return 0
 
 
+def _check_mcp(args: argparse.Namespace) -> int:
+    """Start the Google Workspace MCP server and confirm it offers the tools we need.
+
+    Read-only: it lists tools and calls none of them.
+    """
+    cfg = _load(args)
+    if cfg is None:
+        return 1
+
+    async def probe() -> frozenset[str]:
+        async with McpClient(cfg.mcp) as client:
+            return client.offered_tools
+
+    try:
+        offered = asyncio.run(probe())
+    except McpError as exc:
+        print(f"MCP error: {exc}", file=sys.stderr)
+        return 1
+    for operation, tool in sorted(cfg.mcp.tools.items()):
+        print(f"  ok      {operation:<18} {tool}")
+    for tool in sorted(offered - cfg.mcp.allowed_tools):
+        print(f"  blocked {'(not allowlisted)':<18} {tool}")
+    print(f"\nDoc: https://docs.google.com/document/d/{cfg.mcp.document_id}/edit")
+    print(f"Draft recipient: {cfg.draft_to or 'NOT set'}")
+    return 0
+
+
 def build_source(args: argparse.Namespace, cfg: Config):
     """The review source for `--source`, with an optional export to fall back on."""
     if args.source == "csv":
@@ -92,8 +121,8 @@ def _run(args: argparse.Namespace) -> int:
 
     if not args.dry_run:
         print(
-            "Publishing to Google Docs and Gmail is not built yet (Phase 5). "
-            "Re-run with --dry-run.",
+            "Publishing from `run` arrives with the orchestrator and its duplicate-protection "
+            "ledger (Phase 6). Re-run with --dry-run.",
             file=sys.stderr,
         )
         return 2
@@ -156,6 +185,12 @@ def main(argv: list[str] | None = None) -> int:
     llm = sub.add_parser("check-llm", help="Verify GROQ_API_KEY and the configured model ids")
     add_config(llm)
     llm.set_defaults(func=_check_llm)
+
+    mcp_check = sub.add_parser(
+        "check-mcp", help="Start the Google Workspace MCP server and verify its tools"
+    )
+    add_config(mcp_check)
+    mcp_check.set_defaults(func=_check_mcp)
 
     run = sub.add_parser("run", help="Run the pipeline")
     add_config(run)

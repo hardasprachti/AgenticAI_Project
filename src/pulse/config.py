@@ -69,6 +69,10 @@ class McpConfig:
     entrypoint: str
     document_id: str | None
     tools: dict[str, str]
+    timeout_s: float = 60.0
+    max_retries: int = 3  # for rate limits only; other write failures are never retried blindly
+    retry_base_s: float = 2.0
+    max_email_body_bytes: int = 1_048_576  # the server's MAX_EMAIL_BODY_BYTES default
 
     @property
     def allowed_tools(self) -> frozenset[str]:
@@ -118,6 +122,10 @@ def _mcp_config(raw: dict[str, Any]) -> McpConfig:
         entrypoint=section.get("entrypoint") or "dist/index.js",
         document_id=section.get("document_id"),
         tools=tools,
+        timeout_s=float(section.get("timeout_s", 60)),
+        max_retries=int(section.get("max_retries", 3)),
+        retry_base_s=float(section.get("retry_base_s", 2)),
+        max_email_body_bytes=int(section.get("max_email_body_bytes", 1_048_576)),
     )
 
 

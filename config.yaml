@@ -77,6 +77,10 @@ mcp:
   tools:
     append_to_document: google_docs_append_content
     create_draft: gmail_create_draft
+  timeout_s: 60            # per tool call; a timeout is an unknown outcome and is never retried
+  max_retries: 3           # rate-limit (429) retries only, with exponential backoff
+  retry_base_s: 2
+  max_email_body_bytes: 1048576   # the server's MAX_EMAIL_BODY_BYTES default
 
 # Email draft recipient (decided in Phase 0).
 draft_to: prachtitest09@gmail.com

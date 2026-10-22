@@ -24,11 +24,10 @@ This document describes the design of the Groww Weekly Review Pulse agent. Requi
 ```mermaid
 flowchart LR
     PS[Google Play Store<br/>public reviews] --> A
-    A[Weekly Pulse Agent<br/>pipeline + LLM] -->|MCP tool calls| DM[Google Workspace MCP server]
-    A -->|MCP tool calls| DM
+    A[Weekly Pulse Agent<br/>pipeline + LLM] -->|MCP tool calls| DM[Google Workspace MCP server<br/>mcp-server-4]
     A -->|LLM API| LLM[Groq API]
-    DM --> GD[(Google Docs<br/>pulse document)]
-    GM --> GMB[(Gmail<br/>draft)]
+    DM -->|google_docs_append_content| GD[(Google Doc<br/>rolling pulse document)]
+    DM -->|gmail_create_draft| GMB[(Gmail<br/>draft)]
     U[Product / Growth<br/>Support / Leadership] -->|read| GD
     U -->|review and send| GMB
 ```
@@ -67,7 +66,7 @@ flowchart TD
 | 4 | Rank | themed reviews | top 3 `Theme` | No |
 | 5 | Compose | top themes + their reviews | `Pulse` draft | Yes |
 | 6 | Validate | `Pulse` draft | pass / list of violations | No (code checks) |
-| 7 | Publish | validated `Pulse` | Google Doc URL | No (MCP) |
+| 7 | Publish | validated `Pulse` | Doc link (built from `documentId`) + `revisionId` | No (MCP) |
 | 8 | Draft | `Pulse` + Doc URL | Gmail draft id | No (MCP) |
 | 9 | Record | everything above | run record on disk | No |
 
@@ -253,7 +252,7 @@ The server **cannot create, read, or update** a Doc, and returns no URL.
 
 **Responsibility:** create a **draft** (never send) addressed to the user or an alias.
 
-- Recipient comes from config (`DRAFT_TO`), defaulting to the user's own address.
+- Recipient comes from `draft_to` in `config.yaml`, sent as the `to` array of `gmail_create_draft` with `bodyType: "text"`.
 - Subject: `Groww Weekly Review Pulse - <week_label>`.
 - Body: the rendered note plus a link to the Google Doc. If the body would break the length goal, it falls back to the three themes plus the link ("a clear pointer to it" is acceptable per the problem statement).
 - Only a Gmail "create draft" operation is used. The send operation is **not mapped** in the tool allowlist (see 7), so the agent cannot send email even by mistake.
@@ -335,7 +334,8 @@ sequenceDiagram
 - **Tool mapping layer:** a small adapter maps our logical operations (`append_to_document`, `create_draft`) to the real tool names and argument shapes of the chosen server. Swapping servers means editing the mapping, not the pipeline.
 - **Allowlist:** the client may call only the mapped tools (`google_docs_append_content`, `gmail_create_draft`). The server also exposes `gmail_send_email`, which is deliberately not allowlisted, and the client fails at startup if either allowed tool is missing from `tools/list`.
 - **Credentials:** OAuth consent and token storage live in the MCP server (`npm run auth`, its own `tokens.json`). The agent holds no Google credentials. The only secret the agent holds is the Groq API key (`GROQ_API_KEY`), read from the environment and never logged.
-- **Failure handling:** MCP timeouts and transient errors are retried with backoff; auth errors are fatal and reported with a clear instruction to re-authorize the server.
+- **Failure handling:** MCP timeouts and transient errors are retried with backoff, but never blindly after an ambiguous append or draft (see the ledger in 4.7). Auth errors (`GOOGLE_AUTH_REQUIRED`, `INSUFFICIENT_SCOPE`) are fatal and reported with an instruction to run `npm run auth` in the server directory; `DOC_PERMISSION_DENIED` is fatal and names the account that needs edit access to the Doc.
+- **Scope caveat:** the server's `documents` OAuth scope can edit any Doc the account can reach, so the client only ever passes the `documentId` from config.
 - **Dry-run mode:** `--dry-run` renders the note to disk and skips both MCP calls, which is useful for development and evals.
 
 ## 8. Evaluation Strategy
@@ -410,9 +410,10 @@ Groww AI Agent/
 │   ├── validate.py           # all guardrails
 │   ├── llm.py                # Groq client wrapper, schema validation
 │   └── mcp/
-│       ├── client.py         # MCP client + allowlist
-│       ├── docs.py           # logical Docs operations
-│       └── gmail.py          # logical Gmail operations
+│       ├── client.py         # MCP client (stdio) + tool allowlist
+│       ├── docs.py           # append the note to the rolling Doc, verify the response
+│       ├── gmail.py          # create the draft (never send)
+│       └── ledger.py         # per-week pending/appended/created ledger (data/ledger.json)
 ├── data/                     # git-ignored: raw cache and run records
 ├── evals/
 │   ├── fixtures/

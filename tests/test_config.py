@@ -62,3 +62,12 @@ def test_taxonomy_larger_than_cap_rejected(tmp_path):
 def test_missing_file_rejected(tmp_path):
     with pytest.raises(ConfigError, match="not found"):
         load_config(tmp_path / "nope.yaml")
+
+
+def test_mcp_call_settings_default_and_can_be_overridden(tmp_path):
+    cfg = load_config(REPO_ROOT / "config.yaml")
+    assert cfg.mcp.timeout_s > 0 and cfg.mcp.max_retries >= 0
+    assert cfg.mcp.max_email_body_bytes == 1_048_576
+
+    custom = load_config(_write(tmp_path, mcp={"timeout_s": 5, "max_retries": 1}))
+    assert (custom.mcp.timeout_s, custom.mcp.max_retries) == (5.0, 1)
