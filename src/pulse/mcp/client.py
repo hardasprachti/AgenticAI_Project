@@ -35,6 +35,23 @@ REQUIRED_OPERATIONS = ("append_to_document", "create_draft")
 # The only error code that means "rejected before anything happened", so safe to retry.
 RETRY_SAFE_CODES = frozenset({"GOOGLE_RATE_LIMITED"})
 
+# Error codes the server returns when it rejected the call before writing anything (bad auth, no
+# access, bad input, quota). After one of these the Doc / draft is known to be untouched, so a rerun
+# is safe. Any other failure of a write is ambiguous: DOC_APPEND_FAILED, GMAIL_DRAFT_CREATE_FAILED
+# and GOOGLE_API_UNAVAILABLE can all happen after Google applied the change.
+NOT_EXECUTED_CODES = RETRY_SAFE_CODES | frozenset(
+    {
+        "GOOGLE_AUTH_REQUIRED",
+        "GOOGLE_TOKEN_REFRESH_FAILED",
+        "INSUFFICIENT_SCOPE",
+        "AUTH_NOT_CONFIGURED",
+        "DOC_PERMISSION_DENIED",
+        "DOC_NOT_FOUND",
+        "INVALID_INPUT",
+        "PAYLOAD_TOO_LARGE",
+    }
+)
+
 _REAUTHORIZE = (
     "Re-authorize the Google account by running `npm run auth` in the MCP server directory "
     "({server_dir}), then run again."
@@ -80,6 +97,13 @@ class McpToolError(McpError):
         self.retryable, self.hint = retryable, hint
         text = f"{tool} failed with {code}: {message}"
         super().__init__(f"{text}. {hint}" if hint else text)
+
+
+def write_not_applied(exc: BaseException) -> bool:
+    """True only when `exc` proves the write did not happen; anything unclear is ambiguous."""
+    if isinstance(exc, McpSetupError | ToolNotAllowed):
+        return True
+    return isinstance(exc, McpToolError) and exc.code in NOT_EXECUTED_CODES
 
 
 def _envelope(result: Any) -> dict[str, Any] | None:

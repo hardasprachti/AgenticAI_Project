@@ -1,8 +1,8 @@
 """The analysis pipeline: reviews in, validated note out (architecture section 3, stages 1-6).
 
 This is the offline path used by `--dry-run`: it never touches Google. Each stage's output is
-written to `data/runs/<run_id>/` so a run can be inspected afterwards. Publishing, the draft, the
-ledger and `--resume` arrive with the orchestrator in later phases.
+written to `data/runs/<run_id>/` so a run can be inspected afterwards. Publishing, the ledger and
+`--resume` belong to the orchestrator (orchestrator.py), which calls this for the analysis stages.
 
 Nothing written here contains reviewer identity: reviews are sanitized before the first file is
 written, and the author names seen in the raw data stay in memory only (for the final PII check).
@@ -49,13 +49,13 @@ def week_label_for(day: date) -> str:
     return f"{iso.year}-W{iso.week:02d}"
 
 
-def _write_json(path: Path, payload: Any) -> None:
+def write_json(path: Path, payload: Any) -> None:
     path.write_text(
         json.dumps(to_jsonable(payload), indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
 
-class _Stages:
+class Stages:
     """Times each stage and appends its record to the run."""
 
     def __init__(self, run: Run) -> None:
@@ -93,16 +93,17 @@ def run_pipeline(
     llm: LLMClient,
     as_of: date,
     cache_raw: bool = False,
+    run_id: str | None = None,
     now: Callable[[], datetime] = lambda: datetime.now(UTC),
 ) -> PipelineResult:
     started = now()
-    run_id = f"{as_of:%Y%m%d}-{started:%H%M%S}"
+    run_id = run_id or f"{as_of:%Y%m%d}-{started:%H%M%S}"
     run_dir = config.data_dir / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
 
     run = Run(run_id=run_id, week_label=week_label_for(as_of), started_at=started)
     result = PipelineResult(run=run, run_dir=run_dir)
-    stages = _Stages(run)
+    stages = Stages(run)
 
     theme_prompt = load_prompt("theme_assign", config.prompts_dir)
     compose_prompt = load_prompt("compose", config.prompts_dir)
@@ -112,7 +113,7 @@ def run_pipeline(
         run.status = status
         usage = getattr(llm, "usage", None)
         run.llm_usage = {k: dict(v) for k, v in usage.items()} if usage else {}
-        _write_json(run_dir / "run.json", run)
+        write_json(run_dir / "run.json", run)
         return result
 
     try:
@@ -153,7 +154,7 @@ def run_pipeline(
         if len(reviews) < len(clean):
             record.notes.append(f"analysing a sample of {len(reviews)} of {len(clean)} reviews")
         record.counts.update(clean=len(clean), analysed=len(reviews))
-        _write_json(run_dir / "sanitized.json", reviews)
+        write_json(run_dir / "sanitized.json", reviews)
 
         # 3. Theme
         record = stages.start("theme")
@@ -187,7 +188,7 @@ def run_pipeline(
         )
         if theming.stats.merged_into_other:
             record.notes.append(f"merged into Other: {', '.join(theming.stats.merged_into_other)}")
-        _write_json(
+        write_json(
             run_dir / "themes.json",
             {"themes": theming.themes, "assignments": theming.assignments},
         )
@@ -206,7 +207,7 @@ def run_pipeline(
             }
             for t in ranked
         }
-        _write_json(run_dir / "ranking.json", {"ranked": ranked, "top": [t.theme_id for t in top]})
+        write_json(run_dir / "ranking.json", {"ranked": ranked, "top": [t.theme_id for t in top]})
 
         # 5. Compose, which includes 6. Validate (retrying with violation feedback)
         record = stages.start("compose")
@@ -240,7 +241,7 @@ def run_pipeline(
         note = render_note(composed.pulse)
         run.word_count = count_words(note)
         stages.finish(record, words=run.word_count)
-        _write_json(run_dir / "pulse.json", composed.pulse)
+        write_json(run_dir / "pulse.json", composed.pulse)
         (run_dir / "note.txt").write_text(note, encoding="utf-8")
 
         result.pulse, result.note = composed.pulse, note

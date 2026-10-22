@@ -20,6 +20,7 @@ from pulse.mcp.client import (
     McpToolError,
     OutcomeUnknown,
     ToolNotAllowed,
+    write_not_applied,
 )
 
 
@@ -240,3 +241,39 @@ def test_server_is_launched_from_its_own_directory_with_quiet_dotenv(tmp_path):
     assert Path(params.cwd) == tmp_path  # so the server reads its own .env and tokens.json
     assert params.args == [str(tmp_path / "dist" / "index.js")]
     assert params.env == {"DOTENV_CONFIG_QUIET": "true"}  # keeps its banner off the protocol pipe
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "GOOGLE_AUTH_REQUIRED",
+        "GOOGLE_TOKEN_REFRESH_FAILED",
+        "INSUFFICIENT_SCOPE",
+        "AUTH_NOT_CONFIGURED",
+        "DOC_PERMISSION_DENIED",
+        "DOC_NOT_FOUND",
+        "INVALID_INPUT",
+        "PAYLOAD_TOO_LARGE",
+        "GOOGLE_RATE_LIMITED",
+    ],
+)
+def test_rejections_made_before_any_write_are_classed_as_not_applied(code):
+    assert write_not_applied(McpToolError("t", code, "m", False)) is True
+
+
+@pytest.mark.parametrize(
+    "code",
+    ["DOC_APPEND_FAILED", "GMAIL_DRAFT_CREATE_FAILED", "GOOGLE_API_UNAVAILABLE", "WHO_KNOWS"],
+)
+def test_server_failures_that_may_have_written_are_ambiguous(code):
+    assert write_not_applied(McpToolError("t", code, "m", True)) is False
+
+
+def test_timeouts_and_odd_responses_are_ambiguous():
+    assert write_not_applied(OutcomeUnknown("timed out")) is False
+    assert write_not_applied(RuntimeError("anything else")) is False
+
+
+def test_setup_and_allowlist_failures_never_reached_the_server():
+    assert write_not_applied(McpSetupError("no server")) is True
+    assert write_not_applied(ToolNotAllowed("nope")) is True

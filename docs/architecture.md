@@ -261,15 +261,19 @@ The server **cannot create, read, or update** a Doc, and returns no URL.
 
 ### 4.9 Orchestrator
 
-**Responsibility:** run stages 1-9 in order, own retries and failure handling, and emit the run record.
+**Responsibility:** run stages 1-9 in order, own retries and failure handling, and emit the run record. Implemented in `orchestrator.py`, which wraps the analysis stages (`pipeline.py`, stages 1-7) with the ledger and the two publishing stages (8 append to the Doc, 9 create the draft).
 
-- Implemented as a plain Python module (a function per stage plus a small runner), not a framework. A graph framework can be adopted later if branching grows; the stage interfaces above already map to graph nodes.
-- Each stage reads and writes typed objects and persists its output under `data/runs/<run_id>/<stage>.json`. A run can **resume** from any stage using these files.
-- Failures are classified: `retryable` (network, rate limit, MCP timeout) vs. `fatal` (validation failed, auth missing). Only retryable errors are retried, with bounded backoff.
+- A plain Python module (a function per stage plus a small runner), not a framework. A graph framework can be adopted later if branching grows; the stage interfaces above already map to graph nodes.
+- Each analysis stage persists its output under `data/runs/<run_id>/` (`sanitized.json`, `themes.json`, `ranking.json`, `pulse.json`, `note.txt`) and the run record `run.json` is rewritten after every publishing step, so a killed run leaves an accurate record (`running`, never a false `completed`).
+- **Order of checks for a normal run.** Before fetching anything the orchestrator reads the ledger for the week: any `pending` step stops the run (exit 3, `ManualCheckRequired`); doc and draft both done ends the run as `already_published` without touching the source or the model; doc done but draft missing finishes from the note already in the Doc (the same note, not a fresh analysis that could differ); otherwise it runs the analysis and publishes.
+- **Resume (`--resume <run_id>`).** Resume points are the two durable checkpoints. If `pulse.json` and `note.txt` exist, the run goes straight to publishing with that note. Otherwise the analysis reruns inside the same run directory, cheap because theme assignments are cached. Finer resume (for instance from `ranking.json`) is deliberately not offered: compose needs the reviewer names seen in the raw data for its final PII check, and those are never written to disk, so an analysis cannot restart past sanitization. Publishing steps already done are skipped by the ledger on any resume.
+- **Failure classification of a write.** A write is retried only when the failure proves nothing was written (`write_not_applied` in `mcp/client.py`: auth, permission, bad input, size, quota errors, or the server never starting). The ledger entry is then cleared so a rerun can retry. Every other failure (a timeout, `DOC_APPEND_FAILED`, `GMAIL_DRAFT_CREATE_FAILED`, `GOOGLE_API_UNAVAILABLE`, a response that does not match what was sent, or the process dying) leaves the entry `pending` and blocks reruns until a person resolves it.
+- **Statuses.** `completed`, `already_published`, `failed_validation` (nothing published), `failed` (analysis failed, or the Doc append failed so no draft is attempted), `partial` (Doc section in place, draft missing; rerun or `--resume` retries only the draft).
+- **Ledger commands.** `python -m pulse ledger show | confirm <week> <doc|draft> | clear <week> <doc|draft> [--force]`. `confirm` records that a `pending` step did happen; `clear` forgets one so the next run writes it again. Clearing a step recorded as done needs `--force`, because it re-enables a duplicate.
 
 ### 4.10 Scheduling
 
-The pipeline is a one-shot command (`python -m pulse run --week current`). Weekly cadence is provided by an external scheduler, not by the app: cron, Windows Task Scheduler, or a CI schedule. The command is idempotent per week (4.7, 4.8), so a duplicate trigger is safe.
+The pipeline is a one-shot command (`python -m pulse run --source play --week current`). Weekly cadence is provided by an external scheduler, not by the app: Windows Task Scheduler or cron, via `scripts/run_weekly.ps1` / `scripts/run_weekly.sh` (setup, exit codes and recovery in [scheduling.md](scheduling.md)). The command is idempotent per week (4.7, 4.8), so a duplicate trigger is safe. A CI schedule is not suitable: the Google tokens and the ledger are local to one machine.
 
 ## 5. Data Model
 
@@ -399,7 +403,7 @@ Groww AI Agent/
 │   ├── compose.md
 │   └── judge.md
 ├── src/pulse/
-│   ├── cli.py                # entry point: run / dry-run / resume
+│   ├── __main__.py           # CLI: run [--dry-run|--resume], ledger, check-*
 │   ├── orchestrator.py       # stage runner, retries, run record
 │   ├── models.py             # dataclasses / schemas
 │   ├── sources/              # PlayStoreSource, CsvSource (App Store deferred)
@@ -414,7 +418,8 @@ Groww AI Agent/
 │       ├── docs.py           # append the note to the rolling Doc, verify the response
 │       ├── gmail.py          # create the draft (never send)
 │       └── ledger.py         # per-week pending/appended/created ledger (data/ledger.json)
-├── data/                     # git-ignored: raw cache and run records
+├── scripts/                  # run_weekly.ps1/.sh, register_weekly_task.ps1, smoke_mcp.py
+├── data/                     # git-ignored: raw cache, run records, ledger.json, logs/
 ├── evals/
 │   ├── fixtures/
 │   ├── degraded/             # deliberately bad prompts, to prove the evals can fail

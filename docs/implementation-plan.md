@@ -223,7 +223,8 @@ Phases 3, 4 and 5 are independent once Phase 2 is done and can run in parallel o
    - If a step is left `pending` (the process died mid-call), the outcome is ambiguous: the rerun stops and asks the user to check the Doc / Drafts folder and clear the ledger entry by hand, rather than risk a duplicate.
    - Losing the ledger loses duplicate protection; the README must say so.
 4. Failure statuses from architecture section 11: `failed_validation` publishes nothing, `partial` (note appended to the Doc, draft failed) allows retrying only the draft stage.
-5. CLI: `python -m pulse run --week current [--dry-run] [--resume <run_id>]`.
+5. CLI: `python -m pulse run --week current [--dry-run] [--resume <run_id>]`, plus `python -m pulse ledger show|confirm|clear` for resolving a `pending` step by hand.
+   *Built as:* `--resume` has two resume points (publish the finished note, or rerun the analysis in the same run directory from the theme cache) because reviewer names are never persisted and compose needs them; see architecture 4.9.
 6. Scheduling (4.10): document and set up an external weekly trigger (cron, Windows Task Scheduler, or a CI schedule) that calls the CLI.
 
 **Deliverables:** single-command pipeline, run records, scheduled trigger.

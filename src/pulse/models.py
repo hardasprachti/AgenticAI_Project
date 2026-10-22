@@ -97,6 +97,20 @@ class Pulse:
     actions: list[Action]
     analysed_count: int | None = None  # set when only a sample of the reviews was analysed
 
+    @classmethod
+    def from_json(cls, data: dict[str, Any]) -> Pulse:
+        """Inverse of `to_jsonable`, for resuming a run from its saved `pulse.json`."""
+        return cls(
+            week_label=data["week_label"],
+            window_start=date.fromisoformat(data["window_start"]),
+            window_end=date.fromisoformat(data["window_end"]),
+            review_count=data["review_count"],
+            themes=[ThemeSummary(**t) for t in data["themes"]],
+            quotes=[Quote(**q) for q in data["quotes"]],
+            actions=[Action(**a) for a in data["actions"]],
+            analysed_count=data.get("analysed_count"),
+        )
+
 
 class RunStatus(StrEnum):
     RUNNING = "running"
@@ -104,6 +118,7 @@ class RunStatus(StrEnum):
     FAILED_VALIDATION = "failed_validation"  # nothing published
     PARTIAL = "partial"  # note appended to the Doc, draft failed
     FAILED = "failed"
+    ALREADY_PUBLISHED = "already_published"  # the ledger shows this week is done; nothing was run
 
 
 @dataclass
@@ -133,6 +148,17 @@ class Run:
     doc_url: str | None = None
     doc_revision_id: str | None = None
     draft_id: str | None = None
+
+    @classmethod
+    def from_json(cls, data: dict[str, Any]) -> Run:
+        """Inverse of `to_jsonable`, so a resumed run continues the same record."""
+        fields = {f.name for f in dataclasses.fields(cls)}
+        values = {k: v for k, v in data.items() if k in fields}
+        values["status"] = RunStatus(values.get("status", RunStatus.RUNNING))
+        if values.get("started_at"):
+            values["started_at"] = datetime.fromisoformat(values["started_at"])
+        values["stages"] = [StageRecord(**s) for s in values.get("stages", [])]
+        return cls(**values)
 
 
 def to_jsonable(obj: Any) -> Any:
