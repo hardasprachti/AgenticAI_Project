@@ -192,30 +192,38 @@ def test_long_text_is_truncated_in_the_prompt():
 # --- cap enforcement (architecture 4.3: enforced in code, whatever the model returned) ---
 
 
-def test_cap_folds_smallest_themes_into_other_when_other_exists():
-    labels = {
-        f"r{i}": label
-        for i, label in enumerate(
-            ["A"] * 5 + ["B"] * 4 + ["C"] * 3 + ["D"] * 2 + ["E"] * 1 + [OTHER] * 6
-        )
+def _labels(spec: dict[str, int]) -> dict[str, str]:
+    return {
+        f"r{n}": label
+        for n, label in enumerate(name for name, count in spec.items() for _ in range(count))
     }
+
+
+def test_other_does_not_count_toward_the_cap():
+    labels = _labels({"A": 5, "B": 4, "C": 3, "D": 2, "E": 1, OTHER: 6})
+    stats = ThemingStats()
+    assert enforce_theme_cap(labels, 5, stats) == labels  # five named themes plus Other is fine
+    assert stats.merged_into_other == []
+
+
+def test_cap_folds_the_smallest_named_theme_into_other():
+    labels = _labels({"A": 5, "B": 4, "C": 3, "D": 2, "E": 1, "F": 1, OTHER: 2})
     stats = ThemingStats()
     capped = enforce_theme_cap(labels, 5, stats)
-    assert set(capped.values()) == {"A", "B", "C", "D", OTHER}
-    assert stats.merged_into_other == ["E"]
+    named = set(capped.values()) - {OTHER}
+    assert len(named) == 5 and "A" in named
+    assert stats.merged_into_other == ["E"]  # ties on size break alphabetically
+    assert sum(1 for v in capped.values() if v == OTHER) == 3
 
 
-def test_cap_creates_other_by_folding_two_when_absent():
-    labels = {
-        f"r{i}": label
-        for i, label in enumerate(
-            ["A"] * 5 + ["B"] * 4 + ["C"] * 3 + ["D"] * 2 + ["E"] * 1 + ["F"] * 1
-        )
-    }
-    capped = enforce_theme_cap(labels, 5)
-    assert len(set(capped.values())) == 5
-    assert set(capped.values()) == {"A", "B", "C", "D", OTHER}
-    assert sum(1 for v in capped.values() if v == OTHER) == 2
+def test_cap_creates_other_when_absent():
+    capped = enforce_theme_cap(_labels({"A": 5, "B": 4, "C": 3, "D": 2, "E": 1, "F": 1}), 5)
+    assert set(capped.values()) == {"A", "B", "C", "D", "F", OTHER}
+
+
+def test_cap_folds_repeatedly_when_far_over():
+    capped = enforce_theme_cap(_labels({"A": 6, "B": 5, "C": 4, "D": 3, "E": 2, "F": 1}), 3)
+    assert set(capped.values()) == {"A", "B", "C", OTHER}
 
 
 def test_cap_leaves_small_sets_alone():
@@ -223,26 +231,22 @@ def test_cap_leaves_small_sets_alone():
     assert enforce_theme_cap(labels, 5) == labels
 
 
-def test_cap_applies_end_to_end_even_if_taxonomy_plus_other_exceeds_it():
-    taxonomy = [f"T{i}" for i in range(5)]
+def test_cap_applies_end_to_end_with_an_oversized_taxonomy():
+    taxonomy = [f"T{i}" for i in range(6)]
     reviews = [_review(i, f"text {i}") for i in range(12)]
 
     def handler(task, system, user):
-        return {
-            "assignments": [
-                {
-                    "review_id": i["review_id"],
-                    "theme": taxonomy[int(i["review_id"][1:]) % 5]
-                    if int(i["review_id"][1:]) < 10
-                    else "Other",
-                }
-                for i in _payload(user)
-            ]
-        }
+        rows = []
+        for item in _payload(user):
+            n = int(item["review_id"][1:])
+            rows.append({"review_id": item["review_id"], "theme": taxonomy[n % 6]})
+        return {"assignments": rows}
 
     result = _run(reviews, FakeLLM(handler), taxonomy=taxonomy, max_themes=5)
-    assert len(result.themes) <= 5
-    assert len({a.theme_id for a in result.assignments}) <= 5
+    named = {t.label for t in result.themes if t.label != OTHER}
+    assert len(named) <= 5
+    assert len({a.theme_id for a in result.assignments} - {"other"}) <= 5
+    assert result.stats.merged_into_other
 
 
 def test_other_is_reserved_in_taxonomy():

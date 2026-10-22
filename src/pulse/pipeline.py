@@ -27,7 +27,8 @@ from pulse.ranking import InsufficientThemes, rank_themes, top_themes
 from pulse.render import count_words, render_note
 from pulse.sanitize import sanitize_reviews
 from pulse.sources.base import ReviewSource
-from pulse.theming import AssignmentCache, assign_themes, taxonomy_hash
+from pulse.theming import OTHER, AssignmentCache, assign_themes, taxonomy_hash, theme_id_for
+from pulse.validate import format_violations, validate_theme_cap
 
 
 class PipelineError(RuntimeError):
@@ -136,6 +137,11 @@ def run_pipeline(
             max_themes=config.max_themes,
             cache=cache,
         )
+        cap_violations = validate_theme_cap(
+            [t for t in theming.themes if t.theme_id != theme_id_for(OTHER)], config.max_themes
+        )
+        if cap_violations:
+            raise PipelineError(format_violations(cap_violations))
         stages.finish(
             record,
             themes=len(theming.themes),

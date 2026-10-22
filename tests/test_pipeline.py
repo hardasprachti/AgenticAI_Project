@@ -43,7 +43,8 @@ def test_dry_run_produces_a_note_that_passes_every_guardrail(config):
     assert result.run.week_label == "2026-W43" == week_label_for(AS_OF)
 
     themes = json.loads((result.run_dir / "themes.json").read_text(encoding="utf-8"))
-    assert len(themes["themes"]) <= 5
+    named = [t for t in themes["themes"] if t["theme_id"] != "other"]
+    assert len(named) <= 5  # "Other" is the catch-all and does not count toward the cap
 
 
 def test_quotes_are_verbatim_substrings_of_sanitized_reviews(config):
@@ -171,3 +172,16 @@ def test_unexpected_error_is_recorded_then_raised(config):
     run_dirs = list((config.data_dir / "runs").iterdir())
     record = json.loads((run_dirs[0] / "run.json").read_text(encoding="utf-8"))
     assert record["status"] == "failed"
+
+
+def test_first_names_of_self_naming_reviewers_do_not_survive(config):
+    """The fixture has reviews that say 'This is <Full Name> again ... <First> is still waiting'."""
+    with FIXTURE.open(encoding="utf-8") as handle:
+        rows = [r for r in csv.DictReader(handle) if r["author_name"] in r["text"]]
+    assert rows  # the fixture really contains self-naming reviews
+
+    result = _run(config)
+    sanitized = (result.run_dir / "sanitized.json").read_text(encoding="utf-8")
+    for row in rows:
+        for part in row["author_name"].split():
+            assert part not in sanitized, "a reviewer's name part reached the sanitized output"

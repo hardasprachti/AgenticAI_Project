@@ -23,10 +23,18 @@ DEFAULT_SALT = "groww-pulse-v1"
 DEFAULT_MIN_CHARS = 10
 DEFAULT_LATIN_THRESHOLD = 0.8
 MIN_AUTHOR_NAME_CHARS = 3
+MIN_NAME_TOKEN_CHARS = 3
 
 # Play shows these for reviewers without a public name; they are not worth scrubbing from text.
 _GENERIC_AUTHORS = {"a google user", "google user", "anonymous", "user"}
 
+# Words that appear in display names but are also ordinary words; never scrubbed as names.
+_NOT_NAME_WORDS = frozenset(
+    "the and for you your app not but are can has had was its all any new old one two user users "
+    "google play groww guest customer client trader investor account official".split()
+)
+
+_NAME_TOKEN_RE = re.compile(rf"[^\W\d_]{{{MIN_NAME_TOKEN_CHARS},}}")
 _WS_RE = re.compile(r"\s+")
 _NON_ALNUM_RE = re.compile(r"[\W_]+")
 
@@ -73,12 +81,22 @@ def _collapse_ws(text: str) -> str:
 
 
 def _author_pattern(name: str | None) -> re.Pattern[str] | None:
+    """Matches the reviewer's full name, or any single word of it, as a whole word.
+
+    Reviews often sign off or refer to themselves by first name only, so each name word of
+    `MIN_NAME_TOKEN_CHARS` or more letters is scrubbed too. The full name is tried first so
+    "Asha Rao" becomes one placeholder, not two. Common words are never treated as names, which
+    keeps a display name like "The Trader" from redacting every "the".
+    """
     if not name:
         return None
     name = _collapse_ws(name)
     if len(name) < MIN_AUTHOR_NAME_CHARS or name.casefold() in _GENERIC_AUTHORS:
         return None
-    return re.compile(rf"(?<!\w){re.escape(name)}(?!\w)", re.IGNORECASE)
+    tokens = {t for t in _NAME_TOKEN_RE.findall(name) if t.casefold() not in _NOT_NAME_WORDS}
+    alternatives = [name, *sorted(tokens, key=lambda t: (-len(t), t))]
+    joined = "|".join(re.escape(a) for a in alternatives)
+    return re.compile(rf"(?<!\w)(?:{joined})(?!\w)", re.IGNORECASE)
 
 
 def _latin_ratio(text: str) -> float:

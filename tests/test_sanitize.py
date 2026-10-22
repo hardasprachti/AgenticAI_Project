@@ -162,3 +162,55 @@ def test_raw_review_repr_hides_identity_and_text():
     r = raw(author="Rahul Sharma", text="secret text 9876543210")
     assert "Rahul" not in repr(r)
     assert "9876543210" not in repr(r)
+
+
+def _text_of(**kw) -> str:
+    (review,) = sanitize_reviews([raw(**kw)]).reviews
+    return review.text
+
+
+def test_first_name_alone_is_scrubbed():
+    text = _text_of(text="Money is stuck for a week. Rahul is still waiting for the refund.")
+    assert "rahul" not in text.casefold()
+    assert REDACTED in text
+
+
+def test_last_name_alone_is_scrubbed():
+    assert (
+        "sharma"
+        not in _text_of(text="Regards, SHARMA. The refund never arrived at all.").casefold()
+    )
+
+
+def test_full_name_becomes_one_placeholder_not_two():
+    text = _text_of(text="This is Rahul Sharma again and the refund never came to me.")
+    assert text.count(REDACTED) == 1
+    assert f"{REDACTED} {REDACTED}" not in text
+
+
+def test_name_scrubbing_is_word_bounded():
+    text = _text_of(author="Asha Rao", text="Ashan from the branch said Raoul would call me back.")
+    assert "Ashan" in text and "Raoul" in text
+
+
+def test_common_words_in_a_display_name_are_not_scrubbed():
+    text = _text_of(author="The Trader", text="The withdrawal took the whole week to arrive.")
+    assert text == "The withdrawal took the whole week to arrive."
+
+
+def test_very_short_name_parts_are_left_alone():
+    text = _text_of(author="Om K", text="Om the refund never arrived and I am quite upset.")
+    assert "Om" in text  # two letters: too short to scrub safely
+
+
+def test_each_scrubbed_mention_is_counted():
+    result = sanitize_reviews(
+        [raw(text="Rahul Sharma here. Rahul wants the refund. Thanks, Sharma, for nothing.")]
+    )
+    assert result.stats.redactions["author_name"] == 3
+
+
+def test_only_the_reviews_own_author_is_scrubbed_from_its_text():
+    other = raw(rid="2", author="Meera Iyer", text="Rahul at the branch was helpful but slow.")
+    (review,) = sanitize_reviews([other]).reviews
+    assert "Rahul" in review.text  # a third party named in the text is not this reviewer

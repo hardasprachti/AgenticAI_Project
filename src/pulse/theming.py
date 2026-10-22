@@ -1,4 +1,4 @@
-"""Theming: group reviews into at most `max_themes` themes (architecture section 4.3).
+"""Theming: group reviews into at most `max_themes` named themes (architecture section 4.3).
 
 The model assigns each review to exactly one theme from a closed taxonomy, or to "Other". Code
 owns everything around that call: unknown labels are mapped to "Other", reviews the model skipped
@@ -135,20 +135,23 @@ def _ask(
 def enforce_theme_cap(
     labels: dict[str, str], max_themes: int, stats: ThemingStats | None = None
 ) -> dict[str, str]:
-    """Fold the smallest themes into "Other" until at most `max_themes` distinct labels remain."""
+    """Fold the smallest named themes into "Other" until at most `max_themes` remain.
+
+    "Other" is the catch-all for reviews that fit no theme, so it does not count toward the cap:
+    the result is at most `max_themes` named themes, plus "Other" if anything landed there.
+    """
     labels = dict(labels)
     while True:
         counts = Counter(labels.values())
-        if len(counts) <= max_themes:
+        named = sorted((count, label) for label, count in counts.items() if label != OTHER)
+        if len(named) <= max_themes:
             return labels
-        small_first = sorted((c, label) for label, c in counts.items() if label != OTHER)
-        # With no "Other" yet, folding one theme would only rename it, so fold two to make progress.
-        fold = [label for _, label in small_first[: 1 if OTHER in counts else 2]]
+        _, smallest = named[0]
         for review_id, label in labels.items():
-            if label in fold:
+            if label == smallest:
                 labels[review_id] = OTHER
         if stats is not None:
-            stats.merged_into_other.extend(fold)
+            stats.merged_into_other.append(smallest)
 
 
 def assign_themes(

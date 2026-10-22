@@ -109,7 +109,7 @@ An `AppStoreSource` is **deferred**. Because every source returns the same `RawR
 Steps, in order:
 
 1. **Drop identity fields at the schema level.** `RawReview` may carry `author_name`, `author_id`, and similar fields; the normalizer builds a new `Review` that has no field for them. PII removal by omission is stronger than PII removal by redaction.
-2. **Scrub free text** (title and body) with deterministic patterns: emails, phone numbers, URLs, long digit runs (card, account, PAN-like, Aadhaar-like), and device or order identifiers. Matches are replaced with a placeholder such as `[redacted]`.
+2. **Scrub free text** (title and body) with deterministic patterns: emails, phone numbers, URLs, long digit runs (card, account, PAN-like, Aadhaar-like), and device or order identifiers. The reviewer's own display name is scrubbed too, as a full name and as each name word of 3+ letters (reviews often sign off with a first name only), skipping ordinary words such as "the". Matches are replaced with a placeholder such as `[redacted]`.
 3. **Deduplicate** exact and near-duplicate reviews (normalized text hash).
 4. **Filter** reviews with empty text or too few characters to carry signal.
 5. **Language handling:** keep English (including Hinglish) by default; configurable.
@@ -125,7 +125,7 @@ Steps, in order:
 
 1. Start from a **seed taxonomy** suited to a brokerage / investing app, for example: Onboarding and KYC, Payments and Withdrawals, Trading Experience and App Performance, Statements and Reports, Customer Support. The taxonomy is config, and the LLM may propose replacements if the data does not fit.
 2. In batches, ask the LLM to **assign each review to exactly one theme** (or `other`), returning structured JSON validated against a schema.
-3. A final consolidation step enforces the cap: if more than 5 labels exist, merge the closest ones. The cap is enforced **in code** after the LLM step (reject and re-ask, then deterministic merge of the smallest clusters as a last resort). Because "Other" is a theme too, a full 5-label taxonomy plus "Other" is 6, so the smallest real theme is folded into "Other" (recorded in the run record). "Other" is never chosen for the top 3 unless fewer than 3 real themes exist.
+3. A final consolidation step enforces the cap: if more than 5 labels exist, merge the closest ones. The cap is enforced **in code** after the LLM step (reject and re-ask, then deterministic merge of the smallest clusters as a last resort). "Other" is the catch-all for reviews that fit no theme and does **not** count toward the cap: the result is at most 5 named themes, plus "Other" when non-empty. If more than 5 named themes appear, the smallest are folded into "Other" (recorded in the run record). "Other" is never chosen for the top 3 unless fewer than 3 named themes exist.
 4. Each theme gets a short label and a one-line description.
 
 **Alternative considered:** embeddings + k-means / HDBSCAN, then LLM labeling of clusters. This is more reproducible and scales to large volumes, but needs an embedding model and tuning for small review counts. It is kept as a pluggable `Clusterer` implementation. The default is the LLM-assisted taxonomy approach because the review volume for a weekly note is modest and labels need to be human-meaningful.
