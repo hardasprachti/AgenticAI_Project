@@ -24,10 +24,10 @@ def _response(content: str, prompt_tokens: int = 10, completion_tokens: int = 5)
     )
 
 
-def _http_error(cls, status: int, headers: dict | None = None):
+def _http_error(cls, status: int, headers: dict | None = None, body=None):
     request = httpx.Request("POST", "https://api.groq.com/x")
     response = httpx.Response(status, request=request, headers=headers or {})
-    return cls("boom", response=response, body=None)
+    return cls("boom", response=response, body=body)
 
 
 class FakeGroq:
@@ -116,11 +116,37 @@ def test_server_error_uses_exponential_backoff():
     assert sleeps == [2.0, 4.0]
 
 
-def test_transport_failures_exhaust_retries():
-    errors = [_http_error(groq.RateLimitError, 429) for _ in range(3)]
-    llm, _, _ = _llm(errors)
-    with pytest.raises(LLMError, match="RateLimitError"):
+def test_server_errors_exhaust_the_failure_budget():
+    errors = [_http_error(groq.InternalServerError, 500) for _ in range(3)]
+    llm, client, _ = _llm(errors)
+    with pytest.raises(LLMError, match="InternalServerError"):
         llm.complete_json(task="compose", system="s", user="u", schema=Out)
+    assert len(client.requests) == 3  # max_retries=2 means three attempts
+
+
+def test_rate_limits_have_their_own_larger_budget():
+    # Four 429s in a row would have exhausted the old shared budget of three attempts.
+    limited = [_http_error(groq.RateLimitError, 429, {"retry-after": "1"}) for _ in range(4)]
+    llm, client, sleeps = _llm([*limited, _response('{"answer": 1}')])
+    assert llm.complete_json(task="compose", system="s", user="u", schema=Out).answer == 1
+    assert len(client.requests) == 5 and sleeps == [1.0] * 4
+    assert llm.usage["compose"]["rate_limited"] == 4
+
+
+def test_rate_limits_do_not_consume_the_invalid_reply_budget():
+    limited = [_http_error(groq.RateLimitError, 429, {"retry-after": "1"}) for _ in range(5)]
+    script = [*limited, _response("bad"), _response("bad"), _response('{"answer": 2}')]
+    llm, _, _ = _llm(script)
+    assert llm.complete_json(task="compose", system="s", user="u", schema=Out).answer == 2
+
+
+def test_persistent_rate_limiting_eventually_gives_up():
+    config = LlmConfig(10, 2, 5, 100, max_rate_limit_retries=2)
+    limited = [_http_error(groq.RateLimitError, 429) for _ in range(3)]
+    llm, client, _ = _llm(limited, config)
+    with pytest.raises(LLMError, match="rate limited after 2 waits"):
+        llm.complete_json(task="compose", system="s", user="u", schema=Out)
+    assert len(client.requests) == 3
 
 
 def test_auth_error_is_fatal_and_does_not_retry():
@@ -177,3 +203,37 @@ def test_usage_says_why_retries_happened():
     usage = llm.usage["compose"]
     assert (usage["retries"], usage["rate_limited"], usage["invalid_replies"]) == (2, 1, 1)
     assert usage["waited_s"] == 5
+
+
+DAILY_LIMIT_BODY = {
+    "error": {
+        "message": "Rate limit reached for model `m` in organization `org_SECRET123` service tier "
+        "`on_demand` on tokens per day (TPD): Limit 200000, Used 198952, Requested 2853.",
+        "type": "tokens",
+    }
+}
+
+
+def test_a_long_wait_means_a_quota_so_it_fails_fast_without_sleeping():
+    quota = _http_error(groq.RateLimitError, 429, {"retry-after": "780"}, DAILY_LIMIT_BODY)
+    llm, client, sleeps = _llm([quota, _response('{"answer": 1}')])
+    with pytest.raises(LLMError) as info:
+        llm.complete_json(task="compose", system="s", user="u", schema=Out)
+    assert sleeps == [] and len(client.requests) == 1
+    message = str(info.value)
+    assert "tokens-per-day" in message and "13 minutes" in message and "config.yaml" in message
+    assert "org_SECRET123" not in message  # the account id in Groq's reply is not echoed
+
+
+def test_a_short_wait_is_still_waited_out():
+    limited = _http_error(groq.RateLimitError, 429, {"retry-after": "119"}, DAILY_LIMIT_BODY)
+    llm, _, sleeps = _llm([limited, _response('{"answer": 1}')])
+    assert llm.complete_json(task="compose", system="s", user="u", schema=Out).answer == 1
+    assert sleeps == [119.0]
+
+
+def test_unknown_limit_kind_is_described_generically():
+    quota = _http_error(groq.RateLimitError, 429, {"retry-after": "900"})
+    llm, _, _ = _llm([quota])
+    with pytest.raises(LLMError, match="rate limit reached"):
+        llm.complete_json(task="compose", system="s", user="u", schema=Out)

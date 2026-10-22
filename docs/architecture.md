@@ -355,9 +355,15 @@ A small **labeled fixture set** of review samples (anonymized, committed to `eva
 | Action groundedness | Each action traces to a top-3 theme and cites supporting evidence | Pass on rubric |
 | Length | Notes over 250 words | 0 |
 
+**How the golden set is scored.** `evals/run_golden.py` runs the real pipeline on the fixture in a fresh data directory, then applies the checks in `evals/checks.py` to the files the run wrote (not to its own verdict). The fixture labels come from the generator that wrote the reviews, so theme agreement measures whether the model recovers the structure written into the data. "Theme cap" counts named themes; "Other" is the catch-all and does not count. Action groundedness is a lexical heuristic: the action must be tied to a top-3 theme and share at least two content words with that theme's reviews (3-letter domain terms like KYC and UPI count). Seeded-PII leakage searches every file in the run directory for the raw author ids, names, emails, phones and long ids seeded in the data.
+
+**Thresholds and baseline.** `evals/thresholds.yaml` holds the one tunable threshold (theme agreement, 95%, set from three live baselines that scored 100%, 99.4% and 100%). `evals/baseline.json` is the recorded passing run; a test fails if a prompt version changes without a new baseline. A prompt or model change is checked by re-running the golden set. `--degrade theme_assign` swaps in a deliberately bad prompt and must make the run fail, which proves the evals can catch a regression: it drops agreement to about 74% while every pipeline guardrail still passes.
+
+**Cost.** A fresh golden run spends roughly 35-45k tokens on theme assignment. On Groq's free tier `openai/gpt-oss-20b` allows 200k tokens per day, so about four fresh runs per day; `--use-cache` reuses cached assignments for changes that do not touch the theme prompt.
+
 ### 8.3 LLM-as-judge rubric (qualitative, advisory)
 
-A separate judge prompt scores the pulse on: actionability of the ideas, faithfulness of the theme summaries to the underlying reviews, and scannability. Judge scores are tracked over time but are **advisory**; only the deterministic checks can fail a run.
+A separate judge prompt (`prompts/judge.md`, model `judge` in config) scores the pulse, shown the quoted source reviews as evidence, on: actionability of the ideas, faithfulness of the theme summaries to the underlying reviews, and scannability. Judge scores are tracked over time but are **advisory**; only the deterministic checks can fail a run.
 
 ## 9. Configuration and Secrets
 
@@ -405,8 +411,14 @@ Groww AI Agent/
 ├── data/                     # git-ignored: raw cache and run records
 ├── evals/
 │   ├── fixtures/
-│   ├── test_deterministic.py
-│   └── run_golden.py
+│   ├── degraded/             # deliberately bad prompts, to prove the evals can fail
+│   ├── checks.py             # deterministic checks over a run directory
+│   ├── golden.py             # fixture labels, seeded PII, theme agreement
+│   ├── judge.py              # advisory LLM judge
+│   ├── thresholds.yaml       # theme-agreement threshold
+│   ├── baseline.json         # recorded passing run
+│   ├── test_deterministic.py # the offline suite, run in CI
+│   └── run_golden.py         # live golden-set run
 └── tests/                    # unit tests per module
 ```
 
@@ -452,11 +464,11 @@ Groww AI Agent/
 2. **Document model:** one pre-created **rolling** Google Doc with a section appended per week. This replaces the original "one Doc per ISO week" choice, because the chosen MCP server cannot create Docs. Confirmed by the user.
 3. **Draft recipient:** `prachtitest09@gmail.com` (`draft_to` in `config.yaml`).
 4. **MCP server:** [saksham20189575/mcp-server-4](https://github.com/saksham20189575/mcp-server-4) at the commit pinned in the implementation plan, serving both Docs and Gmail. Tools used: `google_docs_append_content`, `gmail_create_draft`.
+5. **Eval thresholds:** theme agreement must be at least 95% (`evals/thresholds.yaml`), set from three live baselines that scored 100%, 99.4% and 100%. Re-baseline after changing the model, taxonomy or fixture.
 
 **Still open:**
 
-4. **MCP server setup:** the server must still be cloned, built and authorized, and its path and the Doc's `documentId` recorded in `mcp.server_dir` / `mcp.document_id` in `config.yaml`. The Phase 0 smoke test is pending.
-5. **Eval thresholds:** theme-agreement target to be set after the first labeled baseline.
+6. **MCP server setup:** the server must still be cloned, built and authorized, and its path and the Doc's `documentId` recorded in `mcp.server_dir` / `mcp.document_id` in `config.yaml`. The Phase 0 smoke test is pending.
 
 ## 14. Suggested Build Order
 

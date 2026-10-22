@@ -1,0 +1,10 @@
+# Eval thresholds (architecture section 8.2). Only these checks can fail a run; the judge is advisory.
+# Everything else is a hard rule from the problem statement (3/3/3, 100% verbatim, 0 PII, <=250
+# words, <=5 named themes) and is not configurable here.
+
+# Minimum agreement between the model's theme assignments and the fixture's ground-truth labels.
+# Set from the first live baselines (2026-10-22, openai/gpt-oss-20b, theme_assign@1): three fresh runs
+# scored 100%, 99.4% and 100%, so run-to-run noise is under 1 point. 95% leaves room for that noise while
+# catching real drift; a deliberately degraded prompt scores far lower. Re-baseline after changing
+# the model, taxonomy or fixture.
+theme_agreement_min: 0.95

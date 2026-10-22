@@ -21,3 +21,6 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Eval run results (per prompt version); the committed record is evals/baseline.json
+evals/results/

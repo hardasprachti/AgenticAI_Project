@@ -1,0 +1,23 @@
+# Lint and the offline test suite, including the deterministic evals (evals/test_deterministic.py).
+# No secrets, network access or model calls are needed: the LLM is replaced by scripted replies.
+# The live golden-set run (evals/run_golden.py) needs GROQ_API_KEY and is run by hand when a
+# prompt or model changes.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest -q

@@ -41,6 +41,8 @@ class LlmConfig:
     timeout_s: float
     max_output_tokens: int
     reasoning_effort: str | None = None
+    max_rate_limit_retries: int = 8
+    max_rate_limit_wait_s: float = 120.0
 
 
 @dataclass(frozen=True)
@@ -165,6 +167,8 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
             timeout_s=float(llm.get("timeout_s", 60)),
             max_output_tokens=int(llm.get("max_output_tokens", 4096)),
             reasoning_effort=llm.get("reasoning_effort"),
+            max_rate_limit_retries=int(llm.get("max_rate_limit_retries", 8)),
+            max_rate_limit_wait_s=float(llm.get("max_rate_limit_wait_s", 120)),
         ),
         compose=ComposeConfig(
             candidates_per_theme=int(compose.get("candidates_per_theme", 5)),

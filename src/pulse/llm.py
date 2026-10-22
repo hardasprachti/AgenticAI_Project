@@ -26,7 +26,7 @@ T = TypeVar("T", bound=BaseModel)
 API_KEY_ENV = "GROQ_API_KEY"
 _FENCE_RE = re.compile(r"^```(?:json)?\s*(.*?)\s*```$", re.DOTALL)
 _MAX_BACKOFF_S = 30.0
-_MAX_RETRY_AFTER_S = 60.0
+_LIMIT_KIND_RE = re.compile(r"on (requests|tokens) per (minute|hour|day)", re.IGNORECASE)
 
 
 class LLMError(RuntimeError):
@@ -94,21 +94,41 @@ class GroqLLM:
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ]
-        attempts = self._config.max_retries + 1
+        attempts = self._config.max_retries + 1  # for failures other than rate limits
+        rate_limit_waits = 0
+        failures = 0
         last_problem = "no attempt made"
 
-        for attempt in range(attempts):
-            if attempt:
-                self.usage[task]["retries"] += 1
+        while True:
             try:
                 response = self._create(model, messages)
-            except (groq.RateLimitError, groq.APIConnectionError, groq.InternalServerError) as exc:
+            except groq.RateLimitError as exc:
+                # Being rate limited is normal on a per-minute token budget, not a failure: wait
+                # out the window on a budget of its own so it cannot eat the retries below.
+                self.usage[task]["rate_limited"] += 1
+                rate_limit_waits += 1
+                if rate_limit_waits > self._config.max_rate_limit_retries:
+                    raise LLMError(
+                        f"Task '{task}' was still rate limited after {rate_limit_waits - 1} "
+                        "waits. Try again later or lower llm.batch_size."
+                    ) from exc
+                delay = self._backoff(rate_limit_waits - 1, exc)
+                if delay > self._config.max_rate_limit_wait_s:
+                    # A long wait means a quota (tokens per day), not a busy minute. Sleeping
+                    # through it unattended helps nobody: stop and say when to come back.
+                    raise LLMError(
+                        f"Groq {self._limit_kind(exc)} limit reached for the model of task "
+                        f"'{task}'; it frees up in about {self._human(delay)}. Try again then, "
+                        "or point that task at another model in config.yaml."
+                    ) from exc
+                self._wait(task, delay)
+                continue
+            except (groq.APIConnectionError, groq.InternalServerError) as exc:
+                failures += 1
                 last_problem = type(exc).__name__
-                if isinstance(exc, groq.RateLimitError):
-                    self.usage[task]["rate_limited"] += 1
-                delay = self._backoff(attempt, exc)
-                self.usage[task]["waited_s"] += round(delay)
-                self._sleep(delay)
+                if failures >= attempts:
+                    break
+                self._wait(task, self._backoff(failures - 1, exc))
                 continue
             except groq.AuthenticationError as exc:
                 raise LLMError(f"Groq rejected the API key ({API_KEY_ENV}).") from exc
@@ -126,8 +146,12 @@ class GroqLLM:
             try:
                 return schema.model_validate(_extract_json(content))
             except (json.JSONDecodeError, ValidationError) as exc:
+                failures += 1
                 last_problem = "invalid JSON" if isinstance(exc, json.JSONDecodeError) else "schema"
                 self.usage[task]["invalid_replies"] += 1
+                if failures >= attempts:
+                    break
+                self.usage[task]["retries"] += 1
                 problem = self._summarize(exc)
                 messages += [
                     {"role": "assistant", "content": content},
@@ -141,6 +165,11 @@ class GroqLLM:
         raise LLMError(
             f"Task '{task}' failed after {attempts} attempts (last problem: {last_problem})."
         )
+
+    def _wait(self, task: str, delay: float) -> None:
+        self.usage[task]["retries"] += 1
+        self.usage[task]["waited_s"] += round(delay)
+        self._sleep(delay)
 
     def _create(self, model: str, messages: list[dict[str, str]]) -> Any:
         params: dict[str, Any] = {
@@ -162,11 +191,25 @@ class GroqLLM:
 
     @staticmethod
     def _backoff(attempt: int, exc: Exception) -> float:
+        """Seconds to wait: the server's retry-after if it gave one, else exponential."""
         headers = getattr(getattr(exc, "response", None), "headers", None) or {}
         try:
-            return min(float(headers.get("retry-after")), _MAX_RETRY_AFTER_S)
+            return float(headers.get("retry-after"))
         except (TypeError, ValueError):
             return min(2.0 * 2**attempt, _MAX_BACKOFF_S)
+
+    @staticmethod
+    def _limit_kind(exc: Exception) -> str:
+        """Which limit was hit, e.g. "tokens per day". Never echoes the raw message, which names
+        the account."""
+        body = getattr(exc, "body", None)
+        message = body.get("error", {}).get("message", "") if isinstance(body, dict) else ""
+        found = _LIMIT_KIND_RE.search(message)
+        return f"{found.group(1)}-per-{found.group(2)}".lower() if found else "rate"
+
+    @staticmethod
+    def _human(seconds: float) -> str:
+        return f"{seconds / 60:.0f} minutes" if seconds >= 120 else f"{seconds:.0f} seconds"
 
     @staticmethod
     def _summarize(exc: Exception) -> str:
