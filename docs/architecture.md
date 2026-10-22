@@ -435,7 +435,7 @@ Groww AI Agent/
 
 ## 11. Cross-Cutting Concerns
 
-**Privacy.** PII is removed by schema omission and scrubbing at the earliest stage (4.2), re-checked on the final text (4.6), and tested with seeded PII in evals (8.2). Reviewer names, ids, and emails never reach the LLM, the Doc, or the email.
+**Privacy.** PII is removed by schema omission and scrubbing at the earliest stage (4.2), re-checked on the final text (4.6), and tested with seeded PII in evals (8.2). Reviewer names, ids, and emails never reach the LLM, the Doc, or the email. `python -m pulse audit <run_id>` verifies this after the fact: it takes the names, store ids and PII strings from the raw data and searches every run file, the ledger, the logs, and the two texts that leave the machine (the Doc section and the draft body, which is what is audited because Google cannot be read back). Findings report file and kind, never the value.
 
 **Observability.** Each run writes a `Run` record: stage timings, review counts at each stage (fetched, after dedupe, themed), per-theme scores, prompt versions, retry counts, validation outcomes, Doc id/URL, draft id. Structured logs go to stdout; no review text or secrets are logged above debug level.
 
@@ -448,11 +448,11 @@ Groww AI Agent/
 | Failure | Behavior |
 | --- | --- |
 | Source unavailable / rate limited | Retry with backoff, then fail run; fall back to `CsvSource` if configured |
-| Too few reviews in window | Run completes with a "low volume" notice in the pulse; does not invent content |
+| Too few reviews in window | Run stops before any model call with status `failed` (fewer than `pulse.min_reviews` clean reviews); nothing is published and nothing is invented |
 | LLM output invalid | Bounded retry, then fail the stage |
 | Validation fails after retries | Run ends `failed_validation`, nothing published |
 | Docs append fails | Retry only if the failure is clearly pre-send; after an ambiguous failure do not retry. Save the note locally and skip the draft (no dangling pointer) |
-| Gmail draft fails after the append succeeded | The appended section stays, run ends `partial` with the Doc URL recorded for a retry of just stage 8 |
+| Gmail draft fails after the append succeeded | The appended section stays, run ends `partial` with the Doc URL recorded; a rerun retries only the draft (stage 9) from the note already in the Doc |
 
 ## 12. Risks and Mitigations
 
@@ -465,7 +465,7 @@ Groww AI Agent/
 | Theme drift week to week | Stable seed taxonomy and cached assignments; taxonomy hash recorded |
 | MCP server tool names differ across servers | Tool-mapping adapter; allowlist |
 | Duplicate Doc sections/drafts on re-runs | Local per-week ledger, `pending` written before each MCP call (4.7) |
-| Small review volume makes themes noisy | Minimum-volume threshold with explicit low-volume notice |
+| Small review volume makes themes noisy | Minimum-volume threshold (`pulse.min_reviews`): below it the run stops rather than guessing |
 
 ## 13. Decisions and Open Questions
 
@@ -479,7 +479,11 @@ Groww AI Agent/
 
 **Still open:**
 
-6. **MCP server setup:** the server must still be cloned, built and authorized, and its path and the Doc's `documentId` recorded in `mcp.server_dir` / `mcp.document_id` in `config.yaml`. The Phase 0 smoke test is pending.
+6. **MCP server setup (resolved):** the server is cloned, built and authorized, and `mcp.server_dir` / `mcp.document_id` are set; `python -m pulse check-mcp` starts it and lists its tools (verified 2026-10-22: both allowed tools present, `gmail_send_email` blocked).
+
+**Decided (Phase 7):**
+
+7. **Too little data stops the run** rather than publishing a "low volume" note: a note built from a handful of reviews would present noise as themes. The earlier wording in this document said the opposite and has been corrected.
 
 ## 14. Suggested Build Order
 

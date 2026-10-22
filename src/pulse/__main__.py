@@ -237,6 +237,38 @@ def _ledger(args: argparse.Namespace) -> int:
         return 1
 
 
+def _audit(args: argparse.Namespace) -> int:
+    """Search a run's artifacts for identities from the raw reviews (Phase 7 privacy audit)."""
+    from pulse.audit import audit_run, identities_from_csv, identities_from_raw_cache
+
+    cfg = _load(args)
+    if cfg is None:
+        return 1
+    run_dir = cfg.data_dir / "runs" / args.run_id
+    if not run_dir.is_dir():
+        print(f"There is no run {args.run_id!r} under {run_dir.parent}.", file=sys.stderr)
+        return 2
+    raw_cache = cfg.data_dir / "raw" / args.run_id / "reviews.json"
+    try:
+        if args.raw_csv:
+            identities = identities_from_csv(args.raw_csv)
+        elif raw_cache.is_file():
+            identities = identities_from_raw_cache(raw_cache)
+        else:
+            print(
+                "No raw data to audit against: pass the source file with --raw-csv "
+                f"(a live run's cache, {raw_cache}, was not found).",
+                file=sys.stderr,
+            )
+            return 2
+    except (CsvSourceError, OSError, ValueError) as exc:
+        print(f"Cannot read the raw data: {exc}", file=sys.stderr)
+        return 2
+    report = audit_run(run_dir, identities, data_dir=cfg.data_dir)
+    print(report.render())
+    return 0 if report.clean else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     # Windows consoles default to a legacy code page; reviews and model text are Unicode.
     for stream in (sys.stdout, sys.stderr):
@@ -280,6 +312,16 @@ def main(argv: list[str] | None = None) -> int:
         "or redo its analysis from the theme cache",
     )
     run.set_defaults(func=_run)
+
+    audit = sub.add_parser(
+        "audit", help="Search a run's artifacts for reviewer identities from the raw data"
+    )
+    add_config(audit)
+    audit.add_argument("run_id", help="A folder name under data/runs/")
+    audit.add_argument(
+        "--raw-csv", help="The source CSV to take identities from (default: the run's raw cache)"
+    )
+    audit.set_defaults(func=_audit)
 
     ledger = sub.add_parser(
         "ledger", help="Show or hand-resolve the publishing ledger (duplicate protection)"
