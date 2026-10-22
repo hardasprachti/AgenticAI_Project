@@ -35,6 +35,21 @@ class RankingConfig:
 
 
 @dataclass(frozen=True)
+class LlmConfig:
+    batch_size: int
+    max_retries: int
+    timeout_s: float
+    max_output_tokens: int
+    reasoning_effort: str | None = None
+
+
+@dataclass(frozen=True)
+class ComposeConfig:
+    candidates_per_theme: int
+    max_retries: int
+
+
+@dataclass(frozen=True)
 class McpConfig:
     """The single Google Workspace MCP server that serves Docs and Gmail."""
 
@@ -62,7 +77,10 @@ class Config:
     taxonomy: list[str]
     ranking: RankingConfig
     max_words: int
+    min_reviews: int
     models: dict[str, str]
+    llm: LlmConfig
+    compose: ComposeConfig
     mcp: McpConfig
     draft_to: str | None
     data_dir: Path
@@ -126,6 +144,8 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
     )
 
     paths = raw.get("paths") or {}
+    llm = raw.get("llm") or {}
+    compose = raw.get("compose") or {}
     return Config(
         app=AppConfig(
             play_package=_require(app, "play_package", "app."),
@@ -137,7 +157,19 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
         taxonomy=taxonomy,
         ranking=ranking_cfg,
         max_words=int((raw.get("pulse") or {}).get("max_words", 250)),
+        min_reviews=int((raw.get("pulse") or {}).get("min_reviews", 20)),
         models=dict(raw.get("models") or {}),
+        llm=LlmConfig(
+            batch_size=int(llm.get("batch_size", 40)),
+            max_retries=int(llm.get("max_retries", 3)),
+            timeout_s=float(llm.get("timeout_s", 60)),
+            max_output_tokens=int(llm.get("max_output_tokens", 4096)),
+            reasoning_effort=llm.get("reasoning_effort"),
+        ),
+        compose=ComposeConfig(
+            candidates_per_theme=int(compose.get("candidates_per_theme", 5)),
+            max_retries=int(compose.get("max_retries", 2)),
+        ),
         mcp=_mcp_config(raw),
         draft_to=raw.get("draft_to"),
         data_dir=Path(paths.get("data_dir", "data")),

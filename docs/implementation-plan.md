@@ -128,7 +128,7 @@ Phases 3, 4 and 5 are independent once Phase 2 is done and can run in parallel o
 
 1. `sources/csv_source.py`: the `ReviewSource` interface and `CsvSource` (4.1).
 2. Build a fixture set under `evals/fixtures/`: a few hundred anonymized Groww-style reviews across 8-12 weeks, covering KYC, payments/withdrawals, app performance, statements, support, plus seeded PII and a prompt-injection review. Use real public reviews or a hand-written realistic set; strip all identifying data.
-3. `llm.py`: Claude client wrapper with schema-validated JSON output, bounded retries, model ids from config, no key logging.
+3. `llm.py`: Groq client wrapper with schema-validated JSON output, bounded retries, model ids from config, no key logging.
 4. Prompts under `prompts/` (versioned): `theme_assign.md`, `compose.md`. Review text goes in delimited data blocks.
 5. `theming.py` (4.3): batched assignment against the seed taxonomy, consolidation to at most 5 themes enforced in code, assignment cache keyed by `(review_id, taxonomy_hash)`.
 6. `ranking.py` (4.4): score = volume + recency + severity, with components returned for the run record.

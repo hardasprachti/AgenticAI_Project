@@ -26,7 +26,7 @@ flowchart LR
     PS[Google Play Store<br/>public reviews] --> A
     A[Weekly Pulse Agent<br/>pipeline + LLM] -->|MCP tool calls| DM[Google Workspace MCP server]
     A -->|MCP tool calls| DM
-    A -->|LLM API| LLM[Claude API]
+    A -->|LLM API| LLM[Groq API]
     DM --> GD[(Google Docs<br/>pulse document)]
     GM --> GMB[(Gmail<br/>draft)]
     U[Product / Growth<br/>Support / Leadership] -->|read| GD
@@ -38,7 +38,7 @@ The agent is the only component we build. Everything else is an external service
 | External system | Interface | Auth handled by |
 | --- | --- | --- |
 | Play Store reviews | Public export (see 4.1) | None (public data) |
-| Claude API | HTTPS SDK | API key in environment |
+| Groq API | HTTPS SDK (`groq`) | `GROQ_API_KEY` in environment |
 | Google Docs | MCP server tools | MCP server (OAuth lives there) |
 | Gmail | MCP server tools | MCP server (OAuth lives there) |
 
@@ -125,7 +125,7 @@ Steps, in order:
 
 1. Start from a **seed taxonomy** suited to a brokerage / investing app, for example: Onboarding and KYC, Payments and Withdrawals, Trading Experience and App Performance, Statements and Reports, Customer Support. The taxonomy is config, and the LLM may propose replacements if the data does not fit.
 2. In batches, ask the LLM to **assign each review to exactly one theme** (or `other`), returning structured JSON validated against a schema.
-3. A final consolidation step enforces the cap: if more than 5 labels exist, merge the closest ones. The cap is enforced **in code** after the LLM step (reject and re-ask, then deterministic merge of the smallest clusters as a last resort).
+3. A final consolidation step enforces the cap: if more than 5 labels exist, merge the closest ones. The cap is enforced **in code** after the LLM step (reject and re-ask, then deterministic merge of the smallest clusters as a last resort). Because "Other" is a theme too, a full 5-label taxonomy plus "Other" is 6, so the smallest real theme is folded into "Other" (recorded in the run record). "Other" is never chosen for the top 3 unless fewer than 3 real themes exist.
 4. Each theme gets a short label and a one-line description.
 
 **Alternative considered:** embeddings + k-means / HDBSCAN, then LLM labeling of clusters. This is more reproducible and scales to large volumes, but needs an embedding model and tuning for small review counts. It is kept as a pluggable `Clusterer` implementation. The default is the LLM-assisted taxonomy approach because the review volume for a weekly note is modest and labels need to be human-meaningful.
@@ -296,10 +296,11 @@ erDiagram
 
 | Task | Model class | Output format | Temperature |
 | --- | --- | --- | --- |
-| Theme assignment (batched) | Fast, low-cost (Haiku-class) | JSON validated by schema | 0 |
-| Theme consolidation / labeling | Mid (Sonnet-class) | JSON | 0 |
-| Quote pick + action ideas + summaries | Mid (Sonnet-class) | JSON validated by schema | 0-0.3 |
-| Optional PII second-pass | Fast | JSON verdict | 0 |
+| Theme assignment (batched) | Fast, low-cost (`openai/gpt-oss-20b`) | JSON validated by schema | 0 |
+| Quote pick + action ideas + summaries | Larger (`openai/gpt-oss-120b`) | JSON validated by schema | 0 |
+| LLM-as-judge (evals, advisory) | Fast (`openai/gpt-oss-20b`) | JSON validated by schema | 0 |
+
+The provider is Groq (OpenAI-compatible chat completions). Theme consolidation is done in code, not by a model: assignment is against a closed taxonomy, and the 5-theme cap is enforced by merging the smallest clusters into "Other". Model ids are config and are verified with `python -m pulse check-llm`.
 
 Principles:
 
@@ -328,7 +329,7 @@ sequenceDiagram
 - **Transport and server choice** are configuration: the project launches the server over stdio (`node <server_dir>/dist/index.js`, with `cwd` set to the server directory so it reads its own `.env`). Another compliant server exposing the operations in 4.7 and 4.8 could replace it by editing the mapping. This satisfies "MCP-first, not call Google APIs manually."
 - **Tool mapping layer:** a small adapter maps our logical operations (`append_to_document`, `create_draft`) to the real tool names and argument shapes of the chosen server. Swapping servers means editing the mapping, not the pipeline.
 - **Allowlist:** the client may call only the mapped tools (`google_docs_append_content`, `gmail_create_draft`). The server also exposes `gmail_send_email`, which is deliberately not allowlisted, and the client fails at startup if either allowed tool is missing from `tools/list`.
-- **Credentials:** OAuth consent and token storage live in the MCP server (`npm run auth`, its own `tokens.json`). The agent holds no Google credentials. The only secret the agent holds is the Claude API key, read from the environment and never logged.
+- **Credentials:** OAuth consent and token storage live in the MCP server (`npm run auth`, its own `tokens.json`). The agent holds no Google credentials. The only secret the agent holds is the Groq API key (`GROQ_API_KEY`), read from the environment and never logged.
 - **Failure handling:** MCP timeouts and transient errors are retried with backoff; auth errors are fatal and reported with a clear instruction to re-authorize the server.
 - **Dry-run mode:** `--dry-run` renders the note to disk and skips both MCP calls, which is useful for development and evals.
 
@@ -372,7 +373,7 @@ Single config file (`config.yaml`) plus environment variables:
 | `mcp` | `server_dir`, `command`, `entrypoint`, `document_id`, `tools` (logical operation to server tool name, also the allowlist) | |
 | `draft_to` | user address or alias | |
 | `models.*` | model ids per task | |
-| `ANTHROPIC_API_KEY` | env var only | Never in files |
+| `GROQ_API_KEY` | env var only | Never in files |
 
 ## 10. Project Layout
 
@@ -396,7 +397,7 @@ Groww AI Agent/
 │   ├── ranking.py
 │   ├── compose.py            # quote + action generation, rendering
 │   ├── validate.py           # all guardrails
-│   ├── llm.py                # Claude client wrapper, schema validation
+│   ├── llm.py                # Groq client wrapper, schema validation
 │   └── mcp/
 │       ├── client.py         # MCP client + allowlist
 │       ├── docs.py           # logical Docs operations

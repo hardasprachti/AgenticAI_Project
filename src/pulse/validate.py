@@ -28,6 +28,7 @@ class ViolationCode(StrEnum):
     THEME_COUNT = "theme_count"
     THEME_DUPLICATE = "theme_duplicate"
     THEME_SHARE_INVALID = "theme_share_invalid"
+    THEME_SUMMARY_EMPTY = "theme_summary_empty"
     QUOTE_COUNT = "quote_count"
     QUOTE_TOO_SHORT = "quote_too_short"
     QUOTE_UNKNOWN_REVIEW = "quote_unknown_review"
@@ -104,6 +105,13 @@ def validate_pulse(
     if len(top_ids) != len(pulse.themes):
         violations.append(Violation(ViolationCode.THEME_DUPLICATE, "top themes must be distinct"))
     for theme in pulse.themes:
+        if not theme.summary.strip():
+            violations.append(
+                Violation(
+                    ViolationCode.THEME_SUMMARY_EMPTY,
+                    f"theme '{theme.label}' has no one-line summary",
+                )
+            )
         if not 0.0 <= theme.share <= 1.0:
             violations.append(
                 Violation(

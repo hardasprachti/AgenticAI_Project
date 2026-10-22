@@ -1,5 +1,5 @@
 # Groww Weekly Review Pulse configuration. See docs/architecture.md section 9.
-# Secrets (ANTHROPIC_API_KEY) are read from the environment, never from this file.
+# Secrets (GROQ_API_KEY) are read from the environment, never from this file.
 
 app:
   play_package: com.nextbillion.groww
@@ -29,13 +29,26 @@ ranking:
 
 pulse:
   max_words: 250
+  min_reviews: 20      # below this many clean reviews the run stops instead of guessing
 
-# Model ids per task (architecture section 6).
+# LLM provider: Groq (OpenAI-compatible chat completions). Model ids per task (architecture section 6).
+# Verify these against your account with `python -m pulse check-llm`; Groq retires models, and the
+# llama-3.x ids used earlier in this project were shut down on 2026-08-16.
 models:
-  theme_assign: claude-haiku-5-5
-  theme_consolidate: claude-sonnet-5-5
-  compose: claude-sonnet-5-5
-  judge: claude-haiku-5-5
+  theme_assign: openai/gpt-oss-20b
+  compose: openai/gpt-oss-120b
+  judge: openai/gpt-oss-20b
+
+llm:
+  batch_size: 40            # reviews per theme-assignment call
+  max_retries: 3            # transport/rate-limit/invalid-JSON retries per call
+  timeout_s: 60
+  max_output_tokens: 4096   # generous: reasoning models spend part of this on hidden reasoning
+  reasoning_effort: low     # gpt-oss only (low|medium|high); set to null for models without it
+
+compose:
+  candidates_per_theme: 5   # quote candidates offered to the model per top theme
+  max_retries: 2            # compose retries with violation feedback (architecture 4.6)
 
 # Google Workspace MCP server (architecture section 7; implementation plan "External Dependency").
 # One server (saksham20189575/mcp-server-4, pinned commit in the plan) serves both Docs and Gmail.

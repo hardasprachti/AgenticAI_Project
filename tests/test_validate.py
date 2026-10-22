@@ -239,3 +239,8 @@ def test_validation_does_not_mutate_pulse(valid_pulse, reviews):
     validate_pulse(valid_pulse, reviews)
     assert valid_pulse == before
     assert isinstance(valid_pulse.themes[0], ThemeSummary)
+
+
+def test_empty_theme_summary(valid_pulse, reviews):
+    valid_pulse.themes[1] = dataclasses.replace(valid_pulse.themes[1], summary="  ")
+    assert codes(validate_pulse(valid_pulse, reviews)) == [ViolationCode.THEME_SUMMARY_EMPTY]

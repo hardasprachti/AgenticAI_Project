@@ -126,6 +126,8 @@ class Run:
     prompt_versions: dict[str, str] = field(default_factory=dict)
     retries: int = 0
     violations: list[str] = field(default_factory=list)
+    word_count: int = 0
+    llm_usage: dict[str, dict[str, int]] = field(default_factory=dict)
     doc_id: str | None = None
     doc_url: str | None = None
     doc_revision_id: str | None = None

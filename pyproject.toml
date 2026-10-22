@@ -8,7 +8,8 @@ version = "0.1.0"
 description = "Weekly Groww Play Store review pulse delivered to Google Docs and Gmail via MCP"
 requires-python = ">=3.11"
 dependencies = [
-    "anthropic>=0.40",
+    "groq>=0.30",
+    "pydantic>=2.0",
     "mcp>=1.0",
     "pyyaml>=6.0",
     "python-dotenv>=1.0",
