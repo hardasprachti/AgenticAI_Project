@@ -12,6 +12,10 @@ from typing import Protocol
 from pulse.models import RawReview
 
 
+class SourceUnavailable(RuntimeError):
+    """A live source could not deliver reviews. Callers may fall back to an exported file."""
+
+
 class ReviewSource(Protocol):
     def fetch(self, since: date, until: date) -> list[RawReview]:
         """Reviews dated within [since, until], both inclusive."""

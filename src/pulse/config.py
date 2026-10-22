@@ -52,6 +52,15 @@ class ComposeConfig:
 
 
 @dataclass(frozen=True)
+class PlayConfig:
+    page_size: int
+    delay_s: float
+    max_retries: int
+    max_pages: int
+    max_reviews: int
+
+
+@dataclass(frozen=True)
 class McpConfig:
     """The single Google Workspace MCP server that serves Docs and Gmail."""
 
@@ -80,6 +89,9 @@ class Config:
     ranking: RankingConfig
     max_words: int
     min_reviews: int
+    min_words: int
+    max_analysed: int
+    play: PlayConfig
     models: dict[str, str]
     llm: LlmConfig
     compose: ComposeConfig
@@ -148,6 +160,7 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
     paths = raw.get("paths") or {}
     llm = raw.get("llm") or {}
     compose = raw.get("compose") or {}
+    play = raw.get("play") or {}
     return Config(
         app=AppConfig(
             play_package=_require(app, "play_package", "app."),
@@ -160,6 +173,15 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
         ranking=ranking_cfg,
         max_words=int((raw.get("pulse") or {}).get("max_words", 250)),
         min_reviews=int((raw.get("pulse") or {}).get("min_reviews", 20)),
+        min_words=int((raw.get("pulse") or {}).get("min_words", 4)),
+        max_analysed=int((raw.get("pulse") or {}).get("max_analysed", 500)),
+        play=PlayConfig(
+            page_size=int(play.get("page_size", 200)),
+            delay_s=float(play.get("delay_s", 1.0)),
+            max_retries=int(play.get("max_retries", 3)),
+            max_pages=int(play.get("max_pages", 400)),
+            max_reviews=int(play.get("max_reviews", 30000)),
+        ),
         models=dict(raw.get("models") or {}),
         llm=LlmConfig(
             batch_size=int(llm.get("batch_size", 40)),

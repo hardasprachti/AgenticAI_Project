@@ -202,6 +202,7 @@ def build_pulse(
     week_label: str,
     window_start: date,
     window_end: date,
+    total_reviews: int | None = None,
 ) -> Pulse:
     """Assemble a `Pulse` from the model's reply. Ratings and quote themes come from the data,
     not the model; anything the model got wrong is left as-is for `validate_pulse` to report."""
@@ -231,7 +232,8 @@ def build_pulse(
         week_label=week_label,
         window_start=window_start,
         window_end=window_end,
-        review_count=len(reviews),
+        review_count=total_reviews or len(reviews),
+        analysed_count=len(reviews),
         themes=[
             ThemeSummary(t.theme_id, t.theme.label, summaries.get(t.theme_id, ""), t.share)
             for t in top
@@ -260,6 +262,7 @@ def compose_pulse(
     week_label: str,
     window_start: date,
     window_end: date,
+    total_reviews: int | None = None,
     candidates_per_theme: int = 5,
     max_retries: int = 2,
     max_words: int = 250,
@@ -285,6 +288,7 @@ def compose_pulse(
             week_label=week_label,
             window_start=window_start,
             window_end=window_end,
+            total_reviews=total_reviews,
         )
         violations = validate_pulse(pulse, reviews, max_words=max_words, known_author_names=names)
         if not violations:

@@ -21,12 +21,13 @@ from typing import Any
 from pulse.compose import ComposeFailed, compose_pulse
 from pulse.config import Config
 from pulse.llm import GroqLLM, LLMClient
-from pulse.models import Pulse, Run, RunStatus, StageRecord, to_jsonable
+from pulse.models import Pulse, Review, Run, RunStatus, StageRecord, to_jsonable
 from pulse.prompts import load_prompt
 from pulse.ranking import InsufficientThemes, rank_themes, top_themes
 from pulse.render import count_words, render_note
 from pulse.sanitize import sanitize_reviews
 from pulse.sources.base import ReviewSource
+from pulse.sources.cache import write_raw_cache
 from pulse.theming import OTHER, AssignmentCache, assign_themes, taxonomy_hash, theme_id_for
 from pulse.validate import format_violations, validate_theme_cap
 
@@ -72,12 +73,26 @@ class _Stages:
         record.counts.update(counts)
 
 
+def sample_reviews(reviews: list[Review], limit: int) -> list[Review]:
+    """At most `limit` reviews, chosen deterministically and independently of date or content.
+
+    Review ids are salted hashes, so the first `limit` by id is a uniform random draw. The result
+    is returned in the original (chronological) order, and the same window always yields the same
+    sample, which keeps cached theme assignments valid between runs.
+    """
+    if len(reviews) <= limit:
+        return reviews
+    chosen = {r.review_id for r in sorted(reviews, key=lambda r: r.review_id)[:limit]}
+    return [r for r in reviews if r.review_id in chosen]
+
+
 def run_pipeline(
     *,
     source: ReviewSource,
     config: Config,
     llm: LLMClient,
     as_of: date,
+    cache_raw: bool = False,
     now: Callable[[], datetime] = lambda: datetime.now(UTC),
 ) -> PipelineResult:
     started = now()
@@ -105,20 +120,40 @@ def run_pipeline(
         record = stages.start("ingest")
         since = as_of - timedelta(weeks=config.window_weeks)
         raw = source.fetch(since, as_of)
-        stages.finish(record, fetched=len(raw))
+        fetch_stats = getattr(source, "stats", None)  # live sources report pages, retries, ...
+        stages.finish(record, fetched=len(raw), **(fetch_stats.as_counts() if fetch_stats else {}))
+        if fetch_stats is not None and not fetch_stats.reached_window_start:
+            record.notes.append(
+                "never reached the start of the window: "
+                + ("stopped at the page/review limit" if fetch_stats.truncated else "stream ended")
+                + ", so the oldest reviews may be missing"
+            )
+        if not raw:
+            raise PipelineError(f"No reviews were found between {since} and {as_of}.")
+        if cache_raw:
+            cache_path = write_raw_cache(raw, config.data_dir / "raw" / run_id)
+            record.notes.append(f"raw cache: {cache_path}")
 
         # 2. Sanitize: the PII boundary. `raw` is not used after this point.
         record = stages.start("sanitize")
-        sanitized = sanitize_reviews(raw)
+        sanitized = sanitize_reviews(raw, min_words=config.min_words)
         del raw
-        reviews = sanitized.reviews
+        clean = sanitized.reviews
         stages.finish(record, **sanitized.stats.as_counts())
-        _write_json(run_dir / "sanitized.json", reviews)
-        if len(reviews) < config.min_reviews:
+        if len(clean) < config.min_reviews:
             raise PipelineError(
-                f"Only {len(reviews)} usable reviews in {since} to {as_of}; "
+                f"Only {len(clean)} usable reviews in {since} to {as_of}; "
                 f"at least {config.min_reviews} are needed for a meaningful pulse."
             )
+
+        # 2b. Sample. Theming costs model tokens per review, so a large window is reduced to a
+        # fixed-size sample. Ids are salted hashes, so ordering by id is a random draw that does
+        # not depend on date or content; shares and ranking then estimate the whole window.
+        reviews = sample_reviews(clean, config.max_analysed)
+        if len(reviews) < len(clean):
+            record.notes.append(f"analysing a sample of {len(reviews)} of {len(clean)} reviews")
+        record.counts.update(clean=len(clean), analysed=len(reviews))
+        _write_json(run_dir / "sanitized.json", reviews)
 
         # 3. Theme
         record = stages.start("theme")
@@ -185,6 +220,7 @@ def run_pipeline(
                 week_label=run.week_label,
                 window_start=since,
                 window_end=as_of,
+                total_reviews=len(clean),
                 candidates_per_theme=config.compose.candidates_per_theme,
                 max_retries=config.compose.max_retries,
                 max_words=config.max_words,

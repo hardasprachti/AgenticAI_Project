@@ -30,6 +30,17 @@ ranking:
 pulse:
   max_words: 250
   min_reviews: 20      # below this many clean reviews the run stops instead of guessing
+  min_words: 4         # reviews shorter than this ("good app") carry no theme and are dropped
+  max_analysed: 500    # cap on reviews sent to the model; larger windows are sampled, and the
+                       # note says so. A fixed sample (not the newest N) keeps shares unbiased.
+
+# Live Play Store fetch (public reviews only, no login). Be polite: one page at a time, with a delay.
+play:
+  page_size: 200
+  delay_s: 1.0         # pause between pages
+  max_retries: 3       # per page, for empty/failed responses
+  max_pages: 400       # hard stop on pagination
+  max_reviews: 30000   # hard stop on reviews collected in the window; if hit, the run says so
 
 # LLM provider: Groq (OpenAI-compatible chat completions). Model ids per task (architecture section 6).
 # Verify these against your account with `python -m pulse check-llm`; Groq retires models, and the

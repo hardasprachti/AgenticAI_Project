@@ -91,10 +91,11 @@ class Pulse:
     week_label: str  # ISO week, e.g. "2026-W42"
     window_start: date
     window_end: date
-    review_count: int
+    review_count: int  # clean reviews in the window
     themes: list[ThemeSummary]
     quotes: list[Quote]
     actions: list[Action]
+    analysed_count: int | None = None  # set when only a sample of the reviews was analysed
 
 
 class RunStatus(StrEnum):

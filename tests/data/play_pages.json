@@ -1,0 +1,205 @@
+[
+ [
+  {
+   "reviewId": "g-001",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-001",
+   "content": "Newer than the window end, must be skipped",
+   "score": 1,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-10-21T16:55:59",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-002",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-002",
+   "content": "Also newer than the window end",
+   "score": 2,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-10-20T08:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-003",
+   "userName": "Asha Rao",
+   "userImage": "https://example.invalid/avatar/g-003",
+   "content": "Withdrawal has been stuck for four days now",
+   "score": 1,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-10-18T12:30:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-004",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-004",
+   "content": "Great app for beginners, SIP setup is easy",
+   "score": 5,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": null,
+   "at": "2026-10-17T09:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-005",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-005",
+   "content": "No rating on this one",
+   "score": null,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-10-16T09:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  }
+ ],
+ [
+  {
+   "reviewId": "g-004",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-004",
+   "content": "Great app for beginners, SIP setup is easy",
+   "score": 5,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-10-17T09:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-006",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-006",
+   "content": null,
+   "score": 3,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-09-30T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-007",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-007",
+   "content": "No date on this one",
+   "score": 4,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": null,
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-008",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-008",
+   "content": "Rating out of range",
+   "score": 9,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-09-20T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-009",
+   "userName": "A Google user",
+   "userImage": "https://example.invalid/avatar/g-009",
+   "content": "KYC rejected twice with no reason given",
+   "score": 2,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-09-10T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-010",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-010",
+   "content": "Charts load fast now after the update",
+   "score": 4,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-08-12T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  }
+ ],
+ [
+  {
+   "reviewId": "g-011",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-011",
+   "content": "Exactly on the first day of the window",
+   "score": 3,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-08-10T00:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-012",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-012",
+   "content": "One minute before the window opens",
+   "score": 1,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-08-09T23:59:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  },
+  {
+   "reviewId": "g-013",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-013",
+   "content": "Well before the window",
+   "score": 2,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-08-01T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  }
+ ],
+ [
+  {
+   "reviewId": "g-014",
+   "userName": "Test Reviewer",
+   "userImage": "https://example.invalid/avatar/g-014",
+   "content": "Far too old",
+   "score": 1,
+   "thumbsUpCount": 3,
+   "reviewCreatedVersion": "9.9.1",
+   "at": "2026-07-01T10:00:00",
+   "replyContent": "Thanks for the feedback",
+   "repliedAt": "2026-10-20T09:00:00",
+   "appVersion": "9.9.0"
+  }
+ ]
+]

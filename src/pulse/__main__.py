@@ -11,7 +11,10 @@ from dotenv import load_dotenv
 from pulse.config import DEFAULT_CONFIG_PATH, Config, ConfigError, load_config
 from pulse.llm import LLMError
 from pulse.models import RunStatus
+from pulse.sources.base import SourceUnavailable
 from pulse.sources.csv_source import CsvSource, CsvSourceError
+from pulse.sources.fallback import FallbackSource
+from pulse.sources.play_store import PlayStoreSource
 
 DEFAULT_FIXTURE = "evals/fixtures/reviews.csv"
 
@@ -67,6 +70,23 @@ def _check_llm(args: argparse.Namespace) -> int:
     return 0
 
 
+def build_source(args: argparse.Namespace, cfg: Config):
+    """The review source for `--source`, with an optional export to fall back on."""
+    if args.source == "csv":
+        return CsvSource(args.path)
+    live = PlayStoreSource(
+        cfg.app.play_package,
+        cfg.app.play_lang,
+        cfg.app.play_country,
+        page_size=cfg.play.page_size,
+        delay_s=cfg.play.delay_s,
+        max_retries=cfg.play.max_retries,
+        max_pages=cfg.play.max_pages,
+        max_reviews=cfg.play.max_reviews,
+    )
+    return FallbackSource(live, CsvSource(args.fallback_csv)) if args.fallback_csv else live
+
+
 def _run(args: argparse.Namespace) -> int:
     from pulse.pipeline import build_llm, run_pipeline
 
@@ -75,11 +95,6 @@ def _run(args: argparse.Namespace) -> int:
             "Publishing to Google Docs and Gmail is not built yet (Phase 5). "
             "Re-run with --dry-run.",
             file=sys.stderr,
-        )
-        return 2
-    if args.source != "csv":
-        print(
-            "Only --source csv is available until the Play Store source (Phase 4).", file=sys.stderr
         )
         return 2
     if args.week != "current":
@@ -92,18 +107,27 @@ def _run(args: argparse.Namespace) -> int:
     load_dotenv()
     try:
         as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
+        source = build_source(args, cfg)
         result = run_pipeline(
-            source=CsvSource(args.path), config=cfg, llm=build_llm(cfg), as_of=as_of
+            source=source,
+            config=cfg,
+            llm=build_llm(cfg),
+            as_of=as_of,
+            cache_raw=args.source != "csv",
         )
-    except (LLMError, CsvSourceError, ValueError) as exc:
+    except (LLMError, SourceUnavailable, CsvSourceError, ValueError) as exc:
         print(f"Run failed: {exc}", file=sys.stderr)
         return 1
 
+    if getattr(source, "used_fallback", False):
+        print(f"Live fetch failed ({source.primary_error}); used {args.fallback_csv} instead.")
     run = result.run
     print(f"Run {run.run_id}: {run.status.value}  ({result.run_dir})")
     for stage in run.stages:
         counts = ", ".join(f"{k}={v}" for k, v in stage.counts.items() if v)
         print(f"  {stage.name:<9} {stage.duration_s:>6.2f}s  {counts}")
+        for note in stage.notes:
+            print(f"            note: {note}")
     if run.status is not RunStatus.COMPLETED:
         print("\nNothing was written. Problems:", file=sys.stderr)
         for line in run.violations[-6:]:
@@ -137,6 +161,10 @@ def main(argv: list[str] | None = None) -> int:
     add_config(run)
     run.add_argument("--source", choices=["csv", "play"], default="csv")
     run.add_argument("--path", default=DEFAULT_FIXTURE, help="CSV file for --source csv")
+    run.add_argument(
+        "--fallback-csv",
+        help="With --source play: a Play Console export to use if the live fetch fails",
+    )
     run.add_argument("--week", default="current")
     run.add_argument("--as-of", help="End of the review window, YYYY-MM-DD (default: today)")
     run.add_argument("--dry-run", action="store_true", help="Write the note to data/runs/ only")

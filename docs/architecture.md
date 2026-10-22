@@ -93,14 +93,19 @@ An `AppStoreSource` is **deferred**. Because every source returns the same `RawR
 
 **Decision:** adapters sit behind the interface and the pipeline can run entirely from `CsvSource`. This keeps the constraint "public review exports only" enforceable: if a live fetch method is not acceptable, the same pipeline runs on an exported file with no code changes.
 
-**Open question:** the exact live-fetch mechanism for the Play Store (public fetch vs. exported file) needs confirmation. The ToS position of any third-party Play Store fetching library should be checked before it is used. No login-gated access is allowed in any case.
+**Live fetch (decided, Phase 4):** `PlayStoreSource` reads the public review feed through the third-party `google-play-scraper` library (newest first, `hl=en`, `gl=in`, no login). This is automated access to a public page, which Google Play's terms may not permit; the project accepts that for a low-volume weekly job (one page per second, about 50 requests a run) and keeps the exported-file path as a first-class fallback: `--fallback-csv` ingests a Play Console export if the live fetch fails. Three properties of the library are handled in code:
+
+- It swallows every error and returns an empty page with no cursor, which looks like "no more reviews". An empty page is therefore retried from the same cursor before being believed, and the run records whether the start of the window was reached (`window_start_reached`) so incomplete coverage is visible.
+- It disables TLS certificate verification for the whole process when imported. The original setting is restored straight after the import, and a test fails if that regresses.
+- Its results are strictly newest first (checked on 1,000 live reviews), so the first review older than the window ends paging.
 
 **Behaviors:**
 
 - Window: `since = today - WINDOW_WEEKS`, default 10 weeks, configurable within 8-12.
 - Pagination and rate limiting with polite delays and bounded retries with backoff.
 - Output normalized to `RawReview` immediately; store-specific fields do not leak past this layer.
-- Raw responses are cached under `data/raw/<run_id>/` so a re-run does not refetch and results are reproducible.
+- The raw fetch is written to `data/raw/<run_id>/reviews.json` for audit, minimized to the fields the pipeline uses and **never read by a later stage**. It keeps the reviewer's display name because sanitizing needs it to scrub the name from review text, so it is the one place identity touches disk (git-ignored). Avatars, replies and thumbs-up counts are dropped at the source.
+- **Volume.** Groww gets roughly 1,000 Play reviews a week, and about 70% are one to three words ("good app"). Reviews under `pulse.min_words` (4) are dropped, and if more than `pulse.max_analysed` (500) remain, a fixed sample is analysed: review ids are salted hashes, so the first N by id is a uniform draw that does not depend on date or content, and the same window always gives the same sample (which keeps theme-assignment caching valid). The note states both numbers ("3,029 Play Store reviews (500 analysed)"); theme shares are shares of the sample.
 
 ### 4.2 Normalization and Sanitization
 
@@ -460,7 +465,7 @@ Groww AI Agent/
 
 **Decided (Phase 0):**
 
-1. **Play Store access:** public fetch of the public reviews, rate-limited, behind `ReviewSource`. `CsvSource` remains the fallback.
+1. **Play Store access:** public fetch of the public reviews through `google-play-scraper`, rate-limited, behind `ReviewSource`; `CsvSource` (a Play Console export) is the fallback. See 4.1 for the terms-of-service caveat.
 2. **Document model:** one pre-created **rolling** Google Doc with a section appended per week. This replaces the original "one Doc per ISO week" choice, because the chosen MCP server cannot create Docs. Confirmed by the user.
 3. **Draft recipient:** `prachtitest09@gmail.com` (`draft_to` in `config.yaml`).
 4. **MCP server:** [saksham20189575/mcp-server-4](https://github.com/saksham20189575/mcp-server-4) at the commit pinned in the implementation plan, serving both Docs and Gmail. Tools used: `google_docs_append_content`, `gmail_create_draft`.

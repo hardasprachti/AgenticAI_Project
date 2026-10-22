@@ -127,6 +127,7 @@ def sanitize_reviews(
     *,
     salt: str = DEFAULT_SALT,
     min_chars: int = DEFAULT_MIN_CHARS,
+    min_words: int = 0,
     latin_threshold: float = DEFAULT_LATIN_THRESHOLD,
 ) -> SanitizeResult:
     """Sanitize reviews. Output is sorted by (date, review_id) so runs are deterministic."""
@@ -149,7 +150,7 @@ def sanitize_reviews(
         text = _clean_field(raw.text, author, stats.redactions)
         combined = strip_placeholders(f"{title} {text}").strip()
 
-        if len(combined) < min_chars:
+        if len(combined) < min_chars or len(combined.split()) < min_words:
             stats.dropped_short += 1
             continue
         if _latin_ratio(combined) < latin_threshold:

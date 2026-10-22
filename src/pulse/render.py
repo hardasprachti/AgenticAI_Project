@@ -35,6 +35,14 @@ def email_subject(week_label: str) -> str:
     return f"{NOTE_TITLE} - {week_label}"
 
 
+def _review_count_phrase(pulse: Pulse) -> str:
+    """ "331 Play Store reviews", or with the sample size when only some were analysed."""
+    phrase = f"{pulse.review_count:,} {SOURCE_LABEL}"
+    if pulse.analysed_count is not None and pulse.analysed_count < pulse.review_count:
+        phrase += f" ({pulse.analysed_count:,} analysed)"
+    return phrase
+
+
 def _stars(rating: int) -> str:
     return f"{rating} star" if rating == 1 else f"{rating} stars"
 
@@ -49,7 +57,7 @@ def render_note(pulse: Pulse) -> str:
     lines: list[str] = [
         f"{NOTE_TITLE} - {pulse.week_label}",
         f"{format_date_range(pulse.window_start, pulse.window_end)} | "
-        f"{pulse.review_count} {SOURCE_LABEL}",
+        f"{_review_count_phrase(pulse)}",
         "",
         "Top themes",
     ]
