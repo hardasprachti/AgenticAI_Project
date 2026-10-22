@@ -160,14 +160,20 @@ def test_usage_is_accumulated():
     llm, _, _ = _llm([_response('{"answer": 1}', 10, 5), _response('{"answer": 2}', 20, 7)])
     for _ in range(2):
         llm.complete_json(task="compose", system="s", user="u", schema=Out)
-    assert llm.usage["compose"] == {
-        "calls": 2,
-        "prompt_tokens": 30,
-        "completion_tokens": 12,
-        "retries": 0,
-    }
+    usage = llm.usage["compose"]
+    assert (usage["calls"], usage["prompt_tokens"], usage["completion_tokens"]) == (2, 30, 12)
+    assert (usage["retries"], usage["rate_limited"], usage["invalid_replies"]) == (0, 0, 0)
 
 
 def test_list_models_sorted():
     llm, _, _ = _llm([])
     assert llm.list_models() == ["a", "b"]
+
+
+def test_usage_says_why_retries_happened():
+    limited = _http_error(groq.RateLimitError, 429, {"retry-after": "5"})
+    llm, _, _ = _llm([limited, _response("bad"), _response('{"answer": 1}')])
+    llm.complete_json(task="compose", system="s", user="u", schema=Out)
+    usage = llm.usage["compose"]
+    assert (usage["retries"], usage["rate_limited"], usage["invalid_replies"]) == (2, 1, 1)
+    assert usage["waited_s"] == 5

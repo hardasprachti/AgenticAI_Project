@@ -89,6 +89,12 @@ def _tokens(text: str) -> set[str]:
     return {w for w in _WORD_RE.findall(text.lower()) if w not in _STOPWORDS}
 
 
+def clean_text(text: str) -> str:
+    """Collapse every kind of whitespace (including no-break and narrow spaces that models like to
+    emit) to single plain spaces, so the published note holds only ordinary characters there."""
+    return " ".join(text.split())
+
+
 def is_injection_like(text: str) -> bool:
     return bool(_INJECTION_RE.search(text))
 
@@ -202,14 +208,14 @@ def build_pulse(
     by_id = {r.review_id: r for r in reviews}
     theme_of = {a.review_id: a.theme_id for a in assignments}
     order = {t.theme_id: i for i, t in enumerate(top)}
-    summaries = {t.theme_id: t.summary.strip() for t in reply.themes}
+    summaries = {t.theme_id: clean_text(t.summary) for t in reply.themes}
 
     quotes = []
     for pick in reply.quotes:
         review = by_id.get(pick.review_id)
         quotes.append(
             Quote(
-                text=pick.snippet.strip(),
+                text=clean_text(pick.snippet),
                 theme_id=theme_of.get(pick.review_id, "") if review else "",
                 rating=review.rating if review else 0,
                 review_id=pick.review_id,
@@ -218,7 +224,7 @@ def build_pulse(
     quotes.sort(key=lambda q: order.get(q.theme_id, len(order)))
 
     actions = sorted(
-        (Action(text=a.text.strip(), theme_id=a.theme_id) for a in reply.actions),
+        (Action(text=clean_text(a.text), theme_id=a.theme_id) for a in reply.actions),
         key=lambda a: order.get(a.theme_id, len(order)),
     )
     return Pulse(

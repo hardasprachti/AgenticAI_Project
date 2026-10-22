@@ -115,6 +115,10 @@ def _run(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows consoles default to a legacy code page; reviews and model text are Unicode.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(prog="pulse", description="Groww Weekly Review Pulse")
     sub = parser.add_subparsers(dest="command", required=True)
 

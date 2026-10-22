@@ -244,3 +244,20 @@ def test_unknown_review_in_a_pick_is_left_for_validation_to_flag():
     )
     codes = {v.code.value for v in validate_pulse(pulse, REVIEWS)}
     assert "quote_unknown_review" in codes
+
+
+def test_unusual_unicode_spaces_in_model_text_are_normalized():
+    def handler(task, system, user):
+        reply = good_reply(user)
+        reply["actions"][0]["text"] = "Reply within 24 hours always."
+        reply["themes"][0]["summary"] = "Slow payouts"
+        first = reply["quotes"][0]["snippet"].split(" ", 2)
+        reply["quotes"][0]["snippet"] = " ".join(first[:2]) + " " + first[2]
+        return reply
+
+    result = _compose(FakeLLM(handler))
+    assert result.attempts == 1  # the odd space did not break the verbatim check
+    pulse = result.pulse
+    assert pulse.actions[0].text == "Reply within 24 hours always."
+    assert pulse.themes[0].summary == "Slow payouts"
+    assert " " not in repr(pulse)

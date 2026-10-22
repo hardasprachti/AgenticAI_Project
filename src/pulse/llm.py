@@ -67,7 +67,15 @@ class GroqLLM:
             client = groq.Groq(api_key=api_key, timeout=config.timeout_s, max_retries=0)
         self._client = client
         self.usage: dict[str, dict[str, int]] = defaultdict(
-            lambda: {"calls": 0, "prompt_tokens": 0, "completion_tokens": 0, "retries": 0}
+            lambda: {
+                "calls": 0,
+                "prompt_tokens": 0,
+                "completion_tokens": 0,
+                "retries": 0,
+                "rate_limited": 0,
+                "invalid_replies": 0,
+                "waited_s": 0,
+            }
         )
 
     def model_for(self, task: str) -> str:
@@ -96,7 +104,11 @@ class GroqLLM:
                 response = self._create(model, messages)
             except (groq.RateLimitError, groq.APIConnectionError, groq.InternalServerError) as exc:
                 last_problem = type(exc).__name__
-                self._sleep(self._backoff(attempt, exc))
+                if isinstance(exc, groq.RateLimitError):
+                    self.usage[task]["rate_limited"] += 1
+                delay = self._backoff(attempt, exc)
+                self.usage[task]["waited_s"] += round(delay)
+                self._sleep(delay)
                 continue
             except groq.AuthenticationError as exc:
                 raise LLMError(f"Groq rejected the API key ({API_KEY_ENV}).") from exc
@@ -115,6 +127,7 @@ class GroqLLM:
                 return schema.model_validate(_extract_json(content))
             except (json.JSONDecodeError, ValidationError) as exc:
                 last_problem = "invalid JSON" if isinstance(exc, json.JSONDecodeError) else "schema"
+                self.usage[task]["invalid_replies"] += 1
                 problem = self._summarize(exc)
                 messages += [
                     {"role": "assistant", "content": content},
