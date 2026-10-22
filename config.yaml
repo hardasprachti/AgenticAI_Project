@@ -44,7 +44,7 @@ models:
 # tools maps our logical operations to the server's tool names; these are also the only tools the
 # client may call (the allowlist). gmail_send_email is deliberately absent.
 mcp:
-  server_dir: null          # path to the mcp-server-4 checkout, outside this repo
+  server_dir: D:/NextLeap Projects/mcp-server-4   # mcp-server-4 checkout, outside this repo
   command: node
   entrypoint: dist/index.js
   document_id: null         # id of the pre-created rolling Google Doc
