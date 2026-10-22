@@ -35,14 +35,23 @@ class RankingConfig:
 
 
 @dataclass(frozen=True)
-class McpServerConfig:
-    command: str | None
-    args: list[str]
-    tools: dict[str, str | None]
+class McpConfig:
+    """The single Google Workspace MCP server that serves Docs and Gmail."""
+
+    server_dir: Path | None
+    command: str
+    entrypoint: str
+    document_id: str | None
+    tools: dict[str, str]
+
+    @property
+    def allowed_tools(self) -> frozenset[str]:
+        """The allowlist: the client may call only these server tools."""
+        return frozenset(self.tools.values())
 
     @property
     def is_configured(self) -> bool:
-        return bool(self.command) and all(self.tools.values())
+        return self.server_dir is not None and bool(self.document_id)
 
 
 @dataclass(frozen=True)
@@ -54,8 +63,7 @@ class Config:
     ranking: RankingConfig
     max_words: int
     models: dict[str, str]
-    mcp_docs: McpServerConfig
-    mcp_gmail: McpServerConfig
+    mcp: McpConfig
     draft_to: str | None
     data_dir: Path
     prompts_dir: Path
@@ -68,12 +76,16 @@ def _require(mapping: dict[str, Any], key: str, where: str) -> Any:
     return mapping[key]
 
 
-def _mcp_server(raw: dict[str, Any], name: str) -> McpServerConfig:
-    section = raw.get("mcp", {}).get(name, {})
-    return McpServerConfig(
-        command=section.get("command"),
-        args=list(section.get("args") or []),
-        tools=dict(section.get("tools") or {}),
+def _mcp_config(raw: dict[str, Any]) -> McpConfig:
+    section = raw.get("mcp") or {}
+    tools = {k: v for k, v in (section.get("tools") or {}).items() if v}
+    server_dir = section.get("server_dir")
+    return McpConfig(
+        server_dir=Path(server_dir) if server_dir else None,
+        command=section.get("command") or "node",
+        entrypoint=section.get("entrypoint") or "dist/index.js",
+        document_id=section.get("document_id"),
+        tools=tools,
     )
 
 
@@ -126,8 +138,7 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> Config:
         ranking=ranking_cfg,
         max_words=int((raw.get("pulse") or {}).get("max_words", 250)),
         models=dict(raw.get("models") or {}),
-        mcp_docs=_mcp_server(raw, "docs"),
-        mcp_gmail=_mcp_server(raw, "gmail"),
+        mcp=_mcp_config(raw),
         draft_to=raw.get("draft_to"),
         data_dir=Path(paths.get("data_dir", "data")),
         prompts_dir=Path(paths.get("prompts_dir", "prompts")),

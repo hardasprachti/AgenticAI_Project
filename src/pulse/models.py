@@ -101,7 +101,7 @@ class RunStatus(StrEnum):
     RUNNING = "running"
     COMPLETED = "completed"
     FAILED_VALIDATION = "failed_validation"  # nothing published
-    PARTIAL = "partial"  # Doc created, draft failed
+    PARTIAL = "partial"  # note appended to the Doc, draft failed
     FAILED = "failed"
 
 
@@ -128,6 +128,7 @@ class Run:
     violations: list[str] = field(default_factory=list)
     doc_id: str | None = None
     doc_url: str | None = None
+    doc_revision_id: str | None = None
     draft_id: str | None = None
 
 

@@ -4,7 +4,6 @@ from datetime import date
 from pulse.models import Run, RunStatus, to_jsonable
 from pulse.render import (
     count_words,
-    doc_title,
     email_subject,
     format_date_range,
     render_doc_body,
@@ -54,7 +53,7 @@ def test_date_ranges():
 
 
 def test_titles(valid_pulse):
-    assert doc_title("2026-W37") == "Groww Weekly Pulse - 2026-W37"
+    assert render_note(valid_pulse).splitlines()[0] == "Groww Weekly Review Pulse - 2026-W37"
     assert email_subject("2026-W37") == "Groww Weekly Review Pulse - 2026-W37"
 
 

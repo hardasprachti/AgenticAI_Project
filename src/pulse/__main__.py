@@ -19,8 +19,8 @@ def _check_config(args: argparse.Namespace) -> int:
     print(f"  app:          {cfg.app.play_package} ({cfg.app.play_lang}_{cfg.app.play_country})")
     print(f"  window_weeks: {cfg.window_weeks}")
     print(f"  max_themes:   {cfg.max_themes}")
-    for label, server in (("docs MCP:", cfg.mcp_docs), ("gmail MCP:", cfg.mcp_gmail)):
-        print(f"  {label:<13} {'configured' if server.is_configured else 'NOT configured yet'}")
+    mcp_state = "configured" if cfg.mcp.is_configured else "NOT configured yet"
+    print(f"  MCP server:   {mcp_state}")
     print(f"  draft_to:     {cfg.draft_to or 'NOT set yet'}")
     return 0
 

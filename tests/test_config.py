@@ -26,8 +26,21 @@ def test_repo_config_loads():
 
 def test_unset_integrations_are_reported_not_configured():
     cfg = load_config(REPO_ROOT / "config.yaml")
-    assert not cfg.mcp_docs.is_configured
-    assert not cfg.mcp_gmail.is_configured
+    assert not cfg.mcp.is_configured
+
+
+def test_mcp_allowlist_excludes_send():
+    cfg = load_config(REPO_ROOT / "config.yaml")
+    assert cfg.mcp.allowed_tools == {"google_docs_append_content", "gmail_create_draft"}
+    assert "gmail_send_email" not in cfg.mcp.allowed_tools
+
+
+def test_mcp_configured_once_dir_and_doc_set(tmp_path):
+    mcp = {"server_dir": "C:/mcp-server-4", "document_id": "abc123"}
+    cfg = load_config(_write(tmp_path, mcp=mcp))
+    assert cfg.mcp.is_configured
+    assert cfg.mcp.command == "node"
+    assert not cfg.mcp.allowed_tools
 
 
 @pytest.mark.parametrize("weeks", [7, 13])

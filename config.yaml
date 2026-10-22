@@ -37,23 +37,20 @@ models:
   compose: claude-sonnet-5-5
   judge: claude-haiku-5-5
 
-# MCP servers (architecture section 7). Fill in once servers are chosen (implementation plan Phase 0, task 5).
-# Each server is launched over stdio: command + args (+ optional env var names to pass through).
-# tools maps our logical operations to the real tool names the server exposes.
+# Google Workspace MCP server (architecture section 7; implementation plan "External Dependency").
+# One server (saksham20189575/mcp-server-4, pinned commit in the plan) serves both Docs and Gmail.
+# It is launched over stdio as: <command> <server_dir>/<entrypoint>, with cwd=server_dir so it reads
+# its own .env and tokens.json. Fill server_dir and document_id after the Phase 0 setup.
+# tools maps our logical operations to the server's tool names; these are also the only tools the
+# client may call (the allowlist). gmail_send_email is deliberately absent.
 mcp:
-  docs:
-    command: null
-    args: []
-    tools:
-      create_document: null
-      update_document: null
-      get_document: null
-  gmail:
-    command: null
-    args: []
-    tools:
-      create_draft: null
-      update_draft: null
+  server_dir: null          # path to the mcp-server-4 checkout, outside this repo
+  command: node
+  entrypoint: dist/index.js
+  document_id: null         # id of the pre-created rolling Google Doc
+  tools:
+    append_to_document: google_docs_append_content
+    create_draft: gmail_create_draft
 
 # Email draft recipient (decided in Phase 0).
 draft_to: prachtitest09@gmail.com

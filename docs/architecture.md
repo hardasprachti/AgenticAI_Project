@@ -7,7 +7,7 @@ This document describes the design of the Groww Weekly Review Pulse agent. Requi
 ### Goals
 
 - Turn 8-12 weeks of public Groww app reviews from the **Google Play Store** into a **one-page weekly pulse** (≤ 250 words) with top 3 themes, 3 verbatim quotes, and 3 action ideas.
-- Publish the pulse to **Google Docs** and create a **Gmail draft** containing or linking to it, both through **MCP servers**.
+- Publish the pulse to **Google Docs** and create a **Gmail draft** containing or linking to it, both through the **Google Workspace MCP server**.
 - Guarantee the hard constraints (max 5 themes, verbatim quotes, no PII, word limit) with **code-level checks**, not only prompt instructions.
 - Be re-runnable every week without duplicating documents or drafts.
 
@@ -24,8 +24,8 @@ This document describes the design of the Groww Weekly Review Pulse agent. Requi
 ```mermaid
 flowchart LR
     PS[Google Play Store<br/>public reviews] --> A
-    A[Weekly Pulse Agent<br/>pipeline + LLM] -->|MCP tool calls| DM[Google Docs MCP server]
-    A -->|MCP tool calls| GM[Gmail MCP server]
+    A[Weekly Pulse Agent<br/>pipeline + LLM] -->|MCP tool calls| DM[Google Workspace MCP server]
+    A -->|MCP tool calls| DM
     A -->|LLM API| LLM[Claude API]
     DM --> GD[(Google Docs<br/>pulse document)]
     GM --> GMB[(Gmail<br/>draft)]
@@ -54,8 +54,8 @@ flowchart TD
     S4 --> S5[5. Compose<br/>quotes, actions, one-page note]
     S5 --> S6{6. Validate<br/>guardrails pass?}
     S6 -- no, retry with feedback --> S5
-    S6 -- yes --> S7[7. Publish<br/>Docs MCP: create or update pulse]
-    S7 --> S8[8. Draft<br/>Gmail MCP: create draft]
+    S6 -- yes --> S7[7. Publish<br/>MCP: append pulse to the Doc]
+    S7 --> S8[8. Draft<br/>MCP: create draft]
     S8 --> S9[9. Record run<br/>run log and artifacts]
 ```
 
@@ -228,19 +228,21 @@ Action ideas
 
 **Responsibility:** put the pulse where stakeholders can read it.
 
-The agent is an **MCP client**. It connects to a Google Docs MCP server and calls its tools; it contains no Google SDK and no OAuth code.
+The agent is an **MCP client**. It connects to the Google Workspace MCP server ([saksham20189575/mcp-server-4](https://github.com/saksham20189575/mcp-server-4), pinned commit in the implementation plan) and calls its tools; it contains no Google SDK and no OAuth code.
 
-Logical operations the publisher needs (actual tool names depend on the chosen server and are mapped in config):
+The server offers only these Docs operations, which constrains the design:
 
-| Operation | Purpose |
-| --- | --- |
-| `create_document(title, content)` | First run for a given week |
-| `update_document(doc_id, content)` | Re-run for the same week |
-| `get_document(doc_id)` | Optional read-back for verification |
+| Logical operation | Server tool | Notes |
+| --- | --- | --- |
+| `append_to_document(document_id, content)` | `google_docs_append_content` | Returns `documentId`, `charactersAppended`, `revisionId` |
 
-**Idempotency:** one document per ISO week, titled `Groww Weekly Pulse - <YYYY-Www>`. The run record stores `week_label -> doc_id`. A re-run for the same week **updates** that document instead of creating a duplicate. **Open question:** whether stakeholders prefer one rolling document with a new section per week; the publisher interface supports either, since it just needs the target `doc_id` and content.
+The server **cannot create, read, or update** a Doc, and returns no URL.
 
-**Verification:** after writing, the publisher reads the document back (when the server offers it) and checks that the three quotes and the word count survived formatting. A mismatch is logged as a warning in the run record.
+**Document model:** one pre-created **rolling Doc** (its `documentId` is in `config.yaml`) with one section appended per week. The note's first line (`Groww Weekly Review Pulse - <YYYY-Www>`) is the section heading. The Doc link is built by us: `https://docs.google.com/document/d/<documentId>/edit`.
+
+**Idempotency:** appends are not idempotent and cannot be undone by us, so duplicate protection is a local ledger (`data/ledger.json`, keyed by `week_label`) written `pending` before the call and `appended` right after it. A rerun skips an `appended` step. A step left `pending` means the process died mid-call and the outcome is unknown, so the run stops and asks the user to check the Doc and clear the entry by hand. Losing the ledger loses this protection.
+
+**Verification:** there is no read-back. The publisher checks the response instead: `documentId` matches and `charactersAppended` equals the length of the content sent. `revisionId` is stored in the run record.
 
 ### 4.8 Drafting via MCP (Gmail)
 
@@ -250,7 +252,8 @@ Logical operations the publisher needs (actual tool names depend on the chosen s
 - Subject: `Groww Weekly Review Pulse - <week_label>`.
 - Body: the rendered note plus a link to the Google Doc. If the body would break the length goal, it falls back to the three themes plus the link ("a clear pointer to it" is acceptable per the problem statement).
 - Only a Gmail "create draft" operation is used. The send operation is **not mapped** in the tool allowlist (see 7), so the agent cannot send email even by mistake.
-- **Idempotency:** the run record stores the `draft_id` per week. A re-run updates the existing draft when the server supports it; otherwise it creates a new draft and marks the old id as superseded in the run record.
+- **Idempotency:** the server cannot update a draft, and draft creation is not idempotent. The same ledger as 4.7 records `draft: pending` before the call and `created` (with `draftId`) after it. A rerun skips a created draft and refuses to proceed past a `pending` one.
+- The server's `gmail_create_draft` returns `draftId` and `threadId` with `status == "draft_created"`, which is checked.
 
 ### 4.9 Orchestrator
 
@@ -312,21 +315,20 @@ Principles:
 sequenceDiagram
     participant O as Orchestrator
     participant C as MCP Client (in agent)
-    participant D as Docs MCP Server
-    participant G as Gmail MCP Server
+    participant S as Google Workspace MCP Server
     O->>C: publish(pulse)
-    C->>D: tools/call create_document or update_document
-    D-->>C: doc_id, url
+    C->>S: tools/call google_docs_append_content
+    S-->>C: documentId, charactersAppended, revisionId
     O->>C: draft(pulse, url)
-    C->>G: tools/call create_draft
-    G-->>C: draft_id
+    C->>S: tools/call gmail_create_draft
+    S-->>C: draftId, threadId
     C-->>O: results
 ```
 
-- **Transport and server choice** are configuration: the project lists the MCP servers to launch or connect to (command + args, or URL) in a config file. Any compliant Docs/Gmail MCP server that exposes the operations in 4.7 and 4.8 can be used. This satisfies "MCP-first, not call Google APIs manually."
-- **Tool mapping layer:** a small adapter maps our logical operations (`create_document`, `create_draft`, etc.) to the real tool names and argument shapes of the chosen server. Swapping servers means editing the mapping, not the pipeline.
-- **Allowlist:** the client may call only the mapped tools. Sending mail, deleting documents, and sharing changes are not in the allowlist.
-- **Credentials:** OAuth consent and token storage live in the MCP servers. The agent holds no Google credentials. The only secret the agent holds is the Claude API key, read from the environment and never logged.
+- **Transport and server choice** are configuration: the project launches the server over stdio (`node <server_dir>/dist/index.js`, with `cwd` set to the server directory so it reads its own `.env`). Another compliant server exposing the operations in 4.7 and 4.8 could replace it by editing the mapping. This satisfies "MCP-first, not call Google APIs manually."
+- **Tool mapping layer:** a small adapter maps our logical operations (`append_to_document`, `create_draft`) to the real tool names and argument shapes of the chosen server. Swapping servers means editing the mapping, not the pipeline.
+- **Allowlist:** the client may call only the mapped tools (`google_docs_append_content`, `gmail_create_draft`). The server also exposes `gmail_send_email`, which is deliberately not allowlisted, and the client fails at startup if either allowed tool is missing from `tools/list`.
+- **Credentials:** OAuth consent and token storage live in the MCP server (`npm run auth`, its own `tokens.json`). The agent holds no Google credentials. The only secret the agent holds is the Claude API key, read from the environment and never logged.
 - **Failure handling:** MCP timeouts and transient errors are retried with backoff; auth errors are fatal and reported with a clear instruction to re-authorize the server.
 - **Dry-run mode:** `--dry-run` renders the note to disk and skips both MCP calls, which is useful for development and evals.
 
@@ -367,7 +369,7 @@ Single config file (`config.yaml`) plus environment variables:
 | `max_themes` | `5` | Hard cap |
 | `taxonomy` | list of seed themes | Optional |
 | `ranking.weights` | volume / recency / severity | |
-| `mcp.docs`, `mcp.gmail` | server command or URL + tool mapping | |
+| `mcp` | `server_dir`, `command`, `entrypoint`, `document_id`, `tools` (logical operation to server tool name, also the allowlist) | |
 | `draft_to` | user address or alias | |
 | `models.*` | model ids per task | |
 | `ANTHROPIC_API_KEY` | env var only | Never in files |
@@ -425,8 +427,8 @@ Groww AI Agent/
 | Too few reviews in window | Run completes with a "low volume" notice in the pulse; does not invent content |
 | LLM output invalid | Bounded retry, then fail the stage |
 | Validation fails after retries | Run ends `failed_validation`, nothing published |
-| Docs MCP fails | Retry; if still failing, save the note locally and skip the draft (no dangling pointer) |
-| Gmail MCP fails after Doc succeeded | Doc stays, run ends `partial` with the Doc URL recorded for a retry of just stage 8 |
+| Docs append fails | Retry only if the failure is clearly pre-send; after an ambiguous failure do not retry. Save the note locally and skip the draft (no dangling pointer) |
+| Gmail draft fails after the append succeeded | The appended section stays, run ends `partial` with the Doc URL recorded for a retry of just stage 8 |
 
 ## 12. Risks and Mitigations
 
@@ -438,7 +440,7 @@ Groww AI Agent/
 | Prompt injection via review text | Data delimiters, structured outputs, no LLM-driven tool calls, validation gate |
 | Theme drift week to week | Stable seed taxonomy and cached assignments; taxonomy hash recorded |
 | MCP server tool names differ across servers | Tool-mapping adapter; allowlist |
-| Duplicate Docs/drafts on re-runs | Per-week idempotency keys in the run record |
+| Duplicate Doc sections/drafts on re-runs | Local per-week ledger, `pending` written before each MCP call (4.7) |
 | Small review volume makes themes noisy | Minimum-volume threshold with explicit low-volume notice |
 
 ## 13. Decisions and Open Questions
@@ -446,12 +448,13 @@ Groww AI Agent/
 **Decided (Phase 0):**
 
 1. **Play Store access:** public fetch of the public reviews, rate-limited, behind `ReviewSource`. `CsvSource` remains the fallback.
-2. **Document model:** one Google Doc per ISO week, titled `Groww Weekly Pulse - <YYYY-Www>`.
+2. **Document model:** one pre-created **rolling** Google Doc with a section appended per week. This replaces the original "one Doc per ISO week" choice, because the chosen MCP server cannot create Docs. Confirmed by the user.
 3. **Draft recipient:** `prachtitest09@gmail.com` (`draft_to` in `config.yaml`).
+4. **MCP server:** [saksham20189575/mcp-server-4](https://github.com/saksham20189575/mcp-server-4) at the commit pinned in the implementation plan, serving both Docs and Gmail. Tools used: `google_docs_append_content`, `gmail_create_draft`.
 
 **Still open:**
 
-4. **MCP servers:** the user has Docs and Gmail MCP servers available, but their names, launch commands, and tool names are not yet recorded. They fix the tool mapping in section 7 and must be filled into `mcp.docs` / `mcp.gmail` in `config.yaml`. No MCP servers are currently configured in this environment, so the Phase 0 smoke test is pending.
+4. **MCP server setup:** the server must still be cloned, built and authorized, and its path and the Doc's `documentId` recorded in `mcp.server_dir` / `mcp.document_id` in `config.yaml`. The Phase 0 smoke test is pending.
 5. **Eval thresholds:** theme-agreement target to be set after the first labeled baseline.
 
 ## 14. Suggested Build Order

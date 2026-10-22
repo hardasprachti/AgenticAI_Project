@@ -31,10 +31,6 @@ def format_date_range(start: date, end: date) -> str:
     return f"{part(start, True)} - {part(end, True)}"
 
 
-def doc_title(week_label: str) -> str:
-    return f"Groww Weekly Pulse - {week_label}"
-
-
 def email_subject(week_label: str) -> str:
     return f"{NOTE_TITLE} - {week_label}"
 
@@ -74,7 +70,7 @@ def render_note(pulse: Pulse) -> str:
 
 
 def render_doc_body(pulse: Pulse) -> str:
-    """Body for the Google Doc. The document title comes from `doc_title`."""
+    """Body for the Google Doc. Its first line is the section heading in the rolling Doc."""
     return render_note(pulse)
 
 
