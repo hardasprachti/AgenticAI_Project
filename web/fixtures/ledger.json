@@ -1,0 +1,31 @@
+{
+  "2026-W38": {
+    "doc": {
+      "state": "appended",
+      "run_id": "20260917-090012",
+      "document_id": "EXAMPLE_DOCUMENT_ID",
+      "revision_id": "rev_sample_38",
+      "characters_appended": 1180
+    },
+    "draft": {
+      "state": "created",
+      "run_id": "20260917-090012",
+      "draft_id": "draft_sample_38",
+      "thread_id": "thread_sample_38",
+      "subject": "Groww Weekly Review Pulse - 2026-W38"
+    }
+  },
+  "2026-W39": {
+    "doc": {
+      "state": "appended",
+      "run_id": "20260924-090009",
+      "document_id": "EXAMPLE_DOCUMENT_ID",
+      "revision_id": "rev_sample_39",
+      "characters_appended": 1254
+    },
+    "draft": {
+      "state": "pending",
+      "run_id": "20260924-090009"
+    }
+  }
+}

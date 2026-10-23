@@ -165,6 +165,63 @@ section and the draft body) for reviewer names, store ids, and the emails, phone
 digit strings found in the raw reviews. Findings name the file and kind, never the value. Exit 1 on
 any finding.
 
+## Dashboard
+
+A read-only web dashboard shows what the latest run fetched, kept, concluded and published, and can
+start a **dry run**. It is a small local API (`api/`, FastAPI) over the files in `data/`, plus a React
+app (`web/`). The CLI is unchanged: the API only reads run files and, for the one write action,
+starts `python -m pulse run` as a subprocess.
+
+From the repo root, in PowerShell:
+
+```
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[dev,api]"
+uvicorn api.main:app --host 127.0.0.1 --port 8000
+```
+
+To use it from one address, with no Vite server, build the web app once and let the API serve it:
+
+```
+.\scripts\serve_dashboard.ps1            # builds web\dist, then serves http://127.0.0.1:8000
+.\scripts\serve_dashboard.ps1 -NoBuild   # reuse the existing web\dist
+```
+
+The API serves `web/dist/assets` and returns `index.html` for every other non-`/api` path (so `/runs`
+and `/ledger` survive a refresh). It reads nothing else from disk, and without a build it is the same
+JSON-only API as before. For development with hot reload, use the two-terminal setup below.
+
+Do not add `--reload` while a run is in progress: a reload kills the API and orphans the CLI process
+it started. In a second terminal:
+
+```
+cd web
+npm install
+npm run dev            # open http://localhost:5173
+npm run dev:mock       # no backend: serves web/fixtures (real runs, a synthetic ledger), shows a "Mock data" pill
+```
+
+`.\scripts\run_dashboard.ps1` starts both. `npm test`, `npm run build` and `npm run lint` check the web app.
+
+What to know:
+
+- **Read-only.** The only write is `POST /api/runs`, which defaults to a dry run. A real run needs the
+  confirmation dialog (it appends a section to the Google Doc and creates a Gmail draft; nothing is
+  emailed) and the API refuses it without `confirm: "publish"` (HTTP 422).
+- **Privacy.** The API never reads, lists or serves `data/raw/`, and the pages show no reviewer names,
+  emails or devices. It exposes no `.env` values, API keys, `mcp.server_dir` or file paths, and binds
+  `127.0.0.1` with CORS limited to the Vite dev origins.
+- **The ledger.** `data/ledger.json` is what stops a rerun from duplicating a Doc section or draft. It is
+  git-ignored: losing it loses that protection, so back it up outside Git. A corrupt file shows a red
+  banner ("duplicate protection is unknown"), never an empty ledger. For a step left `pending` the
+  Publishing Ledger page shows the `ledger confirm` / `ledger clear` commands to copy; the dashboard
+  never edits the ledger or runs `--resume` for you.
+- **Two derived statuses.** A run folder with no `run.json` is `running` while its files are fresh and
+  `interrupted` once they are 30 minutes old (the process died); a `run.json` that is not valid JSON is
+  `unreadable`. A dry run has no flag of its own: it is a `completed` run with no `doc_url`.
+- **Models.** `run.json` does not record model ids, so the Run detail page shows the ones in
+  `config.yaml` now, labelled "Configured now (not recorded per run)".
+
 ## Evals
 
 ```

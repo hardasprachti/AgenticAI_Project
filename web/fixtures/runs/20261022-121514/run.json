@@ -1,0 +1,165 @@
+{
+  "run_id": "20261022-121514",
+  "week_label": "2026-W43",
+  "status": "completed",
+  "started_at": "2026-10-22T12:15:14.967424+00:00",
+  "stages": [
+    {
+      "name": "ingest",
+      "duration_s": 79.672,
+      "counts": {
+        "fetched": 10332,
+        "pages": 52,
+        "items_seen": 10400,
+        "kept": 10332,
+        "outside_window": 68,
+        "duplicates": 0,
+        "invalid": 0,
+        "retries": 0,
+        "truncated": 0,
+        "window_start_reached": 1
+      },
+      "notes": []
+    },
+    {
+      "name": "sanitize",
+      "duration_s": 1.213,
+      "counts": {
+        "fetched": 10332,
+        "kept": 3029,
+        "dropped_invalid": 0,
+        "dropped_short": 7159,
+        "dropped_non_english": 82,
+        "dropped_duplicate": 62,
+        "redacted_author_name": 34,
+        "redacted_email": 3,
+        "redacted_handle": 3,
+        "redacted_id_token": 2,
+        "redacted_number": 3,
+        "clean": 3029,
+        "analysed": 500
+      },
+      "notes": [
+        "analysing a sample of 500 of 3029 reviews"
+      ]
+    },
+    {
+      "name": "theme",
+      "duration_s": 335.988,
+      "counts": {
+        "themes": 6,
+        "llm_calls": 13,
+        "cache_hits": 0,
+        "unknown_labels": 0,
+        "unlabeled_defaulted": 0
+      },
+      "notes": []
+    },
+    {
+      "name": "rank",
+      "duration_s": 0.006,
+      "counts": {
+        "ranked": 6,
+        "selected": 3
+      },
+      "notes": []
+    },
+    {
+      "name": "compose",
+      "duration_s": 18.931,
+      "counts": {
+        "attempts": 1
+      },
+      "notes": []
+    },
+    {
+      "name": "render",
+      "duration_s": 0.0,
+      "counts": {
+        "words": 192
+      },
+      "notes": []
+    }
+  ],
+  "theme_scores": {
+    "other": {
+      "volume": 0.604,
+      "recency": 0.6461538461538462,
+      "severity": 0.20447019867549665,
+      "score": 0.4925718288334182,
+      "review_count": 302,
+      "avg_rating": 4.182119205298013
+    },
+    "customer-support": {
+      "volume": 0.088,
+      "recency": 0.07692307692307693,
+      "severity": 0.9318181818181819,
+      "score": 0.3389300699300699,
+      "review_count": 44,
+      "avg_rating": 1.2727272727272727
+    },
+    "trading-experience-and-app-performance": {
+      "volume": 0.168,
+      "recency": 0.07692307692307693,
+      "severity": 0.6845238095238095,
+      "score": 0.30474175824175825,
+      "review_count": 84,
+      "avg_rating": 2.261904761904762
+    },
+    "payments-and-withdrawals": {
+      "volume": 0.096,
+      "recency": 0.16923076923076924,
+      "severity": 0.6822916666666666,
+      "score": 0.2865336538461538,
+      "review_count": 48,
+      "avg_rating": 2.2708333333333335
+    },
+    "onboarding-and-kyc": {
+      "volume": 0.026,
+      "recency": 0.03076923076923077,
+      "severity": 0.8461538461538461,
+      "score": 0.27299999999999996,
+      "review_count": 13,
+      "avg_rating": 1.6153846153846154
+    },
+    "statements-and-reports": {
+      "volume": 0.018,
+      "recency": 0.0,
+      "severity": 0.6111111111111112,
+      "score": 0.19233333333333336,
+      "review_count": 9,
+      "avg_rating": 2.5555555555555554
+    }
+  },
+  "prompt_versions": {
+    "theme_assign": "theme_assign@1",
+    "compose": "compose@1"
+  },
+  "retries": 0,
+  "violations": [],
+  "word_count": 192,
+  "llm_usage": {
+    "theme_assign": {
+      "calls": 13,
+      "prompt_tokens": 33263,
+      "completion_tokens": 18441,
+      "retries": 15,
+      "rate_limited": 15,
+      "invalid_replies": 0,
+      "waited_s": 286
+    },
+    "compose": {
+      "calls": 1,
+      "prompt_tokens": 1470,
+      "completion_tokens": 597,
+      "retries": 2,
+      "rate_limited": 2,
+      "invalid_replies": 0,
+      "waited_s": 16
+    }
+  },
+  "doc_id": null,
+  "doc_url": null,
+  "doc_revision_id": null,
+  "draft_id": null
+}

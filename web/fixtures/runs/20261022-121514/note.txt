@@ -1,0 +1,17 @@
+Groww Weekly Review Pulse - 2026-W43
+13 Aug - 22 Oct 2026 | 3,029 Play Store reviews (500 analysed)
+
+Top themes
+1. Customer Support (9% of reviews): Users experience unresponsive or slow customer support despite 24/7 claim
+2. Trading Experience and App Performance (17% of reviews): App updates break navigation and chart features, degrading trading experience
+3. Payments and Withdrawals (10% of reviews): Withdrawals are slow and fees feel high, with poor support
+
+What users said
+- "The customer service is worst. I don't get any reply even though it say 24/7 support" (1 star, Customer Support)
+- "After recent update, Back button disappears in the bottom once u Enter into Trading view." (1 star, Trading Experience and App Performance)
+- "worst app. they take charges and the processing of money withdrawal is too slow." (1 star, Payments and Withdrawals)
+
+Action ideas
+1. Audit response times and add a live chat channel to meet 24/7 promise [Customer Support]
+2. Investigate recent UI changes; restore back button and ensure chart features function [Trading Experience and App Performance]
+3. Review withdrawal processing flow and fee disclosure; reduce delays and clarify charges [Payments and Withdrawals]

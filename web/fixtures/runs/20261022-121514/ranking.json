@@ -1,0 +1,105 @@
+{
+  "ranked": [
+    {
+      "theme": {
+        "theme_id": "other",
+        "label": "Other",
+        "description": "Reviews that do not fit a main theme"
+      },
+      "review_count": 302,
+      "share": 0.604,
+      "avg_rating": 4.182119205298013,
+      "score": 0.4925718288334182,
+      "components": {
+        "volume": 0.604,
+        "recency": 0.6461538461538462,
+        "severity": 0.20447019867549665
+      }
+    },
+    {
+      "theme": {
+        "theme_id": "customer-support",
+        "label": "Customer Support",
+        "description": ""
+      },
+      "review_count": 44,
+      "share": 0.088,
+      "avg_rating": 1.2727272727272727,
+      "score": 0.3389300699300699,
+      "components": {
+        "volume": 0.088,
+        "recency": 0.07692307692307693,
+        "severity": 0.9318181818181819
+      }
+    },
+    {
+      "theme": {
+        "theme_id": "trading-experience-and-app-performance",
+        "label": "Trading Experience and App Performance",
+        "description": ""
+      },
+      "review_count": 84,
+      "share": 0.168,
+      "avg_rating": 2.261904761904762,
+      "score": 0.30474175824175825,
+      "components": {
+        "volume": 0.168,
+        "recency": 0.07692307692307693,
+        "severity": 0.6845238095238095
+      }
+    },
+    {
+      "theme": {
+        "theme_id": "payments-and-withdrawals",
+        "label": "Payments and Withdrawals",
+        "description": ""
+      },
+      "review_count": 48,
+      "share": 0.096,
+      "avg_rating": 2.2708333333333335,
+      "score": 0.2865336538461538,
+      "components": {
+        "volume": 0.096,
+        "recency": 0.16923076923076924,
+        "severity": 0.6822916666666666
+      }
+    },
+    {
+      "theme": {
+        "theme_id": "onboarding-and-kyc",
+        "label": "Onboarding and KYC",
+        "description": ""
+      },
+      "review_count": 13,
+      "share": 0.026,
+      "avg_rating": 1.6153846153846154,
+      "score": 0.27299999999999996,
+      "components": {
+        "volume": 0.026,
+        "recency": 0.03076923076923077,
+        "severity": 0.8461538461538461
+      }
+    },
+    {
+      "theme": {
+        "theme_id": "statements-and-reports",
+        "label": "Statements and Reports",
+        "description": ""
+      },
+      "review_count": 9,
+      "share": 0.018,
+      "avg_rating": 2.5555555555555554,
+      "score": 0.19233333333333336,
+      "components": {
+        "volume": 0.018,
+        "recency": 0.0,
+        "severity": 0.6111111111111112
+      }
+    }
+  ],
+  "top": [
+    "customer-support",
+    "trading-experience-and-app-performance",
+    "payments-and-withdrawals"
+  ]
+}

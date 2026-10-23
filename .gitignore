@@ -24,3 +24,6 @@ Thumbs.db
 
 # Eval run results (per prompt version); the committed record is evals/baseline.json
 evals/results/
+
+# Local project walkthrough (not committed)
+project_detail.md

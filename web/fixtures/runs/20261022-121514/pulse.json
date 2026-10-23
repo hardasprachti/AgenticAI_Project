@@ -1,0 +1,61 @@
+{
+  "week_label": "2026-W43",
+  "window_start": "2026-08-13",
+  "window_end": "2026-10-22",
+  "review_count": 3029,
+  "themes": [
+    {
+      "theme_id": "customer-support",
+      "label": "Customer Support",
+      "summary": "Users experience unresponsive or slow customer support despite 24/7 claim",
+      "share": 0.088
+    },
+    {
+      "theme_id": "trading-experience-and-app-performance",
+      "label": "Trading Experience and App Performance",
+      "summary": "App updates break navigation and chart features, degrading trading experience",
+      "share": 0.168
+    },
+    {
+      "theme_id": "payments-and-withdrawals",
+      "label": "Payments and Withdrawals",
+      "summary": "Withdrawals are slow and fees feel high, with poor support",
+      "share": 0.096
+    }
+  ],
+  "quotes": [
+    {
+      "text": "The customer service is worst. I don't get any reply even though it say 24/7 support",
+      "theme_id": "customer-support",
+      "rating": 1,
+      "review_id": "209a6622a2916a18"
+    },
+    {
+      "text": "After recent update, Back button disappears in the bottom once u Enter into Trading view.",
+      "theme_id": "trading-experience-and-app-performance",
+      "rating": 1,
+      "review_id": "2602b313c4880396"
+    },
+    {
+      "text": "worst app. they take charges and the processing of money withdrawal is too slow.",
+      "theme_id": "payments-and-withdrawals",
+      "rating": 1,
+      "review_id": "0d2615dd43854a4b"
+    }
+  ],
+  "actions": [
+    {
+      "text": "Audit response times and add a live chat channel to meet 24/7 promise",
+      "theme_id": "customer-support"
+    },
+    {
+      "text": "Investigate recent UI changes; restore back button and ensure chart features function",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "text": "Review withdrawal processing flow and fee disclosure; reduce delays and clarify charges",
+      "theme_id": "payments-and-withdrawals"
+    }
+  ],
+  "analysed_count": 500
+}

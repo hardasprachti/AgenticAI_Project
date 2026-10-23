@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eaf1ff","on-tertiary":"#ffffff","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","on-primary-fixed-variant":"#00513b","on-primary-fixed":"#002116","secondary":"#575e70","on-secondary-fixed-variant":"#404758","surface-container-lowest":"#ffffff","surface-container-low":"#eff4ff","on-tertiary-fixed-variant":"#2f2ebe","surface":"#f8f9ff","on-primary":"#ffffff","primary":"#006c4f","primary-fixed-dim":"#50ddad","on-tertiary-container":"#170eae","inverse-surface":"#213145","on-secondary-fixed":"#141b2b","on-error-container":"#93000a","on-surface-variant":"#3c4a43","surface-dim":"#cbdbf5","background":"#f8f9ff","inverse-primary":"#50ddad","tertiary-container":"#9093ff","error-container":"#ffdad6","tertiary-fixed-dim":"#c0c1ff","error":"#ba1a1a","secondary-fixed":"#dce2f7","surface-container-highest":"#d3e4fe","surface-container":"#e5eeff","on-tertiary-fixed":"#07006c","on-secondary":"#ffffff","surface-tint":"#006c4f","primary-fixed":"#71fac8","on-secondary-container":"#5c6274","tertiary":"#494bd6","surface-bright":"#f8f9ff","outline-variant":"#bbcac1","primary-container":"#00b386","on-surface":"#0b1c30","on-background":"#0b1c30","secondary-container":"#d9dff5","on-primary-container":"#003d2c","outline":"#6c7a73","on-error":"#ffffff","tertiary-fixed":"#e1e0ff","secondary-fixed-dim":"#c0c6db"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-mobile":"0.75rem","space-xl":"2rem","space-xxs":"0.125rem","space-md":"1rem","space-lg":"1.5rem","margin-mobile":"1rem","space-2xl":"3rem","margin":"2rem","gutter":"1.25rem","space-sm":"0.5rem"},"fontFamily":{"display-lg":["Plus Jakarta Sans"],"data-code":["JetBrains Mono"],"data-metric":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"label-lg":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"label-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"]},"fontSize":{"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"data-code":["12px",{"lineHeight":"16px","fontWeight":"500"}],"data-metric":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="Groww Pulse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WaXogtvC3movw5X8AKMGbmPCsL12Kd3VuNiIFJcehbc39TUcvv-NJVCdQ7N6ucz11Tfz5dEyF6YYS0o7EMwi3EbELSDJz31-RGvCqV54VWcoaNq2kHqjnW4AiPpbD_JpyY5wKm54kyKclJ3LbVQhZzddqLSRB3L1lGAsR7FpGNqopY7NuCEUxCpuVN1cf3XpALYkQdMkhWYwLeAaUHe7QZrbeboj6m220jYCoFe01GqooOaQmH_rJiqLw"/><div class="flex flex-col"><span class="font-headline-md text-headline-md text-on-surface leading-tight">Groww Review Pulse</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Executive Engineering Intelligence</span></div><span class="h-5 w-px bg-surface-container-high mx-space-xs"></span><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-low text-on-secondary-fixed-variant"><span class="material-symbols-outlined text-[15px] text-secondary">calendar_today</span><span class="font-label-sm text-label-sm font-semibold">2026-W43 (13 Aug - 22 Oct 2026)</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-high text-on-surface"><span class="h-2 w-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm font-medium">Idle / Ready</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded bg-surface-container-low font-data-code text-data-code text-secondary"><span class="material-symbols-outlined text-[14px]">terminal</span><span>Local CLI / Read-Only</span></div><a class="flex items-center gap-space-xxs px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" href="#" title="Documentation"><span class="material-symbols-outlined text-[18px]">description</span><span class="font-label-sm text-label-sm">Docs</span></a><a class="flex items-center gap-space-xxs px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" href="#" title="Source Code Repository"><span class="material-symbols-outlined text-[18px]">code</span><span class="font-label-sm text-label-sm">GitHub</span></a><button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary font-label-lg text-label-lg transition-all shadow-[0_1px_4px_rgba(0,179,134,0.2)] active:scale-[0.99]" type="button"><span class="material-symbols-outlined text-[18px]">play_arrow</span><span>+ New Run</span><span class="font-label-sm text-label-sm opacity-80">(Dry Run)</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-40 shadow-[0_1px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-md"><div class="px-space-sm text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Workspace Pulse</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Overview</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="run-detail" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Run Detail</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-high text-primary font-semibold" data-path="run-history" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span>Run History</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="publishing-ledger" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Publishing Ledger</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Settings</span></a></nav></div><div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between text-secondary font-label-sm text-label-sm"><span>PIPELINE ENGINE</span><span class="font-data-code text-data-code">v2.8.4</span></div><div class="flex items-center gap-space-xs text-on-surface font-body-sm text-body-sm"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Telemetry Synced</span></div></div></aside><div class="pl-64"><main class="relative pt-16 min-h-screen bg-background w-full px-space-lg py-space-xl"><div class="flex flex-col w-full">
+<!-- Top Command Ribbon / Executive Sub-Bar -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md mb-space-xl">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-data-code text-data-code text-secondary tracking-widest uppercase">AUDIT &amp; EXECUTION TELEMETRY</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-primary">Live Synced (Read-Only)</span>
+</div>
+<div class="flex items-baseline gap-space-sm">
+<span class="font-headline-xl text-headline-xl text-on-surface">Review Run History</span>
+<span class="font-label-md text-label-md px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-data-code">24 Cycles Registered</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+        Comprehensive lineage for production LLM review syntheses, dry runs, rate-limit throttling events, and publishing ledger states.
+      </p>
+</div>
+<!-- Quick Tool Actions -->
+<div class="flex items-center gap-space-sm self-start md:self-auto">
+<div class="flex items-center bg-surface-container-lowest rounded-xl shadow-sm px-space-sm py-1.5">
+<span class="material-symbols-outlined text-[18px] text-secondary mr-1">cloud_upload</span>
+<select class="bg-transparent font-label-sm text-label-sm text-on-surface outline-none cursor-pointer">
+<option>Cadence: Last 8 Weeks (W36–W43)</option>
+<option>Cadence: Q3 2026</option>
+<option>All-Time Archive</option>
+</select>
+</div>
+<button class="flex items-center gap-space-xs bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md px-space-md py-2 rounded-xl shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px] text-secondary">download</span>
+<span>Export CSV</span>
+</button>
+</div>
+</div>
+<!-- KPI Ribbon (5 Tiles) -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-space-md mb-space-xl">
+<!-- Card 1: Total Runs & Success Rate -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md uppercase tracking-wider">Total Runs</span>
+<span class="material-symbols-outlined text-[20px] text-primary">deployed_code</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">24</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">83.3% rate</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>20 successful pipelines</span>
+</div>
+</div>
+<!-- Card 2: Failure Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md uppercase tracking-wider">Anomalies</span>
+<span class="material-symbols-outlined text-[20px] text-error">warning</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-error">4</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">runs affected</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="text-error font-medium">2 Failed</span>
+<span class="text-secondary">•</span>
+<span class="text-tertiary font-medium">1 Valid.</span>
+<span class="text-secondary">•</span>
+<span class="text-on-secondary-fixed-variant font-medium">1 Part.</span>
+</div>
+</div>
+<!-- Card 3: Avg Run Duration -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md uppercase tracking-wider">Avg Pipeline Duration</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">timer</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">6m 15s</span>
+</div>
+<div class="flex items-center gap-1 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+<span class="font-semibold">-18s</span>
+<span class="text-secondary font-normal">vs previous cycle</span>
+</div>
+</div>
+<!-- Card 4: Total Reviews Processed -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md uppercase tracking-wider">Reviews Ingested</span>
+<span class="material-symbols-outlined text-[20px] text-secondary">rate_review</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">12,410+</span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="font-data-code text-data-code text-primary">3,029</span>
+<span>clean sample active</span>
+</div>
+</div>
+<!-- Card 5: Synthesis Word Efficiency -->
+<div class="bg-surface-container-lowest rounded-xl p-space-md shadow-sm flex flex-col justify-between col-span-2 md:col-span-1">
+<div class="flex items-center justify-between text-secondary">
+<span class="font-label-md text-label-md uppercase tracking-wider">Synthesis Conciseness</span>
+<span class="material-symbols-outlined text-[20px] text-tertiary">edit_note</span>
+</div>
+<div class="my-space-xs flex items-baseline gap-space-xs">
+<span class="font-data-metric text-data-metric text-on-surface">195</span>
+<span class="font-label-sm text-label-sm text-secondary">/ 250 cap</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-primary-container h-full rounded-full" style="width: 78%;"></div>
+</div>
+</div>
+</div>
+<!-- RUNS TREND VISUALIZATION (Line & Bar Composite Chart) -->
+<div class="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm mb-space-xl">
+<!-- Chart Header & Legend -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Ingestion &amp; LLM Distillation Trend</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-on-surface-variant font-data-code text-data-code">8-WEEK HORIZON</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Correlation between raw Play Store volume, pre-filtering clean sets, stratified sample tokens, and executive output size.</p>
+</div>
+<!-- Semantic Legend -->
+<div class="flex flex-wrap items-center gap-space-md text-label-sm font-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-surface-variant"></span>
+<span>Google Play Fetched (~10k)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+<span>Clean Validated Reviews (~3k)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-0.5 bg-tertiary inline-block"></span>
+<span>Analysed Sample (Fixed 500)</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-4 h-0.5 border-t-2 border-dashed border-error inline-block"></span>
+<span>Published Word Count (~195w)</span>
+</div>
+</div>
+</div>
+<!-- Chart Body Container (High Precision SVG Render) -->
+<div class="relative w-full h-72">
+<!-- Axis lines & grid background -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="w-full border-b border-secondary"></div>
+<div class="w-full border-b border-secondary"></div>
+<div class="w-full border-b border-secondary"></div>
+<div class="w-full border-b border-secondary"></div>
+</div>
+<!-- Left Y-Axis Scale (Volume) -->
+<div class="absolute -left-2 top-0 bottom-6 flex flex-col justify-between text-secondary font-data-code text-[10px] pointer-events-none">
+<span>12k</span>
+<span>8k</span>
+<span>4k</span>
+<span>0</span>
+</div>
+<!-- Right Y-Axis Scale (Words) -->
+<div class="absolute -right-2 top-0 bottom-6 flex flex-col justify-between text-secondary font-data-code text-[10px] pointer-events-none text-right">
+<span>300w</span>
+<span>200w</span>
+<span>100w</span>
+<span>0w</span>
+</div>
+<!-- Dynamic SVG Overlay for Bars, Grid Lines, Trends -->
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 800 240">
+<defs>
+<lineargradient id="barGradientClean" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#00b386" stop-opacity="0.95"></stop>
+<stop offset="100%" stop-color="#00b386" stop-opacity="0.65"></stop>
+</lineargradient>
+<lineargradient id="barGradientRaw" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#cbdbf5" stop-opacity="0.9"></stop>
+<stop offset="100%" stop-color="#cbdbf5" stop-opacity="0.4"></stop>
+</lineargradient>
+</defs>
+<!-- W36: (x=45) -->
+<rect fill="url(#barGradientRaw)" height="156" rx="3" width="16" x="35" y="44"></rect>
+<rect fill="url(#barGradientClean)" height="54" rx="3" width="16" x="53" y="146"></rect>
+<!-- W37: (x=140) -->
+<rect fill="url(#barGradientRaw)" height="162" rx="3" width="16" x="130" y="38"></rect>
+<rect fill="url(#barGradientClean)" height="58" rx="3" width="16" x="148" y="142"></rect>
+<!-- W38: (x=235) -->
+<rect fill="url(#barGradientRaw)" height="152" rx="3" width="16" x="225" y="48"></rect>
+<rect fill="url(#barGradientClean)" height="50" rx="3" width="16" x="243" y="150"></rect>
+<!-- W39: (x=330) -->
+<rect fill="url(#barGradientRaw)" height="166" rx="3" width="16" x="320" y="34"></rect>
+<rect fill="url(#barGradientClean)" height="62" rx="3" width="16" x="338" y="138"></rect>
+<!-- W40: (x=425) -->
+<rect fill="url(#barGradientRaw)" height="158" rx="3" width="16" x="415" y="42"></rect>
+<rect fill="url(#barGradientClean)" height="56" rx="3" width="16" x="433" y="144"></rect>
+<!-- W41: (x=520) -->
+<rect fill="url(#barGradientRaw)" height="164" rx="3" width="16" x="510" y="36"></rect>
+<rect fill="url(#barGradientClean)" height="60" rx="3" width="16" x="528" y="140"></rect>
+<!-- W42: (x=615) -->
+<rect fill="url(#barGradientRaw)" height="160" rx="3" width="16" x="605" y="40"></rect>
+<rect fill="url(#barGradientClean)" height="55" rx="3" width="16" x="623" y="145"></rect>
+<!-- W43: (x=710) -->
+<rect fill="url(#barGradientRaw)" height="170" rx="3" width="16" x="700" y="30"></rect>
+<rect fill="url(#barGradientClean)" height="64" rx="3" width="16" x="718" y="136"></rect>
+<!-- Fixed Sample Guideline: 500 units (~Y=190) -->
+<line stroke="#494bd6" stroke-linecap="round" stroke-width="2" x1="20" x2="780" y1="190" y2="190"></line>
+<text fill="#494bd6" font-family="JetBrains Mono" font-size="9" font-weight="600" x="735" y="185">500 Cap</text>
+<!-- Published Word Count Trend Line (Word Count path ~195w target <= 250) -->
+<path d="M 52,90 L 147,84 L 242,94 L 337,76 L 432,88 L 527,92 L 622,78 L 717,82" fill="none" stroke="#ba1a1a" stroke-dasharray="4,4" stroke-width="2.2"></path>
+<!-- Line Points with Data Badges -->
+<circle cx="52" cy="90" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="147" cy="84" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="242" cy="94" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="337" cy="76" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="432" cy="88" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="527" cy="92" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="622" cy="78" fill="#ffffff" r="3.5" stroke="#ba1a1a" stroke-width="2"></circle>
+<circle cx="717" cy="82" fill="#ba1a1a" r="4.5"></circle>
+</svg>
+<!-- X-Axis Labels -->
+<div class="absolute left-6 right-6 bottom-0 flex justify-between text-secondary font-data-code text-data-code">
+<span>2026-W36</span>
+<span>2026-W37</span>
+<span>2026-W38</span>
+<span>2026-W39</span>
+<span>2026-W40</span>
+<span>2026-W41</span>
+<span>2026-W42</span>
+<span class="text-on-surface font-semibold">2026-W43 (Current)</span>
+</div>
+</div>
+</div>
+<!-- RUNS TABLE SECTION WITH STATUS TABS -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+<!-- Tab Controls & Filter Bar -->
+<div class="p-space-md border-b border-surface-container-high flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
+<!-- Status Tabs -->
+<div class="flex items-center gap-space-xs p-1 rounded-xl bg-surface-container">
+<button class="px-space-md py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-lowest text-on-surface shadow-sm font-semibold transition-all" id="tab-all" onclick="filterRuns('all')">
+          All Runs (24)
+        </button>
+<button class="px-space-md py-1.5 rounded-lg text-label-md font-label-md text-secondary hover:text-on-surface transition-all" id="tab-completed" onclick="filterRuns('completed')">
+          Completed (20)
+        </button>
+<button class="px-space-md py-1.5 rounded-lg text-label-md font-label-md text-secondary hover:text-on-surface transition-all" id="tab-dryrun" onclick="filterRuns('dryrun')">
+          Dry Run (14)
+        </button>
+<button class="px-space-md py-1.5 rounded-lg text-label-md font-label-md text-secondary hover:text-on-surface transition-all" id="tab-anomalies" onclick="filterRuns('anomalies')">
+          Failed / Partial (3)
+        </button>
+</div>
+<!-- Search & Meta Filters -->
+<div class="flex items-center gap-space-sm w-full lg:w-auto">
+<div class="relative flex-1 lg:w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-2.5 text-secondary text-[18px]">search</span>
+<input class="w-full pl-9 pr-space-sm py-1.5 rounded-lg bg-surface-container-low font-body-sm text-body-sm text-on-surface outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search by Run ID or week..." type="text"/>
+</div>
+<button class="p-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface" title="Filter columns">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm tracking-wider uppercase">
+<th class="py-space-sm px-space-md font-semibold">Run ID</th>
+<th class="py-space-sm px-space-md font-semibold">Week</th>
+<th class="py-space-sm px-space-md font-semibold">Status / Mode</th>
+<th class="py-space-sm px-space-md font-semibold">Started At</th>
+<th class="py-space-sm px-space-md font-semibold">Duration</th>
+<th class="py-space-sm px-space-md font-semibold">Funnel Counts (Raw / Clean / Smp)</th>
+<th class="py-space-sm px-space-md font-semibold">Word Count</th>
+<th class="py-space-sm px-space-md font-semibold">Artifacts &amp; Logs</th>
+<th class="py-space-sm px-space-md text-right font-semibold">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container text-body-sm font-body-sm">
+<!-- Row 1: Completed Production Publish -->
+<tr class="run-row hover:bg-surface-container-low/60 transition-colors" data-status="completed">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-primary">20261022-121514</span>
+<span class="material-symbols-outlined text-[14px] text-primary cursor-pointer" title="Copy Run ID">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W43</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Completed (Published)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">22 Oct, 17:45 IST</span>
+<span class="font-data-code text-data-code text-secondary">12:15 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">schedule</span>
+<span>6m 42s</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code">
+<span class="text-secondary">10,332</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">3,029</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-bold">500</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-primary">192</span>
+<span class="text-secondary text-[11px]">/ 250</span>
+<span class="material-symbols-outlined text-[15px] text-primary" title="Within word count limit">check_circle</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<a class="p-1 rounded hover:bg-surface-container text-primary" href="#" title="Google Doc Brief">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</a>
+<a class="p-1 rounded hover:bg-surface-container text-secondary" href="#" title="Gmail Draft Formatted">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</a>
+<a class="p-1 rounded hover:bg-surface-container text-on-surface-variant font-data-code text-data-code flex items-center" href="#" title="Execution Logs">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors">
+                View Detail
+              </button>
+</td>
+</tr>
+<!-- Row 2: Failed Run (Groq Rate Limit) -->
+<tr class="run-row bg-error-container/20 hover:bg-error-container/30 transition-colors" data-status="anomalies">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-error">20261022-151338</span>
+<span class="material-symbols-outlined text-[14px] text-error cursor-pointer">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W43</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-pulse"></span>
+<span>Failed (Rate Limit)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">22 Oct, 20:43 IST</span>
+<span class="font-data-code text-data-code text-secondary">15:13 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-error">
+<span class="material-symbols-outlined text-[14px]">error</span>
+<span>2m 14s (Aborted)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code">
+<span class="text-secondary">10,332</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">3,029</span>
+<span class="text-outline-variant">/</span>
+<span class="text-error font-bold">0</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-data-code text-data-code text-secondary">—</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<span class="p-1 text-outline-variant" title="No docs generated">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</span>
+<span class="p-1 text-outline-variant" title="No draft created">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</span>
+<a class="p-1 rounded bg-error-container text-on-error-container font-data-code text-data-code flex items-center gap-1 px-1.5" href="#" title="View Error Trace">
+<span class="material-symbols-outlined text-[16px]">bug_report</span>
+<span>Trace</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-high hover:bg-error-container text-error font-label-md text-label-md transition-colors">
+                Inspect Error
+              </button>
+</td>
+</tr>
+<!-- Row 3: Completed Run Previous Week -->
+<tr class="run-row hover:bg-surface-container-low/60 transition-colors" data-status="completed">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-primary">20261015-110410</span>
+<span class="material-symbols-outlined text-[14px] text-primary cursor-pointer">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W42</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Completed (Published)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">15 Oct, 16:34 IST</span>
+<span class="font-data-code text-data-code text-secondary">11:04 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">schedule</span>
+<span>6m 28s</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code">
+<span class="text-secondary">9,840</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">2,890</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-bold">500</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-primary">208</span>
+<span class="text-secondary text-[11px]">/ 250</span>
+<span class="material-symbols-outlined text-[15px] text-primary">check_circle</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<a class="p-1 rounded hover:bg-surface-container text-primary" href="#" title="Google Doc Brief">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</a>
+<a class="p-1 rounded hover:bg-surface-container text-secondary" href="#" title="Gmail Draft Formatted">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</a>
+<a class="p-1 rounded hover:bg-surface-container text-on-surface-variant font-data-code text-data-code flex items-center" href="#" title="Execution Logs">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors">
+                View Detail
+              </button>
+</td>
+</tr>
+<!-- Row 4: Dry Run Mode -->
+<tr class="run-row hover:bg-surface-container-low/60 transition-colors" data-status="dryrun">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-secondary">20261015-091200</span>
+<span class="material-symbols-outlined text-[14px] text-secondary cursor-pointer">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W42</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">science</span>
+<span>Completed (Dry Run)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">15 Oct, 14:42 IST</span>
+<span class="font-data-code text-data-code text-secondary">09:12 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">schedule</span>
+<span>6m 10s</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code">
+<span class="text-secondary">9,840</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">2,890</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-bold">500</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-secondary">214</span>
+<span class="text-secondary text-[11px]">/ 250</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<span class="p-1 text-secondary opacity-60" title="Dry run - No doc generated">
+<span class="material-symbols-outlined text-[18px]">unpublished</span>
+</span>
+<span class="p-1 text-secondary opacity-60" title="Dry run - No draft created">
+<span class="material-symbols-outlined text-[18px]">drafts</span>
+</span>
+<a class="p-1 rounded hover:bg-surface-container text-on-surface-variant font-data-code text-data-code flex items-center" href="#" title="Execution Logs">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors">
+                View Detail
+              </button>
+</td>
+</tr>
+<!-- Row 5: Partial Failure (Draft Failed) -->
+<tr class="run-row bg-surface-container-high/30 hover:bg-surface-container-high/50 transition-colors" data-status="anomalies">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-secondary">20261008-142211</span>
+<span class="material-symbols-outlined text-[14px] text-secondary cursor-pointer">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W41</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant font-label-sm text-label-sm font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Partial (Draft Failed)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">08 Oct, 19:52 IST</span>
+<span class="font-data-code text-data-code text-secondary">14:22 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">schedule</span>
+<span>6m 35s</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code">
+<span class="text-secondary">10,120</span>
+<span class="text-outline-variant">/</span>
+<span class="text-secondary font-medium">3,110</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-bold">500</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-on-surface">185</span>
+<span class="text-secondary text-[11px]">/ 250</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<a class="p-1 rounded hover:bg-surface-container text-primary" href="#" title="Doc Appended successfully">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</a>
+<span class="p-1 text-error" title="Gmail Auth Expired">
+<span class="material-symbols-outlined text-[18px]">sync_problem</span>
+</span>
+<a class="p-1 rounded hover:bg-surface-container text-on-surface-variant font-data-code text-data-code flex items-center" href="#" title="Execution Logs">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all">
+                Resume Draft
+              </button>
+</td>
+</tr>
+<!-- Row 6: Already Published State / Fast-fail bypass -->
+<tr class="run-row hover:bg-surface-container-low/60 transition-colors" data-status="completed">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="font-data-code text-data-code font-semibold text-secondary">20261001-101150</span>
+<span class="material-symbols-outlined text-[14px] text-secondary cursor-pointer">content_copy</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high font-data-code text-data-code text-on-surface font-semibold">2026-W40</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px] text-secondary">verified_user</span>
+<span>Already Published</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">01 Oct, 15:41 IST</span>
+<span class="font-data-code text-data-code text-secondary">10:11 UTC</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1 font-data-code text-data-code text-on-surface">
+<span class="material-symbols-outlined text-[14px] text-secondary">speed</span>
+<span>4s (Ledger Match)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5 font-data-code text-data-code text-secondary">
+<span>0</span>
+<span class="text-outline-variant">/</span>
+<span>0</span>
+<span class="text-outline-variant">/</span>
+<span>0</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-data-code text-data-code text-secondary">—</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-2">
+<a class="p-1 rounded hover:bg-surface-container text-primary" href="#" title="Existing Doc Link">
+<span class="material-symbols-outlined text-[18px]">description</span>
+</a>
+<span class="p-1 text-outline-variant">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+</span>
+<a class="p-1 rounded hover:bg-surface-container text-on-surface-variant font-data-code text-data-code flex items-center" href="#" title="Execution Logs">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+</a>
+</div>
+</td>
+<td class="py-space-md px-space-md text-right whitespace-nowrap">
+<button class="px-space-sm py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors">
+                View Ledger
+              </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Ledger Verification Footer -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-md border-t border-surface-container">
+<div class="flex items-center gap-space-sm text-secondary font-body-sm text-body-sm">
+<span>Showing <strong>1–6</strong> of <strong>24</strong> pipeline execution traces</span>
+<span class="text-outline-variant">•</span>
+<span class="font-data-code text-data-code text-primary">Hash: SHA-256 e8f3...810a</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1.5 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm font-semibold">1</button>
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-sm text-label-sm">2</button>
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-sm text-label-sm">3</button>
+<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-sm text-label-sm">4</button>
+<button class="p-1.5 rounded-lg bg-surface-container-lowest text-secondary hover:text-on-surface">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Operational Diagnostics Callout -->
+<div class="mt-space-lg p-space-md rounded-xl bg-surface-container flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Publishing Ledger Integrity Invariance</span>
+<span class="font-body-sm text-body-sm text-secondary">Ledger verification protects against duplicate team distributions. If rerun is required, set CLI flag <code class="font-data-code text-data-code bg-surface-container-lowest px-1 rounded text-primary">--force-republish</code>.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors">
+        Read Policy Doc
+      </button>
+</div>
+</div>
+</div>
+<script>
+  function filterRuns(status) {
+    const tabs = ['all', 'completed', 'dryrun', 'anomalies'];
+    tabs.forEach(t => {
+      const el = document.getElementById('tab-' + t);
+      if (t === status) {
+        el.className = 'px-space-md py-1.5 rounded-lg text-label-md font-label-md bg-surface-container-lowest text-on-surface shadow-sm font-semibold transition-all';
+      } else {
+        el.className = 'px-space-md py-1.5 rounded-lg text-label-md font-label-md text-secondary hover:text-on-surface transition-all';
+      }
+    });
+
+    const rows = document.querySelectorAll('.run-row');
+    rows.forEach(row => {
+      const rowStatus = row.getAttribute('data-status');
+      if (status === 'all') {
+        row.style.display = '';
+      } else if (status === rowStatus) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+</script></main></div></body></html>

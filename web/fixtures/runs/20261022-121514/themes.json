@@ -1,0 +1,636 @@
+{
+  "themes": [
+    {
+      "theme_id": "onboarding-and-kyc",
+      "label": "Onboarding and KYC",
+      "description": ""
+    },
+    {
+      "theme_id": "payments-and-withdrawals",
+      "label": "Payments and Withdrawals",
+      "description": ""
+    },
+    {
+      "theme_id": "trading-experience-and-app-performance",
+      "label": "Trading Experience and App Performance",
+      "description": ""
+    },
+    {
+      "theme_id": "statements-and-reports",
+      "label": "Statements and Reports",
+      "description": ""
+    },
+    {
+      "theme_id": "customer-support",
+      "label": "Customer Support",
+      "description": ""
+    },
+    {
+      "theme_id": "other",
+      "label": "Other",
+      "description": "Reviews that do not fit a main theme"
+    }
+  ],
+  "assignments": [
+    {
+      "review_id": "02b79ff465cb456c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "075009b60b3886ac",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0cfac3fdb286b6be",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "18f9622983ddf38e",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "19de2032b7c23fb8",
+      "theme_id": "statements-and-reports"
+    },
+    {
+      "review_id": "011402cb0faa3663",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "1cb3c6ac1ab98738",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "25498c15b0dec07b",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "274a22a633cfa19c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "18de3c14831cbc7c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "07a1bff95bc28f8d",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "17488016a2ee37df",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0ade5573a1eea470",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "17820139bc1f44dc",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "1c1667329593f8f8",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "118b87d2469aa7f6",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "1e9ce7168be85efc",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "21fff819a8a50171",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "033f20717925a764",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "196f3d90d488c21f",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "272e49f0b97fa6ec",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "12fe3922b3538a26",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "2744d71092675807",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1ad99ef6da9946e2",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "23dedcb4748b158c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "043757f8fc94cd0c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0c4ac8d1eb6268c6",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "021c045425cd7529",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "0762732bee5fb980",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "14001474ba5271d5",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "1adbc3cf4736162f",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "20c76f2a2b1f3bcc",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0fe35ac6eed5cdd8",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "1dfa3fc4a8546640",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "203a4769c92f1f1b",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "063f06ab03e83134",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1c642ddecd9cee1c",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0b722d1978a6ebe3",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "12e9f434acec71b0",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "1eda1e8eb17249f7",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "26ac8cb0a286acbb",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0a12f2135c2af5ef",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "001bcca6b65bbd6a",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "049071ae1a23b950",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "102d89760c141c2a",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "16f27b1456c48648",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "182c53aa0ddb2d77",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1fea397bd23de605",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "2533378450d9723e",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "270188a9b40f43e7",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0c1f788a1b7b0454",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0e7225ab33630e5c",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "13510d01c81b2f21",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "1b771b9cdb66d02a",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "209a6622a2916a18",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "2602b313c4880396",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "00ee2a1a131becc4",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "08b88afac5ad0a1b",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1d938faa53f5af06",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "232cb6c7019b5909",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "141c294a234aede0",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "25c0ebd4489811f9",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "00a75caef8518c45",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0f528693d2e8ccb9",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "204c2dcfb674d2f5",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "117ef084dcc8d902",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0f1ad4988b2e85cc",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "1c37911e0939724c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0c9728defae17d2e",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0ea19f4a307ecbf9",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "17ec2d8266b22294",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1dc5e03d34a55ff4",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "01fbf6701ca90a9f",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "06003d75bf909686",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "151405090f851402",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1e0e8d6d983b0a39",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "04ad342028def840",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0fc42918d64bf294",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1d1a354588080dcb",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "081824d413b37a0b",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1e591ec1b39bd722",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "20322414c287a52d",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0e7d76aca34c9c32",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "143365dd6f97eb6c",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "20c6de95aaa2eb7d",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "0b00766dcfb088a3",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "01c4cba974ddbcc4",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "14af46b5215f0571",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1fbd87ff335bf286",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "015445f6cddc3203",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "156c5cc743e1977d",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "1b2d965e24684ca5",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "0eec560646b096d0",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1978501fb85fe73d",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "230204bee9136421",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "057b5af394585f8f",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0f833a3fa3400e92",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "083c6c3d5a5f0ed0",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0fe80b4d11d0ba30",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "155e62ce6a27fb42",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "1eb396648b2d17ad",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "0bfe9c7bee38de04",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "19fa80da25a19cd5",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "247ecbd6d31ebaa3",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0c168433749a4544",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "1e9729dcc1b1fb5b",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "021c48350fa72e8f",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1cf4de7d05774ace",
+      "theme_id": "onboarding-and-kyc"
+    },
+    {
+      "review_id": "0ae74c4bad42f58c",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0a5b13ae8e6290e6",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0dd6392d018f83ba",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "24dbf6c01665b3df",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "1684ea189caf74fc",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "23ae9755624a12bf",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "0c98aed59a9c75e1",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "128afa2f7c240b48",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "22910c61eec56c6b",
+      "theme_id": "statements-and-reports"
+    },
+    {
+      "review_id": "0ad5de8c4397aad5",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "274c9da62b160baa",
+      "theme_id": "statements-and-reports"
+    },
+    {
+      "review_id": "1914923e711662a2",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "086c6d8bf45f2092",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "06da5ccff6c5f515",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0d2615dd43854a4b",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "146e65f1b4570768",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "12e64e40f5b8722b",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1dcc9cbc8783e02a",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0cd7159885969bc4",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "1a51c4b6bdd286d0",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "040ea6aab1558bd4",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "11e0fa584360bd02",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1b5d94be57c00690",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "10abb44787d69328",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "0e00aef2d41fc93f",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "0c50e025c4225dba",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "0f066a86be65dbdf",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "270ddafb8b8da0a2",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0dd1fe410a05dd20",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "159cd5c5e6915439",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "232c793272a4600e",
+      "theme_id": "payments-and-withdrawals"
+    },
+    {
+      "review_id": "095accf90cdd427f",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "196786b12891382f",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0a2110fffd9be6b1",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "16a9b480744dc97b",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "1c4ae32aeafbfbdb",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0a6239cd4441f44f",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "2735240311858a28",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0e27a24b5a8a4b4b",
+      "theme_id": "trading-experience-and-app-performance"
+    },
+    {
+      "review_id": "164cddaba9bd5321",
+      "theme_id": "other"
+    },
+    {
+      "review_id": "0959676aa43f3a73",
+      "theme_id": "customer-support"
+    },
+    {
+      "review_id": "22b500a8ffc07c10",
+      "theme_id": "other"
+    }
+  ]
+}

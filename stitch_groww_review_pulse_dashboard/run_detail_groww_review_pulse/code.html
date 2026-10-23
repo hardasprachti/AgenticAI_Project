@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"inverse-on-surface":"#eaf1ff","on-tertiary":"#ffffff","surface-variant":"#d3e4fe","surface-container-high":"#dce9ff","on-primary-fixed-variant":"#00513b","on-primary-fixed":"#002116","secondary":"#575e70","on-secondary-fixed-variant":"#404758","surface-container-lowest":"#ffffff","surface-container-low":"#eff4ff","on-tertiary-fixed-variant":"#2f2ebe","surface":"#f8f9ff","on-primary":"#ffffff","primary":"#006c4f","primary-fixed-dim":"#50ddad","on-tertiary-container":"#170eae","inverse-surface":"#213145","on-secondary-fixed":"#141b2b","on-error-container":"#93000a","on-surface-variant":"#3c4a43","surface-dim":"#cbdbf5","background":"#f8f9ff","inverse-primary":"#50ddad","tertiary-container":"#9093ff","error-container":"#ffdad6","tertiary-fixed-dim":"#c0c1ff","error":"#ba1a1a","secondary-fixed":"#dce2f7","surface-container-highest":"#d3e4fe","surface-container":"#e5eeff","on-tertiary-fixed":"#07006c","on-secondary":"#ffffff","surface-tint":"#006c4f","primary-fixed":"#71fac8","on-secondary-container":"#5c6274","tertiary":"#494bd6","surface-bright":"#f8f9ff","outline-variant":"#bbcac1","primary-container":"#00b386","on-surface":"#0b1c30","on-background":"#0b1c30","secondary-container":"#d9dff5","on-primary-container":"#003d2c","outline":"#6c7a73","on-error":"#ffffff","tertiary-fixed":"#e1e0ff","secondary-fixed-dim":"#c0c6db"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xs":"0.25rem","gutter-mobile":"0.75rem","space-xl":"2rem","space-xxs":"0.125rem","space-md":"1rem","space-lg":"1.5rem","margin-mobile":"1rem","space-2xl":"3rem","margin":"2rem","gutter":"1.25rem","space-sm":"0.5rem"},"fontFamily":{"display-lg":["Plus Jakarta Sans"],"data-code":["JetBrains Mono"],"data-metric":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"body-sm":["Inter"],"body-md":["Inter"],"label-lg":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"label-sm":["Inter"],"headline-lg":["Plus Jakarta Sans"]},"fontSize":{"display-lg":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}],"data-code":["12px",{"lineHeight":"16px","fontWeight":"500"}],"data-metric":["32px",{"lineHeight":"36px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-xl":["28px",{"lineHeight":"36px","letterSpacing":"-0.015em","fontWeight":"600"}],"display-lg-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["18px",{"lineHeight":"24px","letterSpacing":"-0.005em","fontWeight":"600"}],"body-sm":["13px",{"lineHeight":"18px","fontWeight":"400"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"headline-lg":["22px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"600"}]}}}}</script></head><body class="bg-background font-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 h-16 bg-surface-container-lowest z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="Groww Pulse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WaXogtvC3movw5X8AKMGbmPCsL12Kd3VuNiIFJcehbc39TUcvv-NJVCdQ7N6ucz11Tfz5dEyF6YYS0o7EMwi3EbELSDJz31-RGvCqV54VWcoaNq2kHqjnW4AiPpbD_JpyY5wKm54kyKclJ3LbVQhZzddqLSRB3L1lGAsR7FpGNqopY7NuCEUxCpuVN1cf3XpALYkQdMkhWYwLeAaUHe7QZrbeboj6m220jYCoFe01GqooOaQmH_rJiqLw"/><div class="flex flex-col"><span class="font-headline-md text-headline-md text-on-surface leading-tight">Groww Review Pulse</span><span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Executive Engineering Intelligence</span></div><span class="h-5 w-px bg-surface-container-high mx-space-xs"></span><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-low text-on-secondary-fixed-variant"><span class="material-symbols-outlined text-[15px] text-secondary">calendar_today</span><span class="font-label-sm text-label-sm font-semibold">2026-W43 (13 Aug - 22 Oct 2026)</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-surface-container-high text-on-surface"><span class="h-2 w-2 rounded-full bg-primary-container animate-pulse"></span><span class="font-label-sm text-label-sm font-medium">Idle / Ready</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded bg-surface-container-low font-data-code text-data-code text-secondary"><span class="material-symbols-outlined text-[14px]">terminal</span><span>Local CLI / Read-Only</span></div><a class="flex items-center gap-space-xxs px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" href="#" title="Documentation"><span class="material-symbols-outlined text-[18px]">description</span><span class="font-label-sm text-label-sm">Docs</span></a><a class="flex items-center gap-space-xxs px-space-sm py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" href="#" title="Source Code Repository"><span class="material-symbols-outlined text-[18px]">code</span><span class="font-label-sm text-label-sm">GitHub</span></a><button class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary font-label-lg text-label-lg transition-all shadow-[0_1px_4px_rgba(0,179,134,0.2)] active:scale-[0.99]" type="button"><span class="material-symbols-outlined text-[18px]">play_arrow</span><span>+ New Run</span><span class="font-label-sm text-label-sm opacity-80">(Dry Run)</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><aside class="fixed left-0 top-16 bottom-0 w-64 bg-surface-container-lowest z-40 shadow-[0_1px_8px_rgba(0,0,0,0.02)] flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-md"><div class="px-space-sm text-on-secondary-container font-label-sm text-label-sm uppercase tracking-wider">Workspace Pulse</div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-surface-container-high text-primary font-semibold"><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Overview</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg transition-colors bg-surface-container-high text-primary font-semibold" data-path="run-detail" href="#"><span class="material-symbols-outlined text-[20px]">monitoring</span><span>Run Detail</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="run-history" href="#"><span class="material-symbols-outlined text-[20px]">history</span><span>Run History</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="publishing-ledger" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span>Publishing Ledger</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors font-body-md text-body-md" data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span>Settings</span></a></nav></div><div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between text-secondary font-label-sm text-label-sm"><span>PIPELINE ENGINE</span><span class="font-data-code text-data-code">v2.8.4</span></div><div class="flex items-center gap-space-xs text-on-surface font-body-sm text-body-sm"><span class="material-symbols-outlined text-[16px] text-primary">verified</span><span>Telemetry Synced</span></div></div></aside><div class="pl-64"><main class="relative pt-16 min-h-screen bg-background w-full px-space-lg py-space-xl"><div class="flex flex-col w-full gap-space-xl">
+<!-- SECTION 1: RUN SUMMARY & METADATA BAR -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<a class="inline-flex items-center gap-space-xxs text-secondary hover:text-on-surface font-label-md text-label-md transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+<span>Pipeline History</span>
+</a>
+<span class="text-outline-variant font-label-sm text-label-sm">/</span>
+<span class="font-data-code text-data-code bg-surface-container-low px-space-xs py-space-xxs rounded text-on-surface">ID: 20261022-121514</span>
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm uppercase tracking-wide font-semibold">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+          Completed (Published)
+        </span>
+</div>
+<div class="flex items-baseline gap-space-sm flex-wrap">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Run Performance &amp; Analysis</h1>
+<span class="font-headline-md text-headline-md text-secondary">Review Pulse 2026-W43</span>
+</div>
+</div>
+<!-- Metadata Quick Pills -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-secondary">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Duration</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">6m 42s</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-tertiary">memory</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">LLM Engine</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Llama 3.3 70B</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-[18px] text-primary">mark_email_read</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase">Artifacts</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Doc + Gmail</span>
+</div>
+</div>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high transition-colors font-label-lg text-label-lg" type="button">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span>Raw Manifest</span>
+</button>
+</div>
+</div>
+<!-- SECTION 2: PIPELINE STAGE TIMELINE -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-lg">
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Pipeline Stage Execution</h2>
+<p class="font-body-sm text-body-sm text-secondary">8 interconnected steps • Total runtime 402s</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-xxs rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">speed</span>
+<span>Bottleneck: Stage 3 (Theme Assign: 79.1% total time)</span>
+</div>
+</div>
+<!-- Stepper Grid / Timeline Flow -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Stage 1 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">1</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Ingest</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">74s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Fetched Volume</span>
+<span class="text-on-surface font-semibold">10,332 reviews</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">52 paginated requests. Window start reached, 0 dropped outside scope.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+<span>Buffer Saved</span>
+</div>
+</div>
+<!-- Stage 2 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">2</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Sanitize</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">12s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Clean Kept / Dropped</span>
+<span class="text-on-surface font-semibold">3,029 / 7,303</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary-container h-1.5 rounded-full" style="width: 29.3%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">4,821 PII scrubbed (PAN, Phone, Acc). Deduplication applied.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>PII Sanitized</span>
+</div>
+</div>
+<!-- Stage 3 (Bottleneck highlight) -->
+<div class="bg-error-container/20 p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all shadow-[0_0_0_1px_rgba(186,26,26,0.2)]">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-error text-on-error font-label-sm text-label-sm flex items-center justify-center font-bold">3</span>
+<span class="font-label-lg text-label-lg text-error font-semibold">Theme Assign</span>
+</div>
+<span class="font-data-code text-data-code bg-error-container px-space-xs py-space-xxs rounded text-on-error-container font-semibold">5m 18s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-error font-label-sm text-label-sm">
+<span>Analysed Stratified Sample</span>
+<span class="font-semibold">500 items</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-error h-1.5 rounded-full" style="width: 79%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-space-xxs line-clamp-2">11 LLM chunks. Bottleneck: taxonomy semantic classification overhead.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-error font-label-sm text-label-sm pt-space-xxs font-semibold">
+<span class="material-symbols-outlined text-[14px]">hourglass_bottom</span>
+<span>Critical Path Latency</span>
+</div>
+</div>
+<!-- Stage 4 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">4</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Rank</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">2s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Clusters Evaluated</span>
+<span class="text-on-surface font-semibold">6 Clusters</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">Applied Volume (40%), Recency (30%), Severity (30%) weighting.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">tune</span>
+<span>Scores Fixed</span>
+</div>
+</div>
+<!-- Stage 5 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">5</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Compose</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">18s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Output Generation</span>
+<span class="text-on-surface font-semibold">3/3 Themes Valid</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">Synthesized 3 quotes + 3 actions. Passed JSON schema on attempt 1.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">task_alt</span>
+<span>Zero Retries</span>
+</div>
+</div>
+<!-- Stage 6 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">6</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Render</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">1s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Executive Digest</span>
+<span class="text-on-surface font-semibold">192 Words</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">Templated HTML and Markdown formatted with zero escaping bugs.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">article</span>
+<span>Ready for Push</span>
+</div>
+</div>
+<!-- Stage 7 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">7</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Publish Doc</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">4s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Google Docs API</span>
+<span class="text-on-surface font-semibold">1,284 chars</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">Section appended to 'Groww Mobile Weekly Quality Pulse 2026'.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">link</span>
+<span class="truncate">Doc Synced</span>
+</div>
+</div>
+<!-- Stage 8 -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between gap-space-md relative overflow-hidden group hover:shadow-md transition-all">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary font-label-sm text-label-sm flex items-center justify-center font-bold">8</span>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Publish Draft</span>
+</div>
+<span class="font-data-code text-data-code bg-surface-container px-space-xs py-space-xxs rounded text-secondary font-semibold">3s</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm">
+<span>Gmail Service</span>
+<span class="text-on-surface font-semibold">Unsent Draft</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 100%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-space-xxs line-clamp-2">Draft ID created for engineering leadership review before dispatch.</p>
+</div>
+<div class="flex items-center gap-space-xxs text-primary font-label-sm text-label-sm pt-space-xxs">
+<span class="material-symbols-outlined text-[14px]">drafts</span>
+<span>Draft Prepared</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 3: FULL THEME RANKING TABLE WITH EXCLUDED 'OTHER' CALLOUT -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">leaderboard</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Thematic Prioritization Matrix</h2>
+<p class="font-body-sm text-body-sm text-secondary">Multivariate score formula: 0.40(Vol) + 0.30(Rec) + 0.30(Sev)</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary">Selected for Executive Digest:</span>
+<span class="px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">Top 3 Categorical</span>
+</div>
+</div>
+<!-- Rule Explanation Callout Box -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex flex-col sm:flex-row items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-secondary shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">info</span>
+</div>
+<div class="flex flex-col gap-space-xxs">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Taxonomy Governance Rule: Catch-all 'Other' Exclusion</span>
+<p class="font-body-sm text-body-sm text-secondary">
+<strong class="text-on-surface">Why 'Other' is excluded from Top 3:</strong> The Other category aggregates disparate, low-affinity feedback (301 reviews, 60.2% sample share). While its massive aggregate volume produces a high raw composite score (0.820), promoting an unclassified bucket to executive review is strictly barred by system protocol. This guarantees that engineering leads only receive actionable, high-affinity domain clusters.
+        </p>
+</div>
+</div>
+<!-- Responsive Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-space-sm px-space-md rounded-l-lg">Rank</th>
+<th class="py-space-sm px-space-md">Theme Name</th>
+<th class="py-space-sm px-space-md">Volume</th>
+<th class="py-space-sm px-space-md">Sample Share</th>
+<th class="py-space-sm px-space-md">Avg Rating</th>
+<th class="py-space-sm px-space-md">Vol Factor</th>
+<th class="py-space-sm px-space-md">Recency</th>
+<th class="py-space-sm px-space-md">Severity</th>
+<th class="py-space-sm px-space-md font-bold text-on-surface">Final Score</th>
+<th class="py-space-sm px-space-md rounded-r-lg">Selection Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Row 1: SIP Mandates -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-bold text-primary">#1</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">SIP Auto-Pay &amp; Mandate Failures</span>
+<span class="font-label-sm text-label-sm text-secondary">Payments &amp; Banking Integration</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-on-surface font-semibold">71</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">14.2%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-error font-label-md text-label-md font-semibold">
+<span>1.8</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.710</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.780</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.740</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-primary font-bold">0.742</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                Selected (Top 1)
+              </span>
+</td>
+</tr>
+<!-- Row 2: App Lag -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-bold text-primary">#2</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">App Lag During Market Open</span>
+<span class="font-label-sm text-label-sm text-secondary">Native Performance &amp; Order Gateway</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-on-surface font-semibold">57</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">11.4%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-error font-label-md text-label-md font-semibold">
+<span>1.5</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.570</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.820</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.750</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-primary font-bold">0.698</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                Selected (Top 2)
+              </span>
+</td>
+</tr>
+<!-- Row 3: Instant Withdrawal -->
+<tr class="hover:bg-surface-container-low/50 transition-colors">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-bold text-primary">#3</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Instant Withdrawal Delays</span>
+<span class="font-label-sm text-label-sm text-secondary">Ledger Balance &amp; Settlement</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-on-surface font-semibold">44</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">8.8%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-secondary font-label-md text-label-md font-semibold">
+<span>2.1</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.440</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.710</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.770</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-primary font-bold">0.621</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+                Selected (Top 3)
+              </span>
+</td>
+</tr>
+<!-- Row 4: Biometric & PIN Login Glitches -->
+<tr class="hover:bg-surface-container-low/50 transition-colors opacity-80">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-medium text-secondary">#4</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Biometric &amp; PIN Login Glitches</span>
+<span class="font-label-sm text-label-sm text-secondary">Auth &amp; Session Management</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">18</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">3.6%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-secondary font-label-md text-label-md">
+<span>2.4</span>
+<span class="material-symbols-outlined text-[14px]">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.180</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.590</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.540</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary font-semibold">0.410</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm">
+                Rank Cutoff (#4)
+              </span>
+</td>
+</tr>
+<!-- Row 5: Statement Downloads -->
+<tr class="hover:bg-surface-container-low/50 transition-colors opacity-80">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-medium text-secondary">#5</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Account Statement &amp; P&amp;L Download</span>
+<span class="font-label-sm text-label-sm text-secondary">Reporting &amp; Tax Documents</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">9</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">1.8%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-secondary font-label-md text-label-md">
+<span>3.1</span>
+<span class="material-symbols-outlined text-[14px]">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.090</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.420</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.410</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary font-semibold">0.285</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm">
+                Rank Cutoff (#5)
+              </span>
+</td>
+</tr>
+<!-- Row 6: EXCLUDED OTHER -->
+<tr class="bg-surface-container-low/70 hover:bg-surface-container-low transition-colors">
+<td class="py-space-md px-space-md font-label-lg text-label-lg font-bold text-secondary">—</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-secondary">block</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Other (Catch-all / Unclassified)</span>
+<span class="font-label-sm text-label-sm text-secondary">Diverse single-instance reports</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-on-surface font-semibold">301</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary font-semibold">60.2%</td>
+<td class="py-space-md px-space-md">
+<div class="inline-flex items-center gap-space-xxs text-secondary font-label-md text-label-md">
+<span>2.0</span>
+<span class="material-symbols-outlined text-[14px]">star</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">1.000</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.680</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary">0.720</td>
+<td class="py-space-md px-space-md font-data-code text-data-code text-secondary font-bold">0.820</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-space-xxs px-space-sm py-space-xxs rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">rule</span>
+                EXCLUDED FROM TOP 3 (Rule)
+              </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SECTION 4: LLM CONSUMPTION & COST METRICS -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">LLM Consumption &amp; Execution Telemetry</h2>
+<p class="font-body-sm text-body-sm text-secondary">Groq API • Engine: llama-3.3-70b-versatile</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm font-data-code text-data-code">
+<span class="bg-surface-container-low px-space-sm py-space-xxs rounded text-secondary">Total Tokens: 56,510</span>
+<span class="bg-surface-container-low px-space-sm py-space-xxs rounded text-secondary">Est Cost: $0.0384</span>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Task 1: theme_assign -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold font-data-code">task: theme_assign</span>
+<span class="px-space-xs py-space-xxs bg-surface-container rounded font-label-sm text-label-sm text-secondary font-data-code">11 Calls</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">0 Retries • 0 Rate Limited</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Prompt Tokens</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">48,290</span>
+<span class="font-label-sm text-label-sm text-secondary">4,390 / call avg</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Completion</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">4,120</span>
+<span class="font-label-sm text-label-sm text-secondary">374 / call avg</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Wait / Backoff</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">4.8s</span>
+<span class="font-label-sm text-label-sm text-secondary">Jitter regulated</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm pt-space-xs">
+<span>Model: <code class="text-on-surface">llama-3.3-70b-versatile</code></span>
+<span>Chunk Size: 45 reviews/batch</span>
+</div>
+</div>
+<!-- Task 2: compose -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold font-data-code">task: compose</span>
+<span class="px-space-xs py-space-xxs bg-surface-container rounded font-label-sm text-label-sm text-secondary font-data-code">1 Call</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Schema Check: Passed</span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Prompt Tokens</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">3,420</span>
+<span class="font-label-sm text-label-sm text-secondary">Full context injected</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Completion</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold">680</span>
+<span class="font-label-sm text-label-sm text-secondary">JSON strict mode</span>
+</div>
+<div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary">Prompt Version</span>
+<span class="font-headline-md text-headline-md text-on-surface font-bold font-data-code text-[16px]">compose@1</span>
+<span class="font-label-sm text-label-sm text-secondary">Semver locked</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-secondary font-label-sm text-label-sm pt-space-xs">
+<span>Temperature: 0.20 (Determinism biased)</span>
+<span>Latency: 18.2s generation</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SECTION 5: ANALYSED REVIEWS EXPLORER & DISTRIBUTIONS -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">manage_search</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Analysed Reviews Explorer</h2>
+<p class="font-body-sm text-body-sm text-secondary">Showing 500 stratified reviews from sanitized.json &amp; themes.json (Raw review files are strictly locked).</p>
+</div>
+</div>
+<!-- Action items -->
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[16px]">download</span>
+<span>Export Sample CSV</span>
+</button>
+</div>
+</div>
+<!-- 2 Mini Distribution Charts in Bento Split -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Chart 1: Rating Distribution -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Sample Rating Distribution</span>
+<span class="font-data-code text-data-code text-secondary">N = 500</span>
+</div>
+<div class="flex flex-col gap-space-xs py-space-xs">
+<!-- 1 Star (48%) -->
+<div class="flex items-center gap-space-sm">
+<span class="w-10 font-data-code text-data-code text-secondary shrink-0">1 ★</span>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary h-3 rounded-full" style="width: 48%;"></div>
+</div>
+<span class="w-12 font-data-code text-data-code text-on-surface text-right font-semibold shrink-0">48%</span>
+</div>
+<!-- 2 Star (22%) -->
+<div class="flex items-center gap-space-sm">
+<span class="w-10 font-data-code text-data-code text-secondary shrink-0">2 ★</span>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-primary-container h-3 rounded-full" style="width: 22%;"></div>
+</div>
+<span class="w-12 font-data-code text-data-code text-on-surface text-right font-semibold shrink-0">22%</span>
+</div>
+<!-- 3 Star (14%) -->
+<div class="flex items-center gap-space-sm">
+<span class="w-10 font-data-code text-data-code text-secondary shrink-0">3 ★</span>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-surface-variant h-3 rounded-full" style="width: 14%;"></div>
+</div>
+<span class="w-12 font-data-code text-data-code text-on-surface text-right font-semibold shrink-0">14%</span>
+</div>
+<!-- 4 Star (8%) -->
+<div class="flex items-center gap-space-sm">
+<span class="w-10 font-data-code text-data-code text-secondary shrink-0">4 ★</span>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-surface-variant h-3 rounded-full" style="width: 8%;"></div>
+</div>
+<span class="w-12 font-data-code text-data-code text-on-surface text-right font-semibold shrink-0">8%</span>
+</div>
+<!-- 5 Star (8%) -->
+<div class="flex items-center gap-space-sm">
+<span class="w-10 font-data-code text-data-code text-secondary shrink-0">5 ★</span>
+<div class="w-full bg-surface-container rounded-full h-3 overflow-hidden">
+<div class="bg-surface-variant h-3 rounded-full" style="width: 8%;"></div>
+</div>
+<span class="w-12 font-data-code text-data-code text-on-surface text-right font-semibold shrink-0">8%</span>
+</div>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Biased toward 1-2★ feedback to isolate operational friction points.</span>
+</div>
+<!-- Chart 2: Weekly Volume across 10-week window (Inline SVG) -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">10-Week Ingestion Trajectory</span>
+<span class="font-label-sm text-label-sm text-primary font-semibold">W34 - W43 Peak</span>
+</div>
+<!-- Inline SVG Bar Sparkline -->
+<div class="w-full h-28 flex items-end justify-between gap-1 pt-space-xs">
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 38%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W34</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 42%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W35</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 46%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W36</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 52%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W37</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 48%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W38</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 60%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W39</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 68%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W40</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-surface-container rounded-t" style="height: 72%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W41</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-primary-container/80 rounded-t" style="height: 85%;"></div>
+<span class="font-label-sm text-[9px] text-secondary">W42</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-space-xxs h-full justify-end">
+<div class="w-full bg-primary rounded-t" style="height: 100%;"></div>
+<span class="font-label-sm text-[9px] text-primary font-bold">W43</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Min: 6,410 reviews (W34)</span>
+<span>Current Week: 10,332 reviews (W43)</span>
+</div>
+</div>
+</div>
+<!-- Filters Strip -->
+<div class="flex flex-col md:flex-row items-center gap-space-sm pt-space-xs">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="w-full pl-9 pr-space-md py-space-xs rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-secondary focus:outline-none focus:bg-surface-container-lowest transition-colors shadow-sm" id="reviewSearchInput" placeholder="Search sanitized review text (e.g., mandate, otp, frozen)..." type="text"/>
+</div>
+<div class="flex items-center gap-space-sm w-full md:w-auto">
+<select class="px-space-md py-space-xs rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none shadow-sm cursor-pointer" id="themeFilter">
+<option value="all">All Assigned Themes</option>
+<option value="sip">SIP Auto-Pay &amp; Mandates</option>
+<option value="lag">App Lag During Open</option>
+<option value="withdrawal">Instant Withdrawal Delays</option>
+<option value="login">Biometric &amp; PIN Glitches</option>
+<option value="statement">P&amp;L Download</option>
+<option value="other">Other (Catch-all)</option>
+</select>
+<select class="px-space-md py-space-xs rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none shadow-sm cursor-pointer" id="ratingFilter">
+<option value="all">All Ratings</option>
+<option value="1">1 Star Only</option>
+<option value="2">2 Stars Only</option>
+<option value="3">3 Stars Only</option>
+<option value="4-5">4 &amp; 5 Stars</option>
+</select>
+</div>
+</div>
+<!-- Review Rows Container -->
+<div class="flex flex-col gap-space-sm" id="reviewsContainer">
+<!-- Review Item 1 -->
+<div class="review-card bg-surface-container-low hover:bg-surface-container transition-colors p-space-md rounded-xl flex flex-col gap-space-xs" data-rating="1" data-theme="sip">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-data-code text-data-code text-secondary font-semibold">#7f8a32</span>
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+</div>
+<span class="font-data-code text-data-code text-secondary">v14.2.1 • Android 14</span>
+<span class="font-label-sm text-label-sm text-secondary">21 Oct 2026, 09:42</span>
+</div>
+<span class="inline-flex items-center px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+            SIP Auto-Pay &amp; Mandate Failures
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xxs">
+<mark class="bg-surface-variant text-on-surface rounded px-1">My monthly SIP of ₹10,000 failed to debit via mandate</mark> even though funds were active. Now I have an unexecuted allotment and my bank charged a ₹295 bounce fine. Please fix this auto-pay sync bug immediately, it used to work seamlessly!
+        </p>
+</div>
+<!-- Review Item 2 -->
+<div class="review-card bg-surface-container-low hover:bg-surface-container transition-colors p-space-md rounded-xl flex flex-col gap-space-xs" data-rating="1" data-theme="lag">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-data-code text-data-code text-secondary font-semibold">#9c12b4</span>
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+</div>
+<span class="font-data-code text-data-code text-secondary">v14.2.0 • iOS 18.0</span>
+<span class="font-label-sm text-label-sm text-secondary">21 Oct 2026, 09:16</span>
+</div>
+<span class="inline-flex items-center px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+            App Lag During Market Open
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xxs">
+<mark class="bg-surface-variant text-on-surface rounded px-1">At 9:15 AM sharp, chart feeds completely freeze</mark> on Nifty 50 intraday. The buy button was grayed out for 3 crucial minutes causing severe slippage on execution. Server capacity is collapsing during opening ticks.
+        </p>
+</div>
+<!-- Review Item 3 -->
+<div class="review-card bg-surface-container-low hover:bg-surface-container transition-colors p-space-md rounded-xl flex flex-col gap-space-xs" data-rating="2" data-theme="withdrawal">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-data-code text-data-code text-secondary font-semibold">#4a8d99</span>
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+</div>
+<span class="font-data-code text-data-code text-secondary">v14.2.1 • Android 13</span>
+<span class="font-label-sm text-label-sm text-secondary">20 Oct 2026, 17:30</span>
+</div>
+<span class="inline-flex items-center px-space-sm py-space-xxs rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold">
+            Instant Withdrawal Delays
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xxs">
+<mark class="bg-surface-variant text-on-surface rounded px-1">Instant withdrawal took 36 hours instead of 15 minutes</mark>. The status displayed 'In Progress at Bank' without any reference UTR number given. Customer support bot just kept looping the standard FAQs.
+        </p>
+</div>
+<!-- Review Item 4 -->
+<div class="review-card bg-surface-container-low hover:bg-surface-container transition-colors p-space-md rounded-xl flex flex-col gap-space-xs" data-rating="2" data-theme="login">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-data-code text-data-code text-secondary font-semibold">#e3b821</span>
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+</div>
+<span class="font-data-code text-data-code text-secondary">v14.2.1 • Android 14</span>
+<span class="font-label-sm text-label-sm text-secondary">20 Oct 2026, 11:05</span>
+</div>
+<span class="inline-flex items-center px-space-sm py-space-xxs rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">
+            Biometric &amp; PIN Login Glitches
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xxs">
+          Fingerprint prompt fails to trigger on Pixel 8. Entering 4-digit PIN prompts 'Invalid Session' and forces complete OTP re-verification every 2 days.
+        </p>
+</div>
+<!-- Review Item 5 -->
+<div class="review-card bg-surface-container-low hover:bg-surface-container transition-colors p-space-md rounded-xl flex flex-col gap-space-xs" data-rating="1" data-theme="other">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-data-code text-data-code text-secondary font-semibold">#1109dc</span>
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+<span class="material-symbols-outlined text-[16px] text-surface-container-high">star</span>
+</div>
+<span class="font-data-code text-data-code text-secondary">v14.1.9 • iOS 17.5</span>
+<span class="font-label-sm text-label-sm text-secondary">19 Oct 2026, 14:12</span>
+</div>
+<span class="inline-flex items-center px-space-sm py-space-xxs rounded-full bg-surface-container text-secondary font-label-sm text-label-sm">
+            Other (Catch-all)
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed mt-space-xxs">
+          Font size inside notification tab is too small to read and dark mode turns greyish brown instead of pitch black. Please add custom OLED themes.
+        </p>
+</div>
+</div>
+<!-- Pagination Footer -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pt-space-xs border-t border-surface-container">
+<span class="font-body-sm text-body-sm text-secondary">
+        Showing <span class="font-semibold text-on-surface">1 - 5</span> of <span class="font-semibold text-on-surface">500</span> analysed reviews
+      </span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-space-xs rounded bg-surface-container-low text-secondary hover:text-on-surface disabled:opacity-40 transition-colors font-label-sm text-label-sm" disabled="" type="button">
+          Previous
+        </button>
+<span class="px-space-sm py-space-xs font-data-code text-data-code text-on-surface font-semibold bg-surface-container rounded">1</span>
+<button class="px-space-sm py-space-xs rounded bg-surface-container-low text-secondary hover:text-on-surface transition-colors font-label-sm text-label-sm" type="button">2</button>
+<button class="px-space-sm py-space-xs rounded bg-surface-container-low text-secondary hover:text-on-surface transition-colors font-label-sm text-label-sm" type="button">3</button>
+<span class="text-secondary px-space-xs">...</span>
+<button class="px-space-sm py-space-xs rounded bg-surface-container-low text-secondary hover:text-on-surface transition-colors font-label-sm text-label-sm" type="button">100</button>
+<button class="px-space-sm py-space-xs rounded bg-surface-container-low text-on-surface hover:bg-surface-container transition-colors font-label-sm text-label-sm" type="button">
+          Next
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Simple interactive filtering for review explorer
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('reviewSearchInput');
+    const themeFilter = document.getElementById('themeFilter');
+    const ratingFilter = document.getElementById('ratingFilter');
+    const cards = document.querySelectorAll('.review-card');
+
+    function applyFilters() {
+      const query = (searchInput?.value || '').toLowerCase().trim();
+      const themeVal = themeFilter?.value || 'all';
+      const ratingVal = ratingFilter?.value || 'all';
+
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        const theme = card.getAttribute('data-theme');
+        const rating = card.getAttribute('data-rating');
+
+        const matchesQuery = !query || text.includes(query);
+        const matchesTheme = themeVal === 'all' || theme === themeVal;
+        
+        let matchesRating = true;
+        if (ratingVal === '1' || ratingVal === '2' || ratingVal === '3') {
+          matchesRating = (rating === ratingVal);
+        } else if (ratingVal === '4-5') {
+          matchesRating = (rating === '4' || rating === '5');
+        }
+
+        if (matchesQuery && matchesTheme && matchesRating) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    searchInput?.addEventListener('input', applyFilters);
+    themeFilter?.addEventListener('change', applyFilters);
+    ratingFilter?.addEventListener('change', applyFilters);
+  });
+</script></main></div></body></html>

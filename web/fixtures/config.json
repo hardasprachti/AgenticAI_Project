@@ -1,0 +1,38 @@
+{
+  "app": {
+    "play_package": "com.nextbillion.groww",
+    "play_lang": "en",
+    "play_country": "in"
+  },
+  "window_weeks": 10,
+  "max_themes": 5,
+  "taxonomy": [
+    "Onboarding and KYC",
+    "Payments and Withdrawals",
+    "Trading Experience and App Performance",
+    "Statements and Reports",
+    "Customer Support"
+  ],
+  "ranking": {
+    "weights": {
+      "volume": 0.5,
+      "recency": 0.2,
+      "severity": 0.3
+    },
+    "recency_window_weeks": 2
+  },
+  "pulse": {
+    "max_words": 250,
+    "min_reviews": 20,
+    "min_words": 4,
+    "max_analysed": 500
+  },
+  "models": {
+    "theme_assign": "openai/gpt-oss-20b",
+    "compose": "openai/gpt-oss-120b",
+    "judge": "openai/gpt-oss-20b"
+  },
+  "batch_size": 40,
+  "draft_to": "product-leads@example.com",
+  "doc_url": "https://docs.google.com/document/d/EXAMPLE_DOCUMENT_ID/edit"
+}

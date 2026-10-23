@@ -1,0 +1,50 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource/jetbrains-mono/500.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-background font-body-md text-body-md text-on-surface antialiased;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Scrollbars stay visible (the mockup hid them); motion is switched off on request. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Score-breakdown series (volume, recency, severity). Checked with the dataviz validator:
+   light passes with a contrast WARN on emerald (so values are always printed and a table exists);
+   dark is its own selection against the dark surface. */
+:root {
+  --series-volume: #00b386;
+  --series-recency: #494bd6;
+  --series-severity: #b76e00;
+}
+.dark {
+  --series-volume: #00a67c;
+  --series-recency: #6f72f0;
+  --series-severity: #bf8618;
+}
